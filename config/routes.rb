@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :users
+  end
+
   resources :games, only: [:index, :show] do
     resources :game_sessions, only: [:create] do
       member do
