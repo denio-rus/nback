@@ -1,5 +1,4 @@
 class GameSessionsController < ApplicationController
-  
   def create
     @game = Game.find(params[:game_id])
     @game_session = GameSession.new(

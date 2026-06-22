@@ -13,7 +13,7 @@ class Games::ReactionTimeStrategy < Games::BaseStrategy
   def generate_intervals
     Array.new(10) { rand(1000...4000) }
   end
-  
+
   def add_games_locales
     I18n.t("games.reaction_time")
   end

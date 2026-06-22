@@ -3,8 +3,8 @@ Rails.application.routes.draw do
     resources :users
   end
 
-  resources :games, only: [:index, :show] do
-    resources :game_sessions, only: [:create] do
+  resources :games, only: [ :index, :show ] do
+    resources :game_sessions, only: [ :create ] do
       member do
         get "play"
         post "submit_result"
