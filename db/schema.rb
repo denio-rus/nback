@@ -44,6 +44,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_164715) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.string "nickname", null: false
