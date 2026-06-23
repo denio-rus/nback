@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root to: "games#index"
+
   resource :session
   resources :passwords, param: :token
   namespace :admin do
