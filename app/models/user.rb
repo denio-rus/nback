@@ -1,7 +1,7 @@
 class User < ApplicationRecord
-  validates :nickname, :email, presence: true
-  validates :nickname, :email, uniqueness: true
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :nickname, :email_address, presence: true
+  validates :nickname, :email_address, uniqueness: true
+  validates :email_address, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   has_secure_password
   has_many :sessions, dependent: :destroy
