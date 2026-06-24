@@ -1,5 +1,43 @@
-<% @games.each do |game| %>
-  <div class="mb-6">
-    <h2 class="text-2xl font-bold"><%= link_to game.name, game_path(game) %></h2>
-  </div>
-<% end %>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+  <% @games.each do |game| %>
+    <div class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-3 border border-gray-100">
+      
+      <!-- SVG Обложка -->
+      <div class="h-64 bg-gradient-to-br from-slate-900 to-zinc-900 relative flex items-center justify-center p-10">
+        
+        <%= image_tag "games/nback.svg", 
+                      class: "w-full h-full object-contain drop-shadow-2xl transition-all duration-500 
+                             group-hover:scale-110 group-hover:rotate-3",
+                      alt: game.name %>
+        
+        <!-- Градиентный оверлей -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        
+        <!-- Бейдж уровня -->
+        <div class="absolute top-5 right-5">
+          <span class="px-5 py-2 bg-white/90 text-slate-800 text-sm font-bold rounded-2xl shadow-md backdrop-blur-md">
+            Уровень <%= 1 %>
+          </span>
+        </div>
+      </div>
+
+      <!-- Нижняя часть -->
+      <div class="p-7">
+        <h3 class="text-2xl font-semibold text-gray-900 mb-2 group-hover:text-violet-600 transition-colors">
+          <%= game.name %>
+        </h3>
+        
+        <p class="text-gray-600 text-[15px] line-clamp-3 mb-8 min-h-[3.75rem]">
+          <%= game.description %>
+        </p>
+
+        <div class="flex items-center gap-3">
+          <%= link_to game_path(game), 
+                     class: "flex-1 py-4 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-center rounded-2xl transition-all active:scale-95 shadow-sm" do %>
+            Начать игру
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

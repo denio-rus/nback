@@ -1,6 +1,7 @@
-require "ostruct"
-
 class GamesController < ApplicationController
+  allow_unauthenticated_access
+  before_action :resume_session
+
   def index
     @games = Game.all
   end

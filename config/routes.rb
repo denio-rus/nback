@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  root to: "games#index"
+
+  resource :session
+  resources :registrations, only: [ :new, :create ]
+  resources :passwords, param: :token
+
+  resources :users, only: [ :show, :edit, :update ]
+
   namespace :admin do
     resources :users
   end
