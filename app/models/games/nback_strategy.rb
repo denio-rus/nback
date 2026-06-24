@@ -1,5 +1,5 @@
 class Games::NbackStrategy < Games::BaseStrategy
-  def prepare_session_data
+  def setup_game
     {}
   end
 

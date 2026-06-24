@@ -1,0 +1,28 @@
+<div data-controller="games--reaction-time" 
+     data-games--reaction-time-game-id-value="<%= @game.id %>"
+     data-games--reaction-time-intervals-value="<%= @game_session.setup_game["intervals"].to_json %>"> 
+
+  <h1 class="text-3xl font-bold mb-6">Тест простой реакции</h1>
+
+  <p data-games--reaction-time-target="status" class="text-xl mb-8">
+    Нажмите кнопку "Начать"
+  </p>
+
+  <div class="flex justify-center mb-10">
+    <div data-games--reaction-time-target="circle"
+         class="w-52 h-52 rounded-full bg-gray-700 transition-colors duration-100 shadow-xl">
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button data-action="click->games--reaction-time#start"
+            data-games--reaction-time-target="startBtn"
+            class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-medium">
+      Начать тест
+    </button>
+  </div>
+
+  <div data-games--reaction-time-target="results" 
+       class="mt-12 max-w-md mx-auto text-lg">
+  </div>
+</div>
