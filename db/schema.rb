@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_22_164715) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_075618) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,7 +21,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_164715) do
     t.jsonb "result"
     t.jsonb "setup_game"
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["game_id"], name: "index_game_sessions_on_game_id"
+    t.index ["user_id"], name: "index_game_sessions_on_user_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -55,5 +57,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_22_164715) do
   end
 
   add_foreign_key "game_sessions", "games"
+  add_foreign_key "game_sessions", "users"
   add_foreign_key "sessions", "users"
 end
