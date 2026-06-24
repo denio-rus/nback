@@ -53,6 +53,6 @@ class Admin::UsersController < ApplicationController
     end
 
     def user_params
-      params.expect(user: [ :nickname, :email, :active ])
+      params.expect(user: [ :nickname, :email_address, :active, :password ])
     end
 end

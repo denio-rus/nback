@@ -9,3 +9,8 @@ two:
   nickname: two
   email_address: two@example.com
   password_digest: <%= password_digest %>
+
+admin:
+  nickname: boss
+  email_address: boss@example.com
+  password_digest: <%= password_digest %>
