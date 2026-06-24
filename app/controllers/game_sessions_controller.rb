@@ -1,11 +1,16 @@
 class GameSessionsController < ApplicationController
+  allow_unauthenticated_access
+  before_action :resume_session
+
   def create
     @game = Game.find(params[:game_id])
     @game_session = GameSession.new(
       game_id: params[:game_id],
-      # user_id
       setup_game: @game.game_strategy.setup_game
-    )
+    ).tap do |session|
+      session.user = Current.user if Current.user
+    end
+
     if @game_session.save
       redirect_to play_game_game_session_path(@game.id, @game_session)
     else

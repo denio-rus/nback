@@ -2,10 +2,12 @@
 
 one:
   name: MyString
+  system_name: MyString
   description: MyText
   active: false
 
 two:
-  name: MyString
-  description: MyText
+  name: MyString1
+  system_name: MyString1
+  description: MyText1
   active: false
