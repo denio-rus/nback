@@ -7,3 +7,20 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Game.find_or_create_by!(
+  name: "Reaction Time",
+  description: "Test your reaction time with this simple game.",
+  system_name: "reaction_time"
+)
+
+Game.find_or_create_by!(
+  name: "Nback",
+  description: "Test your working memory with this simple game.",
+  system_name: "nback"
+)
+
+Game.find_or_create_by!(
+  name: "Stroop Test",
+  description: "Test your cognitive flexibility with this simple game.",
+  system_name: "stroop_test"
+)
