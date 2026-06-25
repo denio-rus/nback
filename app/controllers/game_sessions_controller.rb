@@ -1,6 +1,7 @@
 class GameSessionsController < ApplicationController
   allow_unauthenticated_access
   before_action :resume_session
+  before_action :get_game_session_with_game, only: [ :play, :submit_result ]
 
   def create
     @game = Game.find(params[:game_id])
@@ -19,13 +20,9 @@ class GameSessionsController < ApplicationController
   end
 
   def play
-    @game_session = GameSession.find(params[:id])
-    @game = @game_session.game
-    render :play
   end
 
-  def submit_results
-    @game_session = GameSession.find(params[:id])
+  def submit_result
     if @game_session.update(
       played_at: Time.current,
       result: @game.game_strategy.handle_result(params[:result])
@@ -34,5 +31,10 @@ class GameSessionsController < ApplicationController
     else
       render json: @game_session.errors, status: :unprocessable_entity
     end
+  end
+
+  def get_game_session_with_game
+    @game_session = GameSession.includes(:game).find(params[:id])
+    @game = @game_session.game
   end
 end

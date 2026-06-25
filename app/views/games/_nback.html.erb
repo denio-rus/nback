@@ -1,0 +1,41 @@
+<div data-controller="games--nback" 
+     data-games--nback-game-id-value="<%= @game.id %>"
+     data-games--nback-game-session-id-value="<%= @game_session.id %>"
+     data-games--nback-n-value="2"
+     data-games--nback-sequence-value="<%= @game_session.setup_game["sequence"].to_json %>">
+
+  <h1 class="text-3xl font-bold mb-6 text-center">N-Back (N=2)</h1>
+
+  <p data-games--nback-target="status" class="text-xl mb-8">
+    Нажмите кнопку "Начать"
+  </p>
+
+  <!-- current stimulus -->
+  <div class="flex justify-center mb-8">
+    <div data-games--nback-target="stimulus"
+         class="w-40 h-40 bg-zinc-800 text-white text-7xl flex items-center justify-center rounded-3xl font-bold transition-all">
+      ?
+    </div>
+  </div>
+
+  <!-- controls -->
+  <div class="flex justify-center gap-4">
+    <button data-action="click->games--nback#start"
+            data-games--nback-target="startBtn"
+            class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-lg font-semibold">
+      Начать
+    </button>
+
+    <button data-action="click->games--nback#match"
+            data-games--nback-target="matchBtn"
+            class="px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-semibold">
+      Match
+    </button>
+  </div>
+
+  <!-- results -->
+  <div class="mt-8 text-center text-sm text-zinc-400">
+    Правильно: <span data-games--nback-target="correct">0</span> / 
+    Ошибки: <span data-games--nback-target="errors">0</span>
+  </div>
+</div>
