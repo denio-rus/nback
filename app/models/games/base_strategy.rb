@@ -1,6 +1,6 @@
 class Games::BaseStrategy
-  def prepare_session_data
-    raise NotImplementedError, "Subclasses must implement prepare_session_data"
+  def setup_game
+    raise NotImplementedError, "Subclasses must implement setup_game"
   end
 
   def handle_result(result)
