@@ -4,11 +4,11 @@ export default class extends Controller {
   static targets = ["circle", "status", "results", "startBtn"]
   static values = { 
     gameId: Number,
+    gameSessionId: Number,
     intervals: Array 
   }
 
   connect() {
-    console.log("Reaction controller connected")
     this.currentTrial = 0
     this.results = []
     this.isWaiting = false
@@ -109,7 +109,7 @@ export default class extends Controller {
 
     const payload = {
       game_id: this.gameIdValue,
-      data: {
+      result: {
         trials: this.results.length,
         reactions: this.results,
         mean_rt: mean,
@@ -119,7 +119,7 @@ export default class extends Controller {
       }
     }
 
-    await fetch("/game_sessions", {
+    await fetch(`/games/${this.gameIdValue}/game_sessions/${this.gameSessionIdValue}/submit_result`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

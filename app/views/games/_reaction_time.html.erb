@@ -1,5 +1,6 @@
 <div data-controller="games--reaction-time" 
      data-games--reaction-time-game-id-value="<%= @game.id %>"
+     data-games--reaction-time-game-session-id-value="<%= @game_session.id %>"
      data-games--reaction-time-intervals-value="<%= @game_session.setup_game["intervals"].to_json %>"> 
 
   <h1 class="text-3xl font-bold mb-6">Тест простой реакции</h1>

@@ -1,4 +1,8 @@
-<p class="text-2xl font-bold"><%= @game.name %></p>
-<p class="mt-4 text-lg"><%= @game.description %></p>
+<div class="max-w-md mx-auto">
+  <h2 class="text-2xl font-bold"><%= @game.name %></p>
+  <p class="mt-4 text-lg"><%= @game.description %></p>
 
-<%= link_to "Play", game_game_sessions_path(@game), data: { turbo_method: :post }, class: "px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded" %>
+  <div class="flex justify-center mt-12">
+    <%= link_to "Play", game_game_sessions_path(@game), data: { turbo_method: :post }, class: "px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded" %>
+  </div>
+</div>
