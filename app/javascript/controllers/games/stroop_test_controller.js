@@ -1,17 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["stimulus", "status", "startBtn", "matchBtn", "correct", "errors"]
+  static targets = ["stimulus", "status", "buttonsContainer", "colorBtn", "startBtn", "correct", "errors"]
   static values = {
     gameId: Number,
     gameSessionId: Number,
-    n: Number,           // уровень сложности (N=2, N=3 и т.д.)
-    sequence: Array      // последовательность стимулов
+    sequence: Array,
+    stimulusDuration: Number
   }
 
   connect() {
-    console.log("✅ NBack controller connected")
     this.resetGame()
+    console.log(this.stimulusDurationValue)
   }
 
   resetGame() {
@@ -20,20 +20,23 @@ export default class extends Controller {
     this.errorCount = 0
     this.isGameActive = false
     this.hasAnswered = false
-    this.expectedMatch = false
-    this.nBackIdx = - this.nValue
-    this.updateStats()
+    this.currentColor = null    
+
+    // this.updateStats()
   }
 
   start() {
     this.resetGame()
     this.isGameActive = true
-    this.startBtnTarget.disabled = true
-    this.matchBtnTarget.disabled = false
+
+    this.startBtnTarget.classList.add("hidden")
+
+    this.buttonsContainerTarget.classList.remove("hidden")
+    this.buttonsContainerTarget.disabled = false
 
     this.statusTarget.textContent = "Игра началась..."
 
-    setTimeout(() => this.showNextStimulus(), 1200)
+    setTimeout(() => this.showNextStimulus(), 1000)
   }
 
   showNextStimulus() {
@@ -43,23 +46,19 @@ export default class extends Controller {
     }
 
     this.hasAnswered = false
-    this.expectedMatch = false
 
-    const currentIdx = this.currentIndex
-    this.nBackIdx = currentIdx - this.nValue
     const current = this.sequenceValue[this.currentIndex]
 
-    if (this.nBackIdx >= 0) {
-      const nBack = this.sequenceValue[this.nBackIdx];
-      this.expectedMatch = (current === nBack);
-    }
-
-    this.stimulusTarget.textContent = current
+    this.currentColor = current[1]
+    this.stimulusTarget.textContent = current[0]
+    this.stimulusTarget.style.color = this.getHexColor(this.currentColor)
 
     // symbols animation
     this.stimulusTarget.classList.remove("animate-pop")
     void this.stimulusTarget.offsetWidth // force reflow
     this.stimulusTarget.classList.add("animate-pop")
+
+    this.enableButtons()
   
     setTimeout(() => {
       this.checkIfMissed();
@@ -68,30 +67,18 @@ export default class extends Controller {
       
       this.currentIndex++
       this.showNextStimulus()
-    }, 1500)
+    }, this.stimulusDurationValue)
   }
 
-  checkIfMissed() {
-    if (this.hasAnswered) return;
-
-    if (this.expectedMatch) {
-      this.errorCount++;   // False Negative
-      this.flash("!bg-red-500");
-    } else {
-      // skip correct
-      this.correctCount++;
-    }
-
-    this.updateStats();
-  } 
-
-  match() {
+  selectColor(event) {
     if (!this.isGameActive || this.hasAnswered) return
+    
+    const selectedColor = event.currentTarget.dataset.color
 
     this.hasAnswered = true
 
-    if (this.nBackIdx < 0 || !this.expectedMatch) {
-      this.errorCount++;        // False Positive
+    if (this.currentColor != selectedColor) {
+      this.errorCount++;
       this.flash("!bg-red-500");
     } else {
       this.correctCount++;
@@ -99,6 +86,33 @@ export default class extends Controller {
     }
 
     this.updateStats()
+    this.disableButtons()
+  }
+  
+  checkIfMissed() {
+    if (this.hasAnswered) return;
+
+    this.errorCount++;
+    this.flash("!bg-red-500");
+  }
+
+  updateStats() {
+    this.correctTarget.textContent = this.correctCount
+    this.errorsTarget.textContent = this.errorCount
+  }
+  
+  finish() {
+    this.isGameActive = false
+    this.statusTarget.textContent = `Игра окончена! Правильно: ${this.correctCount} | Ошибки: ${this.errorCount}`
+    this.saveResults()
+  }
+
+  disableButtons() {
+    this.colorBtnTargets.forEach(btn => btn.disabled = true)
+  }
+
+  enableButtons() {
+    this.colorBtnTargets.forEach(btn => btn.disabled = false)
   }
 
   flash(colorClass) {
@@ -109,17 +123,14 @@ export default class extends Controller {
     }, 300)
   }
 
-  finish() {
-    this.isGameActive = false
-    this.startBtnTarget.disabled = false
-    this.matchBtnTarget.disabled = true
-    this.saveResults()
-    this.statusTarget.textContent = `Игра окончена! Правильно: ${this.correctCount} | Ошибки: ${this.errorCount}`
-  }
-
-  updateStats() {
-    this.correctTarget.textContent = this.correctCount
-    this.errorsTarget.textContent = this.errorCount
+  getHexColor(colorName) {
+    const map = {
+      red:    "#ef4444",
+      green:  "#22c55e",
+      blue:   "#3b82f6",
+      yellow: "#eab308",
+    }
+    return map[colorName?.toLowerCase()] || "#ffffff"
   }
 
   async saveResults() {
