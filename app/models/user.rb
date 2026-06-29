@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  rolify
   validates :nickname, :email_address, presence: true
   validates :nickname, :email_address, uniqueness: true
   validates :email_address, format: { with: URI::MailTo::EMAIL_REGEXP }
