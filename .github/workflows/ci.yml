@@ -73,7 +73,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/nback_test
-        run: bin/rails db:create db:schema:load
+        run: bin/rails db:prepare
 
       - name: Run tests
         env:
@@ -113,7 +113,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/nback_test
-        run: bin/rails db:create db:schema:load
+        run: bin/rails db:prepare
 
       - name: Run system tests
         env:
