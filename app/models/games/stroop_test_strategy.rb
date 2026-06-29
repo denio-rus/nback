@@ -3,12 +3,10 @@
 
 class Games::StroopTestStrategy < Games::BaseStrategy
   def setup_game
-    { sequence: make_combinations(50), stimulus_duration: 1500 }
+    { sequence: make_combinations(50), stimulus_duration: 2000 }
   end
 
-  def handle_result(result)
-    # Implement result handling logic here
-  end
+  def handle_result(result) = result
 
   private
   def make_combinations(count)
