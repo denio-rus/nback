@@ -1,0 +1,46 @@
+<div data-controller="games--stroop-test" 
+     data-games--stroop-test-game-id-value="<%= @game.id %>"
+     data-games--stroop-test-game-session-id-value="<%= @game_session.id %>"
+     data-games--stroop-test-sequence-value="<%= @game_session.setup_game["sequence"].to_json %>" 
+     data-games--stroop-test-stimulus-duration-value="<%= @game_session.setup_game["stimulus_duration"].to_json %>"> 
+
+  <h1 class="text-3xl font-bold mb-6 text-center">Stroop Test</h1>
+
+  <p data-games--stroop-test-target="status" class="text-xl mb-8">
+    Нажмите кнопку "Начать"
+  </p>
+
+  <!-- current stimulus -->
+  <div class="flex justify-center mb-8">
+    <div data-games--stroop-test-target="stimulus"
+         class="w-60 h-50 bg-zinc-800 text-6xl flex items-center justify-center rounded-3xl font-bold transition-all">
+      ?
+    </div>
+  </div>
+
+  <!-- controls -->
+  <div class="flex justify-center gap-4">
+    <button data-action="click->games--stroop-test#start"
+            data-games--stroop-test-target="startBtn"
+            class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-lg font-semibold">
+      Начать
+    </button>
+    <div class="grid grid-cols-2 gap-6 hidden" data-games--stroop-test-target="buttonsContainer">
+      <% %w(green red blue yellow).each do |color| %>
+        <button 
+          data-action="click->games--stroop-test#selectColor"
+          data-games--stroop-test-target="colorBtn"
+          data-color="<%= color %>"
+          class="px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-semibold">
+          <%= color %>
+        </button>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- results -->
+  <div class="mt-8 text-center text-sm text-zinc-400">
+    Правильно: <span data-games--stroop-test-target="correct">0</span> / 
+    Ошибки: <span data-games--stroop-test-target="errors">0</span>
+  </div>
+</div>

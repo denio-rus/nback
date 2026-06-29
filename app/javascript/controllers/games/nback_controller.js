@@ -102,12 +102,12 @@ export default class extends Controller {
   }
 
   flash(colorClass) {
-  this.stimulusTarget.classList.add(colorClass)
+    this.stimulusTarget.classList.add(colorClass)
 
-  setTimeout(() => {
-    this.stimulusTarget.classList.remove(colorClass)
-  }, 300)
-}
+    setTimeout(() => {
+      this.stimulusTarget.classList.remove(colorClass)
+    }, 300)
+  }
 
   finish() {
     this.isGameActive = false
