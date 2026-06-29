@@ -14,5 +14,3 @@ admin:
   nickname: boss
   email_address: boss@example.com
   password_digest: <%= password_digest %>
-
-<% User.find_by(email_address: "boss@example.com")&.add_role(:admin) %>
