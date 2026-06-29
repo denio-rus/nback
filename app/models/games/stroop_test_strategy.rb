@@ -13,10 +13,10 @@ class Games::StroopTestStrategy < Games::BaseStrategy
     colors = sequence_generator(count)
     words = sequence_generator(count)
 
-    words.map.with_index { [_1, colors[_2]] }
+    words.map.with_index { [ _1, colors[_2] ] }
   end
-  
+
   def sequence_generator(count)
-    (1..count).map { [:red, :green, :blue, :yellow].sample }
+    (1..count).map { [ :red, :green, :blue, :yellow ].sample }
   end
 end
