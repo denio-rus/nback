@@ -11,4 +11,8 @@
     <strong class="block font-medium mb-1">Active:</strong>
     <%= user.active? ? "Yes" : "No" %>
   </div>
+  <div>
+    <strong class="block font-medium mb-1">Roles:</strong>
+    <%= user.roles.map(&:name).join(", ") %>
+  </div>
 </div>
