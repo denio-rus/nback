@@ -103,6 +103,8 @@ export default class extends Controller {
   
   finish() {
     this.isGameActive = false
+    this.statusTarget.textContent = `Игра окончена! Правильно: ${this.correctCount} | Ошибки: ${this.errorCount}`
+    this.saveResults()
   }
 
   disableButtons() {
@@ -129,5 +131,25 @@ export default class extends Controller {
       yellow: "#eab308",
     }
     return map[colorName?.toLowerCase()] || "#ffffff"
+  }
+
+  async saveResults() {
+    const payload = {
+      game_id: this.gameIdValue,
+      result: {
+        correct: this.correctCount,
+        errors: this.errorCount,
+        total_trials: this.sequenceValue.length        
+      }
+    }
+
+    await fetch(`/games/${this.gameIdValue}/game_sessions/${this.gameSessionIdValue}/submit_result`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
+      },
+      body: JSON.stringify(payload)
+    })
   }
 }
