@@ -9,4 +9,6 @@ class User < ApplicationRecord
   has_many :game_sessions, dependent: :nullify
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  def add_default_role = add_role(:player)
 end
