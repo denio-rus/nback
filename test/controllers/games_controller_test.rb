@@ -18,8 +18,8 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     get games_url
 
     assert_response :success
-    assert_select "h3", text: "Reaction time"
-    assert_select "h3", text: "Nback", count: 0
+    assert_select "h3", text: "Simple reaction time"
+    assert_select "h3", text: "N-Back", count: 0
   end
 
   test "show hides an inactive game" do

@@ -38,4 +38,18 @@ class Games::RegistrySyncTest < ActiveSupport::TestCase
 
     assert_equal "memory", Game.find_by!(system_name: "nback").category
   end
+
+  test "sync! stores the default-locale title and description" do
+    Games::Registry.sync!
+
+    game = Game.find_by!(system_name: "reaction_time")
+    assert_equal I18n.t("games.reaction_time.title", locale: :en), game.name
+    assert_equal I18n.t("games.reaction_time.description", locale: :en), game.description
+  end
+
+  test "sync! stores the default-locale text whatever the current locale is" do
+    I18n.with_locale(:ru) { Games::Registry.sync! }
+
+    assert_equal "Simple reaction time", Game.find_by!(system_name: "reaction_time").name
+  end
 end

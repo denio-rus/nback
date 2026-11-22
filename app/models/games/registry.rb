@@ -28,11 +28,17 @@ module Games::Registry
     system_names.each do |system_name|
       strategy = strategy_for(system_name)
       game = Game.find_or_initialize_by(system_name: system_name)
-      game.name = system_name.humanize
-      game.description = "#{system_name.humanize} game" if game.description.blank?
+      game.name = default_text(system_name, "title")
+      game.description = default_text(system_name, "description")
       game.category = strategy.category
       game.active = true if game.new_record?
       game.save!
     end
   end
+
+  # The stored copy always uses the default language, whatever the current locale is.
+  def self.default_text(system_name, key)
+    I18n.t!("games.#{system_name}.#{key}", locale: I18n.default_locale)
+  end
+  private_class_method :default_text
 end

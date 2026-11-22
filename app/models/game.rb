@@ -11,4 +11,10 @@ class Game < ApplicationRecord
   end
 
   delegate :setup_game, to: :game_strategy
+
+  # Texts live in I18n (config/locales/games/<system_name>.<locale>.yml).
+  # The name and description columns only keep the default-language copy.
+  def title = I18n.t!("games.#{system_name}.title")
+
+  def description = I18n.t!("games.#{system_name}.description")
 end
