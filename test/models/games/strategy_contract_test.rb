@@ -5,10 +5,6 @@ require "test_helper"
 class Games::StrategyContractTest < ActiveSupport::TestCase
   UNITS = %w[ms % count].freeze
 
-  # Games whose primary metric needs the trials format (Task 6.4). Remove the
-  # game from this list when it starts sending trials.
-  PRIMARY_METRIC_PENDING = %w[stroop_test].freeze
-
   Games::Registry.system_names.each do |system_name|
     test "#{system_name} declares valid metadata" do
       strategy = Games::Registry.strategy_for(system_name)
@@ -35,7 +31,7 @@ class Games::StrategyContractTest < ActiveSupport::TestCase
 
       result = strategy.handle_result(setup, payload)
 
-      assert_kind_of Numeric, strategy.primary_metric(result) unless PRIMARY_METRIC_PENDING.include?(system_name)
+      assert_kind_of Numeric, strategy.primary_metric(result)
       assert_kind_of Numeric, strategy.secondary_metric(result) if strategy.secondary_unit
       assert_includes UNITS, strategy.secondary_unit if strategy.secondary_unit
     end

@@ -41,7 +41,22 @@ class StroopTestGameTest < ApplicationSystemTestCase
     assert_text "Game over!", wait: 120
     session = GameSession.order(:id).last
     assert_not_nil session.reload.played_at
-    assert_equal 50, session.result["total_trials"]
-    assert_equal 50, session.result["correct"] + session.result["errors"]
+    trials = session.result["trials"]
+    assert_equal 50, trials.size
+    assert(trials.all? { |trial| trial["answer"].nil? && trial["rt_ms"].nil? && trial["correct"] == false })
+  end
+
+  test "a real click is stored with the pressed color and a time" do
+    start_game(:en)
+    click_on "Start"
+    assert_selector "button[data-color=red]", wait: 5
+    sleep 1.2 # the first stimulus appears one second after Start
+    find("button[data-color=red]").click
+
+    assert_text "Game over!", wait: 120
+    first = GameSession.order(:id).last.reload.result["trials"].first
+    assert_equal "red", first["answer"]
+    assert_kind_of Integer, first["rt_ms"]
+    assert_equal (@game.game_sessions.order(:id).last.setup_game["sequence"].first.last == "red"), first["correct"]
   end
 end

@@ -3,6 +3,7 @@
 class Games::StroopTestStrategy < Games::BaseStrategy
   COLORS = %i[red green blue yellow].freeze
   STEPS = 50
+  MAX_RT_MS = 60_000
 
   def category = "executive"
   def spec_version = "stroop_test@1"
@@ -13,23 +14,56 @@ class Games::StroopTestStrategy < Games::BaseStrategy
     { sequence: make_combinations(STEPS), stimulus_duration: 2000 }
   end
 
-  def permitted_result_keys = %i[correct errors total_trials]
+  # The browser reports the pressed color and the time for each stimulus.
+  def permitted_result_keys = []
+
+  def extra_trial_keys = [ :answer ]
 
   def sample_payload(setup)
-    total = setup["sequence"].size
-    { "correct" => total - 5, "errors" => 5, "total_trials" => total }
+    { "trials" => setup["sequence"].each_with_index.map { |(_word, ink), index| client_trial(ink, 400 + index) } }
   end
 
+  # One trial per stimulus. answer is a color of COLORS, or nil when the player
+  # did not press anything; a missed stimulus has no time.
   def validate_result(setup, payload)
-    Games::Stats.valid_totals?(payload, setup["sequence"].size)
+    list = payload["trials"]
+    return false unless list.is_a?(Array) && list.size == setup["sequence"].size
+
+    list.all? { |trial| trial.is_a?(Hash) && valid_answer?(trial) }
   end
 
-  # Response times are not recorded yet; they arrive with the trials format.
-  def primary_metric(_result) = nil
+  # The right answer is the ink color from the stored pair, not the word.
+  def score(setup, payload)
+    list = payload["trials"].each_with_index.map do |trial, index|
+      { "rt_ms" => trial["rt_ms"], "correct" => trial["answer"] == setup["sequence"][index][1],
+        "phase" => nil, "answer" => trial["answer"] }
+    end
+    { trials: list }
+  end
 
-  def secondary_metric(result) = result["errors"]&.to_f
+  def primary_metric(result)
+    Games::Stats.median(trials(result).select { |trial| trial["correct"] == true }.map { |trial| trial["rt_ms"] })
+  end
+
+  def secondary_metric(result)
+    list = trials(result)
+    list.count { |trial| trial["correct"] == false }.to_f if list.any?
+  end
 
   private
+
+  def client_trial(answer, rt_ms)
+    { "rt_ms" => rt_ms, "correct" => true, "phase" => nil, "answer" => answer }
+  end
+
+  # No answer means no time; an answer needs a time in range.
+  def valid_answer?(trial)
+    return false unless trial.key?("answer") && trial.key?("rt_ms")
+    return trial["rt_ms"].nil? if trial["answer"].nil?
+
+    COLORS.map(&:to_s).include?(trial["answer"]) &&
+      trial["rt_ms"].is_a?(Numeric) && trial["rt_ms"].between?(0, MAX_RT_MS)
+  end
 
   def make_combinations(count)
     colors = sequence_generator(count)

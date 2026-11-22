@@ -19,32 +19,100 @@ class Games::StroopTestStrategyTest < ActiveSupport::TestCase
     assert(@setup["sequence"].all? { |pair| pair.size == 2 })
   end
 
-  test "sample payload passes validation" do
+  # Fixed material: the second element of a pair is the ink color, the right answer.
+  FIXED_SETUP = { "sequence" => [ %w[red blue], %w[green green], %w[blue yellow], %w[yellow red] ] }.freeze
+
+  def trial(answer, rt_ms = answer && 400)
+    { "rt_ms" => rt_ms, "correct" => true, "phase" => nil, "answer" => answer }
+  end
+
+  def result_of(*trials) = { "trials" => trials }
+
+  test "sample payload passes validation and sends one trial per stimulus" do
     assert @strategy.validate_result(@setup, @payload)
+    assert_equal 50, @payload["trials"].size
   end
 
-  test "primary metric is nil until trials are recorded" do
-    assert_nil @strategy.primary_metric(@payload)
+  test "score compares the answer with the ink color of the stored pair" do
+    answers = [ "blue", "red", "yellow", nil ]
+    trials = @strategy.score(FIXED_SETUP, result_of(*answers.map { |a| trial(a) }))[:trials]
+
+    assert_equal [ true, false, true, false ], trials.map { |t| t["correct"] }
   end
 
-  test "secondary metric is the number of errors" do
-    assert_equal 12.0, @strategy.secondary_metric({ "errors" => 12 })
+  test "the word is not the answer: reading the word is an error" do
+    trials = @strategy.score(FIXED_SETUP, result_of(trial("red"), trial("green"), trial("blue"), trial("yellow")))[:trials]
+
+    assert_equal [ false, true, false, false ], trials.map { |t| t["correct"] }
   end
 
-  test "validation rejects impossible totals" do
+  test "a forged correct flag does not change the stored metrics" do
+    forged = result_of(trial("red"), trial("red"), trial("red"), trial(nil))
+    forged["trials"].each { |t| t["correct"] = true }
+    result = @strategy.handle_result(FIXED_SETUP, forged)
+
+    assert_equal [ false, false, false, false ], result["trials"].map { |t| t["correct"] }
+    assert_equal 4.0, @strategy.secondary_metric(result)
+    assert_nil @strategy.primary_metric(result)
+  end
+
+  test "score keeps rt and answer and sets no phase" do
+    stored = @strategy.score(FIXED_SETUP, result_of(trial("blue", 512).merge("phase" => 7)))[:trials].first
+
+    assert_equal({ "rt_ms" => 512, "correct" => true, "phase" => nil, "answer" => "blue" }, stored)
+  end
+
+  test "primary metric is the median rt of correct answers only" do
+    result = result_of(
+      { "rt_ms" => 300, "correct" => true }, { "rt_ms" => 500, "correct" => true },
+      { "rt_ms" => 100, "correct" => false }, { "rt_ms" => nil, "correct" => false }
+    )
+
+    assert_equal 400.0, @strategy.primary_metric(result)
+  end
+
+  test "secondary metric is the number of errors, nil without trials" do
+    result = result_of({ "correct" => false }, { "correct" => true }, { "correct" => false })
+
+    assert_equal 2.0, @strategy.secondary_metric(result)
+    assert_nil @strategy.secondary_metric({})
+    assert_nil @strategy.primary_metric({})
+  end
+
+  test "there are no phases" do
+    assert_equal [], @strategy.phases
+  end
+
+  test "validation rejects a wrong number of trials" do
+    [ 0, 3, 5 ].each do |size|
+      assert_not @strategy.validate_result(FIXED_SETUP, result_of(*Array.new(size) { trial("red") })), "size #{size}"
+    end
+  end
+
+  test "validation rejects malformed trials" do
     bad = [
-      { "correct" => 40, "errors" => 10, "total_trials" => 49 },
-      { "correct" => 41, "errors" => 10, "total_trials" => 50 },
-      { "correct" => -1, "errors" => 51, "total_trials" => 50 },
-      { "correct" => "40", "errors" => 10, "total_trials" => 50 },
-      {}
+      "text", nil, 4, {},
+      Array.new(4, 5), Array.new(4, nil),
+      Array.new(4) { trial("purple") }, Array.new(4) { trial(5) },
+      Array.new(4) { trial("red", -1) }, Array.new(4) { trial("red", 60_001) },
+      Array.new(4) { trial("red", "fast") }, Array.new(4) { trial("red", nil) },
+      Array.new(4) { trial(nil, 300) }, Array.new(4) { trial("red").except("answer") }
     ]
-    bad.each { |payload| assert_not @strategy.validate_result(@setup, payload), payload.inspect }
+    bad.each do |trials|
+      assert_not @strategy.validate_result(FIXED_SETUP, { "trials" => trials }), trials.inspect
+    end
   end
 
-  test "handle_result drops unknown keys" do
-    result = @strategy.handle_result(@setup, @payload.merge("evil" => 1))
+  test "validation accepts missed stimuli" do
+    assert @strategy.validate_result(FIXED_SETUP, result_of(*Array.new(4) { trial(nil) }))
+  end
 
-    assert_equal @payload.merge("format" => Games::BaseStrategy::FORMAT), result
+  test "handle_result drops unknown keys, unknown trial keys and the legacy totals" do
+    raw = @payload.deep_dup.merge("evil" => 1, "correct" => 50, "errors" => 0, "total_trials" => 50)
+    raw["trials"][0]["hack"] = 1
+    result = @strategy.handle_result(@setup, raw)
+
+    assert_equal %w[format trials], result.keys.sort
+    assert_not result["trials"][0].key?("hack")
   end
 end

@@ -23,6 +23,8 @@ export default class extends Controller {
     this.currentIndex = 0
     this.correctCount = 0
     this.errorCount = 0
+    this.trials = []
+    this.shownAt = null
     this.isGameActive = false
     this.hasAnswered = false
     this.currentColor = null    
@@ -64,6 +66,7 @@ export default class extends Controller {
     this.stimulusTarget.classList.add("animate-pop")
 
     this.enableButtons()
+    this.shownAt = performance.now()
   
     this.timers.set(() => {
       this.checkIfMissed();
@@ -81,6 +84,7 @@ export default class extends Controller {
     const selectedColor = event.currentTarget.dataset.color
 
     this.hasAnswered = true
+    this.trials.push({ rt_ms: Math.round(performance.now() - this.shownAt), correct: this.currentColor === selectedColor, phase: null, answer: selectedColor })
 
     if (this.currentColor != selectedColor) {
       this.errorCount++;
@@ -96,6 +100,8 @@ export default class extends Controller {
   
   checkIfMissed() {
     if (this.hasAnswered) return;
+
+    this.trials.push({ rt_ms: null, correct: false, phase: null, answer: null })
 
     this.errorCount++;
     this.flash("!bg-danger");
@@ -141,13 +147,10 @@ export default class extends Controller {
     if (colorClass) this.stimulusTarget.classList.add(colorClass)
   }
 
-  // The server checks the totals against the stored sequence.
+  // One trial per stimulus. The server recounts "correct" from the stored
+  // sequence and the pressed color.
   async saveResults() {
-    await submitResult(this.submitUrlValue, {
-      correct: this.correctCount,
-      errors: this.errorCount,
-      total_trials: this.sequenceValue.length
-    })
+    await submitResult(this.submitUrlValue, { trials: this.trials })
   }
 
   message(key, vars) {
