@@ -1,6 +1,6 @@
 <%= form_with(url: registrations_path, model: user, class: "contents") do |form| %>
   <% if user.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+    <div id="error_explanation" class="bg-surface-raised border border-danger text-danger px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= t(".errors_header", count: user.errors.count) %></h2>
 
       <ul class="list-disc ml-6">
@@ -13,21 +13,21 @@
 
   <div class="my-5">
     <%= form.label :nickname, t(".nickname") %>
-    <p class="text-sm text-gray-500"><%= t(".nickname_hint") %></p>
-    <%= form.text_field :nickname, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:nickname].none?, "border-red-400 focus:outline-red-600": user.errors[:nickname].any?}] %>
+    <p class="text-sm text-ink-muted"><%= t(".nickname_hint") %></p>
+    <%= form.text_field :nickname, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:nickname].none?, "border-danger focus:outline-danger": user.errors[:nickname].any?}] %>
   </div>
 
   <div class="my-5">
     <%= form.label :email_address, t(".email") %>
-    <%= form.text_field :email_address, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:email_address].none?, "border-red-400 focus:outline-red-600": user.errors[:email_address].any?}] %>
+    <%= form.text_field :email_address, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:email_address].none?, "border-danger focus:outline-danger": user.errors[:email_address].any?}] %>
   </div>
 
   <div class="my-5">
     <%= form.label :password, t(".password") %>
-    <%= form.password_field :password, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": user.errors[:password].none?, "border-red-400 focus:outline-red-600": user.errors[:password].any?}] %>
+    <%= form.password_field :password, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:password].none?, "border-danger focus:outline-danger": user.errors[:password].any?}] %>
   </div>
 
   <div class="inline">
-    <%= form.submit t(".submit"), class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit t(".submit"), class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-accent hover:opacity-90 text-accent-ink inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>
