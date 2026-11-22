@@ -1,0 +1,8 @@
+import { Controller } from "@hotwired/stimulus"
+
+// Use only theme token classes for colors (bg-surface, text-ink, ...).
+export default class extends Controller {
+  connect() {
+    // TODO: set up the game.
+  }
+}

@@ -1,0 +1,4 @@
+<%%# Use only theme tokens for colors (bg-surface, text-ink, bg-accent, ...). %>
+<div data-controller="games--<%= stimulus_name %>">
+  <h1 class="text-3xl font-bold mb-6 text-ink"><%%= @game.title %></h1>
+</div>

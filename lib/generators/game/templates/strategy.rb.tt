@@ -1,0 +1,32 @@
+class Games::<%= class_name %>Strategy < Games::BaseStrategy
+  def category = "<%= category %>"
+  def spec_version = "<%= file_name %>@1"
+  def article_slug = nil
+
+  # Unit of the primary metric: "ms", "%" or "count".
+  def primary_unit = "ms"
+
+  # Optional secondary metric shown in brackets next to the primary one.
+  # def secondary_unit = "count"
+
+  def setup_game
+    # TODO: generate the material for one play-through.
+    {}
+  end
+
+  def permitted_result_keys
+    # TODO: list the client result keys, e.g. [ :correct, :errors ].
+    []
+  end
+
+  def sample_payload(_setup)
+    # TODO: return a valid client result; the contract test uses it.
+    {}
+  end
+
+  # Fails closed: every result is rejected until you write the real checks
+  # (value ranges, lengths, match with the stored setup).
+  def validate_result(_setup, _payload) = false
+
+  # TODO: override score, primary_metric and secondary_metric.
+end

@@ -1,0 +1,14 @@
+require "test_helper"
+
+class Games::<%= class_name %>StrategyTest < ActiveSupport::TestCase
+  setup do
+    @strategy = Games::<%= class_name %>Strategy.new
+    @setup = JSON.parse(@strategy.setup_game.to_json)
+  end
+
+  # The shared contract (strategy_contract_test.rb) already covers metadata,
+  # sample payload and unknown keys. Add game-specific cases here.
+  test "sample payload passes validation" do
+    assert @strategy.validate_result(@setup, @strategy.sample_payload(@setup))
+  end
+end
