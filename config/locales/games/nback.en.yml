@@ -12,3 +12,4 @@ en:
         correct: "Correct"
         errors: "Errors"
         finished: "Game over! Correct: %{correct} | Errors: %{errors}"
+        secondary_label: "errors"

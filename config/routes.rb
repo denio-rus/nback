@@ -23,6 +23,9 @@ Rails.application.routes.draw do
       resources :users, except: [ :new, :create ]
     end
 
+    # The breakdown page of one finished play-through (owner only).
+    resources :game_sessions, only: :show
+
     resources :games, only: [ :index, :show ] do
       resources :game_sessions, only: [ :new, :create ] do
         member do

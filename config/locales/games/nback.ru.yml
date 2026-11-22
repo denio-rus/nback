@@ -12,3 +12,4 @@ ru:
         correct: "Правильно"
         errors: "Ошибки"
         finished: "Игра окончена! Правильно: %{correct} | Ошибки: %{errors}"
+        secondary_label: "ошибок"

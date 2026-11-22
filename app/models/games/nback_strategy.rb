@@ -37,6 +37,14 @@ class Games::NbackStrategy < Games::BaseStrategy
     { trials: list }
   end
 
+  # No times here: not pressing Match when it was needed is a miss, pressing it
+  # when it was not needed is wrong.
+  def trial_outcome(trial)
+    return :correct if trial["correct"] == true
+
+    trial["pressed"] == false ? :miss : :wrong
+  end
+
   def primary_metric(result)
     list = trials(result)
     (list.count { |trial| trial["correct"] == true }.to_f / list.size * 100).round(1) if list.any?

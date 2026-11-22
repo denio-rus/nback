@@ -1,6 +1,8 @@
 class GameSessionsController < ApplicationController
   allow_unauthenticated_access
   before_action :resume_session
+  # The breakdown page is for the owner only; the other actions allow anonymous play.
+  before_action :require_authentication, only: :show
   before_action :set_active_game, only: %i[new create]
   before_action :set_game_session, only: %i[play submit_result]
 
@@ -26,6 +28,16 @@ class GameSessionsController < ApplicationController
     else
       render json: @game_session.errors, status: :unprocessable_entity
     end
+  end
+
+  # Breakdown of one finished play-through. Only the owner finds it: someone
+  # else's id, an anonymous session and an unfinished one are all a 404.
+  def show
+    @game_session = Current.user.game_sessions.where.not(played_at: nil).includes(:game, :check_in).find(params[:id])
+    @game = @game_session.game
+    @strategy = @game.game_strategy
+    @trials = @strategy.trials(@game_session.result)
+    @blocks = @trials.empty? ? [] : Games::Blocks.call(@trials, phases: @strategy.phases)
   end
 
   def play

@@ -1,0 +1,27 @@
+en:
+  game_sessions:
+    show:
+      check_in: "Your note before the game"
+      check_in_sleep: "Sleep: %{hours} h"
+      check_in_day_phase: "Time of day: %{phase}"
+      check_in_flags: "Marks: %{flags}"
+      blocks: "By blocks"
+      block: "Block %{label}: median %{median} ms, errors %{errors}"
+      block_no_median: "Block %{label}: no correct answers with a time, errors %{errors}"
+      block_empty: "Block %{label}: no trials"
+      part: "Part %{label}: median %{median} ms, errors %{errors}"
+      part_no_median: "Part %{label}: no correct answers with a time, errors %{errors}"
+      part_empty: "Part %{label}: no trials"
+      strip: "Every trial in order"
+      strip_legend: "Circle: right answer. Square: wrong answer. Dash: no answer."
+      outcome:
+        correct: "Trial %{n}: right answer"
+        wrong: "Trial %{n}: wrong answer"
+        miss: "Trial %{n}: no answer"
+      back: "Back to the game"
+  insights:
+    no_metric: "No result"
+    primary_with_secondary: "%{primary} (%{label}: %{secondary})"
+    units:
+      ms: "ms"
+      "%": "%"

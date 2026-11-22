@@ -1,0 +1,29 @@
+<% content_for :title, @game.title %>
+
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-3xl font-bold"><%= @game.title %></h1>
+  <p class="mt-1 text-ink-muted"><%= l(@game_session.played_at, format: :long) %></p>
+
+  <p data-metric class="mt-6 text-4xl font-semibold"><%= primary_with_secondary(@game_session, @strategy) %></p>
+
+  <% if @game_session.check_in && check_in_lines(@game_session.check_in).any? %>
+    <section data-check-in class="mt-6">
+      <h2 class="font-bold text-xl"><%= t(".check_in") %></h2>
+      <ul class="mt-2">
+        <% check_in_lines(@game_session.check_in).each do |line| %>
+          <li><%= line %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+
+  <% if @blocks.any? %>
+    <%= render "blocks", blocks: @blocks, strategy: @strategy %>
+  <% end %>
+
+  <% if @trials.any? %>
+    <%= render "trial_strip", trials: @trials, strategy: @strategy %>
+  <% end %>
+
+  <p class="mt-8"><%= link_to t(".back"), game_path(@game), class: "underline" %></p>
+</div>

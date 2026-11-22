@@ -16,3 +16,5 @@ ru:
         buttons:
           a: "А"
           b: "Б"
+        secondary_label: "ошибок"
+        switch_cost: "Разность медиан частей %{from} и %{to}: %{value} мс"

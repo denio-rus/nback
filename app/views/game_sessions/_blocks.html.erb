@@ -1,0 +1,12 @@
+<section class="mt-8">
+  <h2 class="font-bold text-xl"><%= t("game_sessions.show.blocks") %></h2>
+  <ul class="mt-2 space-y-1">
+    <% blocks.each do |block| %>
+      <li data-block><%= block_line(block, strategy) %></li>
+    <% end %>
+  </ul>
+  <% cost = switch_cost_text(strategy, blocks) %>
+  <% if cost %>
+    <p data-switch-cost class="mt-3 text-ink-muted"><%= cost %></p>
+  <% end %>
+</section>

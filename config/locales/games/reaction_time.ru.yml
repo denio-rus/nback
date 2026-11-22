@@ -12,3 +12,4 @@ ru:
         trial_result: "Попытка %{n}: %{time} мс"
         trial_missed: "Попытка %{n}: пропущено"
         finished: "Тест завершён!"
+        secondary_label: "пропущено"

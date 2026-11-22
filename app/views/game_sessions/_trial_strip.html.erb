@@ -1,0 +1,23 @@
+<%# One mark per trial, in order. The shape tells the outcome, not only the color:
+    circle is right, square is wrong, dash is no answer. %>
+<section class="mt-8">
+  <h2 class="font-bold text-xl"><%= t("game_sessions.show.strip") %></h2>
+  <p class="mt-1 text-sm text-ink-muted"><%= t("game_sessions.show.strip_legend") %></p>
+  <div class="mt-3 flex flex-wrap gap-1">
+    <% trials.each_with_index do |trial, index| %>
+      <% outcome = strategy.trial_outcome(trial) %>
+      <svg data-trial="<%= outcome %>" width="14" height="14" viewBox="0 0 14 14" role="img"
+           aria-label="<%= t("game_sessions.show.outcome.#{outcome}", n: index + 1) %>">
+        <title><%= t("game_sessions.show.outcome.#{outcome}", n: index + 1) %></title>
+        <% case outcome %>
+        <% when :correct %>
+          <circle cx="7" cy="7" r="6" class="fill-success" />
+        <% when :wrong %>
+          <rect x="1" y="1" width="12" height="12" class="fill-danger" />
+        <% else %>
+          <line x1="1" y1="7" x2="13" y2="7" stroke-width="2" class="stroke-ink-muted" />
+        <% end %>
+      </svg>
+    <% end %>
+  </div>
+</section>

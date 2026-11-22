@@ -16,3 +16,5 @@ en:
         buttons:
           a: "A"
           b: "B"
+        secondary_label: "errors"
+        switch_cost: "Difference between medians of parts %{from} and %{to}: %{value} ms"

@@ -19,11 +19,19 @@ class LocaleSmokeTest < ActionDispatch::IntegrationTest
     ]
   end
 
+  def finished_session
+    trials = Array.new(12) { |i| { "rt_ms" => 250 + i, "correct" => true, "phase" => nil } }
+    GameSession.create!(game: @game, user: users(:one), setup_game: @game.game_strategy.setup_game,
+                        result: { "format" => 1, "trials" => trials }, played_at: Time.current,
+                        metric: 255.5, metric_secondary: 0)
+  end
+
   def signed_in_paths(locale)
     [
       user_path(users(:one), locale: locale),
       edit_user_path(users(:one), locale: locale),
-      new_game_game_session_path(@game, locale: locale)
+      new_game_game_session_path(@game, locale: locale),
+      game_session_path(finished_session, locale: locale)
     ]
   end
 

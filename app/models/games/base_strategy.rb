@@ -52,6 +52,19 @@ class Games::BaseStrategy
     list.is_a?(Array) ? list.grep(Hash) : []
   end
 
+  # Two parts [from, to] whose medians are compared on the breakdown page
+  # (the cost of switching the rule), or nil when the game has no such pair.
+  def switch_cost_phases = nil
+
+  # How one trial shows on the strip: :correct, :wrong (answered, but not right)
+  # or :miss (no answer). The default reads the base keys; a game whose trials
+  # carry no time overrides it.
+  def trial_outcome(trial)
+    return :correct if trial["correct"] == true
+
+    trial["rt_ms"].nil? ? :miss : :wrong
+  end
+
   def primary_metric(_result) = nil
 
   def secondary_metric(_result) = nil

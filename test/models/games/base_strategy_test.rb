@@ -111,6 +111,12 @@ class BaseStrategyTest < ActiveSupport::TestCase
     assert_equal 1, Games::BaseStrategy::FORMAT
   end
 
+  test "trial_outcome is correct, wrong or miss" do
+    assert_equal :correct, @strategy.trial_outcome(trial)
+    assert_equal :wrong, @strategy.trial_outcome(trial("correct" => false))
+    assert_equal :miss, @strategy.trial_outcome(trial("correct" => false, "rt_ms" => nil))
+  end
+
   test "system_name is derived from the class name" do
     assert_equal "fake", @strategy.system_name
     assert_equal "reaction_time", Games::ReactionTimeStrategy.new.system_name

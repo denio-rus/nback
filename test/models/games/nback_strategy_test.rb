@@ -112,4 +112,10 @@ class Games::NbackStrategyTest < ActiveSupport::TestCase
     assert_equal %w[format trials], result.keys.sort
     assert_not result["trials"][0].key?("hack")
   end
+
+  test "trial_outcome: a missed match is a miss, a false alarm is wrong" do
+    assert_equal :correct, @strategy.trial_outcome({ "correct" => true, "pressed" => false })
+    assert_equal :miss, @strategy.trial_outcome({ "correct" => false, "pressed" => false })
+    assert_equal :wrong, @strategy.trial_outcome({ "correct" => false, "pressed" => true })
+  end
 end

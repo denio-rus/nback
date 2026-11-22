@@ -46,6 +46,14 @@ class Games::StrategyContractTest < ActiveSupport::TestCase
       end
     end
 
+    test "#{system_name} has a secondary label when it has a secondary metric" do
+      next unless Games::Registry.strategy_for(system_name).secondary_unit
+
+      I18n.available_locales.each do |locale|
+        assert I18n.t("games.#{system_name}.ui.secondary_label", locale: locale, default: "").present?, "#{locale}: secondary_label"
+      end
+    end
+
     test "#{system_name} drops unknown keys and rejects garbage" do
       strategy = Games::Registry.strategy_for(system_name)
       setup = JSON.parse(strategy.setup_game.to_json)

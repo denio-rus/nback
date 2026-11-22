@@ -16,3 +16,4 @@ en:
           green: "Green"
           blue: "Blue"
           yellow: "Yellow"
+        secondary_label: "errors"

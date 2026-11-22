@@ -12,3 +12,4 @@ en:
         trial_result: "Trial %{n}: %{time} ms"
         trial_missed: "Trial %{n}: missed"
         finished: "Test finished!"
+        secondary_label: "missed"

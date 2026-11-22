@@ -32,6 +32,11 @@ class Games::AdaptiveReactionTestStrategyTest < ActiveSupport::TestCase
     assert_equal "count", @strategy.secondary_unit
   end
 
+  test "the switch cost compares part 1 with part 2" do
+    assert_equal [ 1, 2 ], @strategy.switch_cost_phases
+    assert_nil Games::ReactionTimeStrategy.new.switch_cost_phases
+  end
+
   test "phases are the three parts" do
     assert_equal [ 1, 2, 3 ], @strategy.phases
   end

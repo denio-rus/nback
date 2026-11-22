@@ -1,0 +1,27 @@
+ru:
+  game_sessions:
+    show:
+      check_in: "Ваша отметка перед игрой"
+      check_in_sleep: "Сон: %{hours} ч"
+      check_in_day_phase: "Время суток: %{phase}"
+      check_in_flags: "Отметки: %{flags}"
+      blocks: "По блокам"
+      block: "Блок %{label}: медиана %{median} мс, ошибок %{errors}"
+      block_no_median: "Блок %{label}: нет верных ответов со временем, ошибок %{errors}"
+      block_empty: "Блок %{label}: нет попыток"
+      part: "Часть %{label}: медиана %{median} мс, ошибок %{errors}"
+      part_no_median: "Часть %{label}: нет верных ответов со временем, ошибок %{errors}"
+      part_empty: "Часть %{label}: нет попыток"
+      strip: "Каждая попытка по порядку"
+      strip_legend: "Круг: верный ответ. Квадрат: неверный ответ. Тире: ответа не было."
+      outcome:
+        correct: "Попытка %{n}: верный ответ"
+        wrong: "Попытка %{n}: неверный ответ"
+        miss: "Попытка %{n}: ответа не было"
+      back: "К игре"
+  insights:
+    no_metric: "Нет результата"
+    primary_with_secondary: "%{primary} (%{label}: %{secondary})"
+    units:
+      ms: "мс"
+      "%": "%"

@@ -18,6 +18,9 @@ class Games::AdaptiveReactionTestStrategy < Games::BaseStrategy
   def secondary_unit = "count"
   def phases = RULES.keys
 
+  # The rule changes between part 1 and part 2.
+  def switch_cost_phases = [ 1, 2 ]
+
   # sequence: per part a list of [delay_ms, color]. rules is sent to the browser
   # for the on-screen hint; the server scores with RULES.
   def setup_game
