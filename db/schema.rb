@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_22_193600) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_22_201100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "check_ins", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "day_phase"
+    t.jsonb "flags", default: {}, null: false
+    t.decimal "sleep_hours", precision: 3, scale: 1
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_check_ins_on_user_id"
+  end
+
   create_table "game_sessions", force: :cascade do |t|
+    t.bigint "check_in_id"
     t.datetime "created_at", null: false
     t.bigint "game_id", null: false
     t.float "metric"
@@ -24,6 +35,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_22_193600) do
     t.jsonb "setup_game"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.index ["check_in_id"], name: "index_game_sessions_on_check_in_id"
     t.index ["game_id"], name: "index_game_sessions_on_game_id"
     t.index ["user_id"], name: "index_game_sessions_on_user_id"
   end
@@ -81,6 +93,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_22_193600) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "check_ins", "users"
+  add_foreign_key "game_sessions", "check_ins", on_delete: :nullify
   add_foreign_key "game_sessions", "games"
   add_foreign_key "game_sessions", "users"
   add_foreign_key "sessions", "users"

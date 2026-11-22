@@ -1,0 +1,10 @@
+one:
+  user: one
+  sleep_hours: 7.5
+  day_phase: morning
+  flags: {}
+
+two:
+  user: two
+  day_phase: night
+  flags: { "rested": true }

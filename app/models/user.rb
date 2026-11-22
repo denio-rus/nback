@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :game_sessions, dependent: :destroy
+  has_many :check_ins, dependent: :destroy
 
   # The address itself is never stored: only its HMAC (see email_pepper.rb).
   attr_readonly :nickname
