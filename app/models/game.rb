@@ -1,5 +1,6 @@
 class Game < ApplicationRecord
   validates :name, :system_name, presence: true
+  validates :category, inclusion: { in: Games::CATEGORIES }
 
   has_many :game_sessions
 

@@ -5,9 +5,11 @@ one:
   system_name: MyString
   description: MyText
   active: false
+  category: vigilance
 
 two:
   name: MyString1
   system_name: MyString1
   description: MyText1
   active: false
+  category: vigilance

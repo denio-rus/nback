@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_29_144629) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_22_170100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "game_sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "game_id", null: false
+    t.float "metric"
+    t.float "metric_secondary"
     t.datetime "played_at"
     t.jsonb "result"
     t.jsonb "setup_game"
@@ -28,11 +30,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_29_144629) do
 
   create_table "games", force: :cascade do |t|
     t.boolean "active", default: false
+    t.string "category", null: false
     t.datetime "created_at", null: false
     t.text "description"
     t.string "name", null: false
     t.string "system_name", null: false
     t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_games_on_category"
     t.index ["system_name"], name: "index_games_on_system_name", unique: true
   end
 
