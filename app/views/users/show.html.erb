@@ -9,12 +9,20 @@
       <%= @user.nickname %>
     </div>
   
-    <div>
-      <strong class="block font-medium mb-1"><%= t(".email") %>:</strong>
-      <%= @user.email_address %>
-    </div>
   </div>
 
   <%= link_to t(".edit"), edit_user_path(@user), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-surface-raised border border-line hover:bg-surface inline-block font-medium" %>
-  <%= button_to t(".destroy"), [:admin, @user], method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-accent-ink bg-danger hover:opacity-90 font-medium cursor-pointer", data: { turbo_confirm: t(".confirm_destroy") } %>
+
+  <section class="mt-12 border-t border-line pt-6">
+    <h2 class="font-bold text-xl"><%= t(".destroy") %></h2>
+    <p class="mt-2 text-ink-muted"><%= t(".destroy_hint") %></p>
+
+    <%= form_with url: user_path(@user), method: :delete, class: "mt-4 flex flex-col sm:flex-row gap-3" do |form| %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72,
+                              placeholder: t(".password_placeholder"), "aria-label": t(".password_placeholder"),
+                              class: "block shadow-sm rounded-md border border-line px-3 py-2 w-full sm:w-64" %>
+      <%= form.submit t(".destroy"), data: { turbo_confirm: t(".confirm_destroy") },
+                      class: "rounded-md px-3.5 py-2.5 text-accent-ink bg-danger hover:opacity-90 font-medium cursor-pointer" %>
+    <% end %>
+  </section>
 </div>

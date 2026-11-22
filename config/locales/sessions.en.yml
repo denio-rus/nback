@@ -2,10 +2,11 @@ en:
   sessions:
     new:
       title: "Sign in"
-      email_placeholder: "Enter your email address"
+      nickname_placeholder: "Enter your nickname"
       password_placeholder: "Enter your password"
       submit: "Sign in"
       forgot_password: "Forgot password?"
     create:
-      invalid: "Try another email address or password."
+      invalid: "Try another nickname or password."
+      unconfirmed: "Please confirm your email address first: follow the link in the message we sent you."
     rate_limited: "Try again later."

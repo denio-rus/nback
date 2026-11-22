@@ -16,15 +16,7 @@
       </div>
     <% end %>
 
-    <div class="my-5">
-      <%= form.label :nickname, t("registrations.form.nickname") %>
-      <%= form.text_field :nickname, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": @user.errors[:nickname].none?, "border-danger focus:outline-danger": @user.errors[:nickname].any?}] %>
-    </div>
-
-    <div class="my-5">
-      <%= form.label :email_address, t("registrations.form.email") %>
-      <%= form.text_field :email_address, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": @user.errors[:email_address].none?, "border-danger focus:outline-danger": @user.errors[:email_address].any?}] %>
-    </div>
+    <%= render "users/optional_fields", form: form, user: @user %>
 
     <div class="inline">
       <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-accent hover:opacity-90 text-accent-ink inline-block font-medium cursor-pointer" %>

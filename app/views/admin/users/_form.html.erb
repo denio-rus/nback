@@ -12,13 +12,8 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :nickname, tip: "Use any name you like. No real personal data is required."%>
-    <%= form.text_field :nickname, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:nickname].none?, "border-danger focus:outline-danger": user.errors[:nickname].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :email %>
-    <%= form.text_field :email, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:email].none?, "border-danger focus:outline-danger": user.errors[:email].any?}] %>
+    <strong class="block font-medium mb-1">Nickname:</strong>
+    <%= user.nickname %>
   </div>
 
   <div class="my-5 flex items-center gap-2">

@@ -1,0 +1,5 @@
+en:
+  email_confirmations:
+    show:
+      confirmed: "Your email address is confirmed."
+      invalid: "This confirmation link is invalid or has expired. Please sign up again."

@@ -3,10 +3,11 @@ en:
     show:
       title: "Profile"
       nickname: "Nickname"
-      email: "Email"
       edit: "Edit profile"
       destroy: "Delete account"
-      confirm_destroy: "Are you sure?"
+      destroy_hint: "This deletes your account, all your game results and check-ins. It cannot be undone."
+      password_placeholder: "Your password"
+      confirm_destroy: "Delete the account and all its results?"
     edit:
       title: "Edit profile"
       show: "Back to profile"
@@ -14,3 +15,13 @@ en:
       success: "Profile was updated."
     destroy:
       success: "Account was deleted."
+      wrong_password: "The password is wrong. Nothing was deleted."
+    optional_fields:
+      gender: "Gender (optional)"
+      age_decade: "Age (optional)"
+      blank: "Prefer not to say"
+      genders:
+        female: "Female"
+        male: "Male"
+        other: "Other"
+      age_decade_option: "%{from}-%{to}"

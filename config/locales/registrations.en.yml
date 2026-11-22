@@ -6,10 +6,16 @@ en:
       nickname: "Nickname"
       nickname_hint: "Please do not use your real name."
       email: "Email"
+      email_hint: "Used once to confirm your address and later only to reset your password. We do not store it."
+      email_confirmation: "Repeat email"
       password: "Password"
+      password_confirmation: "Repeat password"
       submit: "Sign up"
       errors_header:
         one: "%{count} error prevented saving:"
         other: "%{count} errors prevented saving:"
-    create:
-      success: "User was successfully created."
+    check_mail:
+      title: "Check your mail"
+      body: "We sent a link to the address you gave. Follow it to finish signing up."
+      hint: "The link works for 24 hours. If it does not arrive, sign up again with the same address."
+    rate_limited: "Try again later."

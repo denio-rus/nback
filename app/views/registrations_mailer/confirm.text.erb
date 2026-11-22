@@ -1,0 +1,4 @@
+<%= t("mailers.registrations.confirm.intro") %>
+<%= email_confirmation_url(token: @token) %>
+
+<%= t("mailers.registrations.confirm.expires", time: distance_of_time_in_words(0, 24.hours)) %>

@@ -1,6 +1,7 @@
 class PasswordsMailer < ApplicationMailer
-  def reset(user)
+  # The address is passed in because the database only keeps its digest.
+  def reset(user, email)
     @user = user
-    mail subject: I18n.t("mailers.passwords.reset.subject"), to: user.email_address
+    mail subject: I18n.t("mailers.passwords.reset.subject"), to: email
   end
 end

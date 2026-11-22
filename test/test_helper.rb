@@ -17,9 +17,12 @@ module ActiveSupport
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
+    # rate_limit counters live in the cache; do not let one test use up another one's attempts.
+    setup { Rails.cache.clear }
+
     # Add more helper methods to be used by all tests here...
     def sign_in(user)
-      post session_url, params: { email_address: user.email_address, password: "password" }
+      post session_url, params: { nickname: user.nickname, password: "password" }
     end
 
     def sign_in_as_admin(user)

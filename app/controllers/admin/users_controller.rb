@@ -8,25 +8,8 @@ class Admin::UsersController < Admin::ApplicationController
   def show
   end
 
-  def new
-    @user = User.new
-  end
-
   # GET /users/1/edit
   def edit
-  end
-
-  def create
-    params.inspect
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to admin_user_path(@user), notice: "User was successfully created." }
-      else
-        format.html { render :new, status: :unprocessable_content }
-      end
-    end
   end
 
   def update
@@ -53,6 +36,6 @@ class Admin::UsersController < Admin::ApplicationController
     end
 
     def user_params
-      params.expect(user: [ :nickname, :email_address, :active, :password ])
+      params.expect(user: [ :active, :password ])
     end
 end

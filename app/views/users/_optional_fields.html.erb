@@ -1,0 +1,14 @@
+<%# Both fields are optional and are not shown anywhere in the site. %>
+<div class="my-5">
+  <%= form.label :gender, t("users.optional_fields.gender") %>
+  <%= form.select :gender, User::GENDERS.map { |value| [ t("users.optional_fields.genders.#{value}"), value ] },
+                  { include_blank: t("users.optional_fields.blank") },
+                  class: "block shadow-sm rounded-md border border-line bg-surface-raised px-3 py-2 mt-2 w-full" %>
+</div>
+
+<div class="my-5">
+  <%= form.label :age_decade, t("users.optional_fields.age_decade") %>
+  <%= form.select :age_decade, User::AGE_DECADES.map { |value| [ t("users.optional_fields.age_decade_option", from: value, to: value + 9), value ] },
+                  { include_blank: t("users.optional_fields.blank") },
+                  class: "block shadow-sm rounded-md border border-line bg-surface-raised px-3 py-2 mt-2 w-full" %>
+</div>

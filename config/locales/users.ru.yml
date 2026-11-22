@@ -3,10 +3,11 @@ ru:
     show:
       title: "Профиль"
       nickname: "Ник"
-      email: "Почта"
       edit: "Изменить профиль"
       destroy: "Удалить аккаунт"
-      confirm_destroy: "Вы уверены?"
+      destroy_hint: "Будут удалены аккаунт, все результаты тестов и отметки состояния. Это нельзя отменить."
+      password_placeholder: "Ваш пароль"
+      confirm_destroy: "Удалить аккаунт и все результаты?"
     edit:
       title: "Изменить профиль"
       show: "Назад к профилю"
@@ -14,3 +15,13 @@ ru:
       success: "Профиль обновлён."
     destroy:
       success: "Аккаунт удалён."
+      wrong_password: "Пароль неверный. Ничего не удалено."
+    optional_fields:
+      gender: "Пол (необязательно)"
+      age_decade: "Возраст (необязательно)"
+      blank: "Не хочу указывать"
+      genders:
+        female: "Женский"
+        male: "Мужской"
+        other: "Другой"
+      age_decade_option: "%{from}-%{to}"

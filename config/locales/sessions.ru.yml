@@ -2,10 +2,11 @@ ru:
   sessions:
     new:
       title: "Вход"
-      email_placeholder: "Введите адрес почты"
+      nickname_placeholder: "Введите ник"
       password_placeholder: "Введите пароль"
       submit: "Войти"
       forgot_password: "Забыли пароль?"
     create:
-      invalid: "Неверный адрес почты или пароль."
+      invalid: "Неверный ник или пароль."
+      unconfirmed: "Сначала подтвердите почту: перейдите по ссылке из письма, которое мы вам отправили."
     rate_limited: "Попробуйте позже."

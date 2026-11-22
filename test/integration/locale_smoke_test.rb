@@ -14,7 +14,8 @@ class LocaleSmokeTest < ActionDispatch::IntegrationTest
       game_path(@game, locale: locale),
       new_session_path(locale: locale),
       new_registration_path(locale: locale),
-      new_password_path(locale: locale)
+      new_password_path(locale: locale),
+      check_mail_registrations_path(locale: locale)
     ]
   end
 

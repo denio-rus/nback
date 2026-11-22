@@ -1,29 +1,72 @@
 require "test_helper"
 
 class PasswordsControllerTest < ActionDispatch::IntegrationTest
-  setup { @user = User.take }
+  setup { @user = users(:one) }
 
   test "new" do
     get new_password_path
     assert_response :success
   end
 
-  test "create" do
-    post passwords_path, params: { email_address: @user.email_address }
-    assert_enqueued_email_with PasswordsMailer, :reset, args: [ @user ]
-    assert_redirected_to new_session_path
+  test "mail is sent to the address as typed, only for a known user" do
+    assert_emails 1 do
+      post passwords_path, params: { email: "  One@Example.com " }
+    end
 
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal [ "One@Example.com" ], mail.to
+    assert_redirected_to new_session_path
+  end
+
+  test "mail is delivered at once and never queued with the address" do
+    assert_no_enqueued_emails do
+      assert_no_enqueued_jobs do
+        post passwords_path, params: { email: "one@example.com" }
+      end
+    end
+  end
+
+  test "known and unknown email give identical response" do
+    post passwords_path, params: { email: "one@example.com" }
+    known = [ response.status, response.location, flash[:notice] ]
+
+    post passwords_path, params: { email: "missing-user@example.com" }
+    unknown = [ response.status, response.location, flash[:notice] ]
+
+    assert_equal known, unknown
+    assert_equal I18n.t("passwords.create.sent", locale: :en), flash[:notice]
+  end
+
+  test "unknown email sends no mail" do
+    assert_emails 0 do
+      post passwords_path, params: { email: "missing-user@example.com" }
+    end
     follow_redirect!
     assert_notice "reset instructions sent"
   end
 
-  test "create for an unknown user redirects but sends no mail" do
-    post passwords_path, params: { email_address: "missing-user@example.com" }
-    assert_enqueued_emails 0
-    assert_redirected_to new_session_path
+  test "unconfirmed user gets no mail but the same answer" do
+    @user.update_columns(confirmed_at: nil)
 
-    follow_redirect!
-    assert_notice "reset instructions sent"
+    assert_emails 0 do
+      post passwords_path, params: { email: "one@example.com" }
+    end
+    assert_redirected_to new_session_path
+    assert_equal I18n.t("passwords.create.sent", locale: :en), flash[:notice]
+  end
+
+  test "missing email gives the same answer" do
+    assert_emails 0 do
+      post passwords_path
+    end
+    assert_redirected_to new_session_path
+  end
+
+  test "reset link has locale prefix" do
+    post "/ru/passwords", params: { email: "one@example.com" }
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_match %r{http://example\.com/ru/passwords/[^/]+/edit}, mail.text_part.body.to_s
   end
 
   test "edit" do

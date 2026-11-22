@@ -14,18 +14,31 @@
   <div class="my-5">
     <%= form.label :nickname, t(".nickname") %>
     <p class="text-sm text-ink-muted"><%= t(".nickname_hint") %></p>
-    <%= form.text_field :nickname, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:nickname].none?, "border-danger focus:outline-danger": user.errors[:nickname].any?}] %>
+    <%= form.text_field :nickname, maxlength: 20, autocomplete: "username", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:nickname].none?, "border-danger focus:outline-danger": user.errors[:nickname].any?}] %>
   </div>
 
   <div class="my-5">
-    <%= form.label :email_address, t(".email") %>
-    <%= form.text_field :email_address, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:email_address].none?, "border-danger focus:outline-danger": user.errors[:email_address].any?}] %>
+    <%= form.label :email, t(".email") %>
+    <p class="text-sm text-ink-muted"><%= t(".email_hint") %></p>
+    <%= form.email_field :email, value: user.email, autocomplete: "email", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:email].none?, "border-danger focus:outline-danger": user.errors[:email].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :email_confirmation, t(".email_confirmation") %>
+    <%= form.email_field :email_confirmation, value: user.email_confirmation, autocomplete: "off", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:email_confirmation].none?, "border-danger focus:outline-danger": user.errors[:email_confirmation].any?}] %>
   </div>
 
   <div class="my-5">
     <%= form.label :password, t(".password") %>
-    <%= form.password_field :password, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:password].none?, "border-danger focus:outline-danger": user.errors[:password].any?}] %>
+    <%= form.password_field :password, maxlength: 72, autocomplete: "new-password", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:password].none?, "border-danger focus:outline-danger": user.errors[:password].any?}] %>
   </div>
+
+  <div class="my-5">
+    <%= form.label :password_confirmation, t(".password_confirmation") %>
+    <%= form.password_field :password_confirmation, maxlength: 72, autocomplete: "new-password", class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-line focus:outline-accent": user.errors[:password_confirmation].none?, "border-danger focus:outline-danger": user.errors[:password_confirmation].any?}] %>
+  </div>
+
+  <%= render "users/optional_fields", form: form, user: user %>
 
   <div class="inline">
     <%= form.submit t(".submit"), class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-accent hover:opacity-90 text-accent-ink inline-block font-medium cursor-pointer" %>

@@ -10,13 +10,17 @@ Rails.application.routes.draw do
     get "/", to: redirect { |params, _request| "/#{params[:locale]}/games" }, as: :localized_root
 
     resource :session
-    resources :registrations, only: [ :new, :create ]
+    resources :registrations, only: [ :new, :create ] do
+      get :check_mail, on: :collection
+    end
+    resources :email_confirmations, only: :show, param: :token
     resources :passwords, param: :token
 
-    resources :users, only: [ :show, :edit, :update ]
+    resources :users, only: [ :show, :edit, :update, :destroy ]
 
     namespace :admin do
-      resources :users
+      # No new/create: an account needs an email that only its owner can confirm.
+      resources :users, except: [ :new, :create ]
     end
 
     resources :games, only: [ :index, :show ] do

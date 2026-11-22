@@ -18,7 +18,7 @@
         <div class="flex items-center gap-4">
           <% if Current.user %>
             <div class="flex items-center gap-3">
-              <span class="text-sm opacity-90"><%= Current.user.nickname || Current.user.email_address %></span>
+              <span class="text-sm opacity-90"><%= Current.user.nickname %></span>
               
               <%= link_to t("layout.nav.profile"), user_path(Current.user), class: "hover:text-accent-ink/80 transition" %>
               

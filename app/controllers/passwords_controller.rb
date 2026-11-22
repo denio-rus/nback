@@ -7,9 +7,9 @@ class PasswordsController < ApplicationController
   end
 
   def create
-    if user = User.find_by(email_address: params[:email_address])
-      PasswordsMailer.reset(user).deliver_later
-    end
+    email = params[:email].to_s.strip
+    user = User.find_by_email(email)
+    PasswordsMailer.reset(user, email).deliver_now if user&.confirmed?
 
     redirect_to new_session_path, notice: t("passwords.create.sent")
   end

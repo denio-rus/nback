@@ -38,14 +38,14 @@ class AuthLocalizationTest < ActionDispatch::IntegrationTest
   end
 
   test "wrong credentials give a flash in the request language" do
-    post "/ru/session", params: { email_address: "nobody@example.com", password: "x" }
+    post "/ru/session", params: { nickname: "nobody", password: "x" }
     follow_redirect!
 
     assert_select "#alert", /Неверн/
   end
 
   test "password reset request flash is in Russian for /ru" do
-    post "/ru/passwords", params: { email_address: "nobody@example.com" }
+    post "/ru/passwords", params: { email: "nobody@example.com" }
     assert_redirected_to "/ru/session/new"
     follow_redirect!
 
@@ -74,14 +74,14 @@ class AuthLocalizationTest < ActionDispatch::IntegrationTest
     user = users(:one)
 
     I18n.with_locale(:ru) do
-      mail = PasswordsMailer.reset(user)
+      mail = PasswordsMailer.reset(user, "one@example.com")
 
       assert_equal "Сброс пароля", mail.subject
       assert_match "Сбросить пароль", mail.text_part.body.to_s
       assert_match "/ru/passwords/", mail.html_part.body.to_s
     end
     I18n.with_locale(:en) do
-      assert_equal "Reset your password", PasswordsMailer.reset(user).subject
+      assert_equal "Reset your password", PasswordsMailer.reset(user, "one@example.com").subject
     end
   end
 
