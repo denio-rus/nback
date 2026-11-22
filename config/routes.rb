@@ -1,35 +1,35 @@
 Rails.application.routes.draw do
-  root to: "games#index"
+  # Liveness check, outside the language prefix.
+  get "up" => "rails/health#show", as: :rails_health_check
 
-  resource :session
-  resources :registrations, only: [ :new, :create ]
-  resources :passwords, param: :token
+  # "/" reads Accept-Language once and redirects to /<language>.
+  root to: "root#show"
 
-  resources :users, only: [ :show, :edit, :update ]
+  # Every page lives under a language prefix; unknown languages are 404.
+  scope "/:locale", locale: /#{I18n.available_locales.join('|')}/ do
+    get "/", to: redirect { |params, _request| "/#{params[:locale]}/games" }, as: :localized_root
 
-  namespace :admin do
-    resources :users
-  end
+    resource :session
+    resources :registrations, only: [ :new, :create ]
+    resources :passwords, param: :token
 
-  resources :games, only: [ :index, :show ] do
-    resources :game_sessions, only: [ :create ] do
-      member do
-        get "play"
-        post "submit_result"
+    resources :users, only: [ :show, :edit, :update ]
+
+    namespace :admin do
+      resources :users
+    end
+
+    resources :games, only: [ :index, :show ] do
+      resources :game_sessions, only: [ :create ] do
+        member do
+          get "play"
+          post "submit_result"
+        end
       end
     end
   end
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
-
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end

@@ -4,8 +4,13 @@ require "generators/game/game_generator"
 
 class GameGeneratorTest < Rails::Generators::TestCase
   tests GameGenerator
-  destination Rails.root.join("tmp/generator_test")
-  setup :prepare_destination
+  # Tests run in parallel worker processes. The directory is chosen in setup
+  # (inside the worker), so every process writes to its own folder.
+  setup do
+    self.class.destination_root = Rails.root.join("tmp/generator_test_#{Process.pid}").to_s
+    prepare_destination
+  end
+  teardown { FileUtils.rm_rf(destination_root) }
 
   # Thor prints errors and swallows them unless debug is on; raise them in tests.
   def run_strict(args) = run_generator(args, debug: true)

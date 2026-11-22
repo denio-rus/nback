@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     # session_delete :user_id
 
     respond_to do |format|
-      format.html { redirect_to root_path, notice: "User was successfully destroyed.", status: :see_other }
+      format.html { redirect_to games_path, notice: "User was successfully destroyed.", status: :see_other }
     end
   end
 

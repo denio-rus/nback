@@ -3,6 +3,12 @@ require_relative "../config/environment"
 require "rails/test_help"
 require_relative "test_helpers/session_test_helper"
 
+# Every route lives under /:locale, so integration tests use English by default.
+# Pass `locale:` explicitly to a path helper to test another language.
+class ActionDispatch::IntegrationTest
+  setup { default_url_options[:locale] = :en }
+end
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
