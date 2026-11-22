@@ -1,0 +1,11 @@
+ru:
+  sessions:
+    new:
+      title: "Вход"
+      email_placeholder: "Введите адрес почты"
+      password_placeholder: "Введите пароль"
+      submit: "Войти"
+      forgot_password: "Забыли пароль?"
+    create:
+      invalid: "Неверный адрес почты или пароль."
+    rate_limited: "Попробуйте позже."

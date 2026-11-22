@@ -1,0 +1,8 @@
+<%# One place for page-level messages; individual views no longer render their own. %>
+<% { alert: "bg-red-50 text-red-500", notice: "bg-green-50 text-green-500" }.each do |type, style| %>
+  <% if flash[type].present? %>
+    <div class="container mx-auto mt-20 px-5">
+      <p class="py-2 px-3 <%= style %> font-medium rounded-lg inline-block" id="<%= type %>"><%= flash[type] %></p>
+    </div>
+  <% end %>
+<% end %>

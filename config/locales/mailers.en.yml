@@ -1,0 +1,8 @@
+en:
+  mailers:
+    passwords:
+      reset:
+        subject: "Reset your password"
+        intro: "You can reset your password on"
+        link_text: "this password reset page"
+        expires: "This link will expire in %{time}."

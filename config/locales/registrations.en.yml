@@ -1,0 +1,15 @@
+en:
+  registrations:
+    new:
+      title: "Sign up"
+    form:
+      nickname: "Nickname"
+      nickname_hint: "Please do not use your real name."
+      email: "Email"
+      password: "Password"
+      submit: "Sign up"
+      errors_header:
+        one: "%{count} error prevented saving:"
+        other: "%{count} errors prevented saving:"
+    create:
+      success: "User was successfully created."

@@ -1,0 +1,16 @@
+ru:
+  users:
+    show:
+      title: "Профиль"
+      nickname: "Ник"
+      email: "Почта"
+      edit: "Изменить профиль"
+      destroy: "Удалить аккаунт"
+      confirm_destroy: "Вы уверены?"
+    edit:
+      title: "Изменить профиль"
+      show: "Назад к профилю"
+    update:
+      success: "Профиль обновлён."
+    destroy:
+      success: "Аккаунт удалён."

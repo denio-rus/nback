@@ -1,0 +1,16 @@
+en:
+  users:
+    show:
+      title: "Profile"
+      nickname: "Nickname"
+      email: "Email"
+      edit: "Edit profile"
+      destroy: "Delete account"
+      confirm_destroy: "Are you sure?"
+    edit:
+      title: "Edit profile"
+      show: "Back to profile"
+    update:
+      success: "Profile was updated."
+    destroy:
+      success: "Account was deleted."

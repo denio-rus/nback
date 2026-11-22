@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to user_path(@user), notice: "User was successfully updated.", status: :see_other }
+        format.html { redirect_to user_path(@user), notice: t("users.update.success"), status: :see_other }
       else
         format.html { render :edit, status: :unprocessable_content }
       end
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     # session_delete :user_id
 
     respond_to do |format|
-      format.html { redirect_to games_path, notice: "User was successfully destroyed.", status: :see_other }
+      format.html { redirect_to games_path, notice: t("users.destroy.success"), status: :see_other }
     end
   end
 

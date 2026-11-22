@@ -9,7 +9,7 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       start_new_session_for(@user)
-      redirect_to games_path, notice: "User was successfully created."
+      redirect_to games_path, notice: t("registrations.create.success")
     else
       render :new, status: :unprocessable_entity
     end

@@ -5,7 +5,7 @@ class Admin::ApplicationController < ApplicationController
 
   def require_admin!
     unless Current.user&.has_role?(:admin)
-      redirect_to games_path, alert: "Доступ запрещён"
+      redirect_to games_path, alert: t("admin.forbidden")
     end
   end
 end

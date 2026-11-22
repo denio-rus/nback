@@ -1,0 +1,17 @@
+ru:
+  registrations:
+    new:
+      title: "Регистрация"
+    form:
+      nickname: "Ник"
+      nickname_hint: "Пожалуйста, не используйте настоящее имя."
+      email: "Почта"
+      password: "Пароль"
+      submit: "Зарегистрироваться"
+      errors_header:
+        one: "%{count} ошибка помешала сохранению:"
+        few: "%{count} ошибки помешали сохранению:"
+        many: "%{count} ошибок помешали сохранению:"
+        other: "%{count} ошибки помешали сохранению:"
+    create:
+      success: "Пользователь создан."

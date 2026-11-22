@@ -1,0 +1,8 @@
+ru:
+  mailers:
+    passwords:
+      reset:
+        subject: "Сброс пароля"
+        intro: "Сбросить пароль можно на странице"
+        link_text: "сброса пароля"
+        expires: "Ссылка действует %{time}."
