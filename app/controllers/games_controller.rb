@@ -3,11 +3,11 @@ class GamesController < ApplicationController
   before_action :resume_session
 
   def index
-    @games = Game.all
+    @games = Game.where(active: true).order(:category, :system_name)
   end
 
   def show
-    @game = Game.find(params[:id])
+    @game = Game.where(active: true).find(params[:id])
   end
 
   def play
