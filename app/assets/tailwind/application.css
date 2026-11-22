@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+/*
+ * Color roles. Games and pages use only these utilities (bg-surface, text-ink,
+ * bg-accent, text-stimulus-red, ...), never palette colors, so adding a theme
+ * means adding one [data-theme="..."] block below and nothing else.
+ *
+ * A theme must define every role; test/theme_css_test.rb checks this.
+ */
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+
+  /* Game material, not decoration: the hue never changes between themes. */
+  --color-stimulus-red: var(--stimulus-red);
+  --color-stimulus-green: var(--stimulus-green);
+  --color-stimulus-blue: var(--stimulus-blue);
+  --color-stimulus-yellow: var(--stimulus-yellow);
+}
+
+/* Light is also the default when JavaScript is off. */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --surface: oklch(0.98 0.005 260);
+  --surface-raised: oklch(1 0 0);
+  --ink: oklch(0.22 0.02 260);
+  --ink-muted: oklch(0.5 0.02 260);
+  --line: oklch(0.85 0.01 260);
+  --accent: oklch(0.5 0.2 275);
+  --accent-ink: oklch(0.99 0 0);
+  --danger: oklch(0.55 0.22 27);
+  --success: oklch(0.55 0.15 150);
+  --stimulus-red: oklch(0.58 0.22 27);
+  --stimulus-green: oklch(0.55 0.17 145);
+  --stimulus-blue: oklch(0.52 0.19 255);
+  --stimulus-yellow: oklch(0.7 0.16 90);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: oklch(0.2 0.02 260);
+  --surface-raised: oklch(0.26 0.02 260);
+  --ink: oklch(0.95 0.01 260);
+  --ink-muted: oklch(0.72 0.02 260);
+  --line: oklch(0.36 0.02 260);
+  --accent: oklch(0.68 0.16 275);
+  --accent-ink: oklch(0.15 0.02 260);
+  --danger: oklch(0.7 0.19 27);
+  --success: oklch(0.72 0.16 150);
+  --stimulus-red: oklch(0.72 0.22 27);
+  --stimulus-green: oklch(0.72 0.17 145);
+  --stimulus-blue: oklch(0.7 0.19 255);
+  --stimulus-yellow: oklch(0.85 0.16 90);
+}
+
+body {
+  background-color: var(--surface);
+  color: var(--ink);
+}

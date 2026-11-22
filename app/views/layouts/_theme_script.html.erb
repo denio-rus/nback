@@ -1,0 +1,13 @@
+<%# Runs before the first paint so the page does not flash the wrong theme. The
+    stored value is only used when it is one of the known themes. %>
+<%= javascript_tag nonce: true do %>
+  (function () {
+    var themes = <%= raw ApplicationHelper::THEMES.to_json %>;
+    var saved = null;
+    try { saved = localStorage.getItem("theme"); } catch (e) {}
+    var theme = themes.indexOf(saved) >= 0
+      ? saved
+      : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.dataset.theme = theme;
+  })();
+<% end %>

@@ -1,0 +1,13 @@
+<%# One button per theme. The choice stays in this browser (localStorage). %>
+<div data-controller="theme" class="flex items-center gap-1 text-sm" role="group" aria-label="<%= t("themes.label") %>">
+  <% ApplicationHelper::THEMES.each do |theme| %>
+    <button type="button"
+            data-theme-target="button"
+            data-theme-name-param="<%= theme %>"
+            data-action="click->theme#choose"
+            aria-pressed="false"
+            class="px-2 py-1 rounded hover:bg-white/20 transition aria-pressed:font-bold aria-pressed:underline">
+      <%= t("themes.#{theme}") %>
+    </button>
+  <% end %>
+</div>
