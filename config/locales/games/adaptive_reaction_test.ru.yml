@@ -1,0 +1,14 @@
+ru:
+  games:
+    adaptive_reaction_test:
+      title: "Адаптивный тест реакции"
+      description: "Отвечайте как можно быстрее, пока правило для кнопок меняется от части к части."
+      ui:
+        title: "Адаптивный тест реакции"
+        press_start: "Нажмите кнопку \"Начать\""
+        start: "Начать"
+        get_ready: "Приготовьтесь..."
+        trial: "Попытка %{current} / %{total}"
+        trial_result: "Попытка %{n}: %{time} мс"
+        trial_missed: "Попытка %{n}: пропущено"
+        finished: "Тест завершён!"

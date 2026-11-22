@@ -1,0 +1,14 @@
+en:
+  games:
+    adaptive_reaction_test:
+      title: "Adaptive reaction test"
+      description: "Respond as fast as you can while the rule for the buttons changes between parts."
+      ui:
+        title: "Adaptive reaction test"
+        press_start: "Press \"Start\""
+        start: "Start"
+        get_ready: "Get ready..."
+        trial: "Trial %{current} / %{total}"
+        trial_result: "Trial %{n}: %{time} ms"
+        trial_missed: "Trial %{n}: missed"
+        finished: "Test finished!"
