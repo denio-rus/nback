@@ -1,0 +1,14 @@
+en:
+  games:
+    reaction_time:
+      title: "Simple reaction time"
+      description: "Press the space bar as soon as the circle turns green."
+      ui:
+        title: "Simple reaction time"
+        press_start: "Press \"Start\""
+        start: "Start test"
+        get_ready: "Get ready..."
+        trial: "Trial %{current} / %{total}"
+        trial_result: "Trial %{n}: %{time} ms"
+        trial_missed: "Trial %{n}: missed"
+        finished: "Test finished!"

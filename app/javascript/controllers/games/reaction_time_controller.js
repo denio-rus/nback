@@ -1,14 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
+import { t, createTimers, submitResult } from "controllers/games/base"
 
 export default class extends Controller {
   static targets = ["circle", "status", "results", "startBtn"]
-  static values = { 
-    gameId: Number,
-    gameSessionId: Number,
-    intervals: Array 
+  static values = {
+    submitUrl: String,
+    messages: Object,
+    intervals: Array
   }
 
   connect() {
+    this.timers = createTimers()
     this.currentTrial = 0
     this.results = []
     this.isWaiting = false
@@ -18,15 +20,20 @@ export default class extends Controller {
     this.boundKeyHandler = this.handleKeyDown.bind(this)
   }
 
+  disconnect() {
+    this.timers.clearAll()
+    this.disconnectKeyboard()
+  }
+
   start() {
     this.startBtnTarget.disabled = true
     this.results = []
     this.currentTrial = 0
     this.resultsTarget.innerHTML = ""
 
-    this.statusTarget.textContent = "Приготовьтесь..."
+    this.statusTarget.textContent = this.message("get_ready")
 
-    setTimeout(() => {
+    this.timers.set(() => {
       this.connectKeyboard()
       this.runNextTrial()
     }, 1000)
@@ -41,27 +48,27 @@ export default class extends Controller {
     this.currentTrial++
     this.isWaiting = true
 
-    this.statusTarget.textContent = `Попытка ${this.currentTrial} / ${this.intervalsValue.length}`
+    this.statusTarget.textContent = this.message("trial", { current: this.currentTrial, total: this.intervalsValue.length })
 
     this.circleTarget.style.backgroundColor = "#374151"
 
-    setTimeout(() => {
-      this.circleTarget.style.backgroundColor = "#22c55e"  // ярко-зелёный
+    this.timers.set(() => {
+      this.circleTarget.style.backgroundColor = "#22c55e"  // bright green
       this.startTime = performance.now()
 
       const interval = this.intervalsValue[this.currentTrial - 1] || 1500
 
-      this.timeout = setTimeout(() => {
+      this.timeout = this.timers.set(() => {
         this.handleMiss()
       }, interval)
-    }, 300) // небольшая задержка, чтобы было видно смену
+    }, 300) // short pause so the change of color is visible
   }
 
   handleKeyDown(e) {
     if (e.code !== "Space" || !this.isWaiting) return
     e.preventDefault()
 
-    clearTimeout(this.timeout)
+    this.timers.clear(this.timeout)
 
     const reactionTime = Math.round(performance.now() - this.startTime)
 
@@ -71,7 +78,7 @@ export default class extends Controller {
 
     this.addResult(reactionTime)
 
-    setTimeout(() => this.runNextTrial(), 700)
+    this.timers.set(() => this.runNextTrial(), 700)
   }
 
   handleMiss() {
@@ -81,60 +88,43 @@ export default class extends Controller {
     this.results.push(null)
     this.addResult(null)
 
-    setTimeout(() => this.runNextTrial(), 7000)
+    this.timers.set(() => this.runNextTrial(), 7000)
   }
 
   addResult(time) {
     const div = document.createElement("div")
     div.className = "py-2"
     if (time === null) {
-      div.innerHTML = `<span class="text-red-500">Попытка ${this.currentTrial}: Пропущено</span>`
+      const missed = document.createElement("span")
+      missed.className = "text-red-500"
+      missed.textContent = this.message("trial_missed", { n: this.currentTrial })
+      div.appendChild(missed)
     } else {
-      div.textContent = `Попытка ${this.currentTrial}: ${time} мс`
+      div.textContent = this.message("trial_result", { n: this.currentTrial, time })
     }
     this.resultsTarget.appendChild(div)
   }
 
   finish() {
-    this.statusTarget.textContent = "Тест завершён!"
+    this.statusTarget.textContent = this.message("finished")
     this.disconnectKeyboard()
     this.saveResults()
   }
 
+  // The server recomputes every counter, so only the raw reactions are sent.
   async saveResults() {
-    const validResults = this.results.filter(r => r !== null)
-    const mean = validResults.length 
-      ? Math.round(validResults.reduce((a, b) => a + b, 0) / validResults.length) 
-      : 0
-
-    const payload = {
-      game_id: this.gameIdValue,
-      result: {
-        trials: this.results.length,
-        reactions: this.results,
-        mean_rt: mean,
-        min_rt: Math.min(...validResults),
-        max_rt: Math.max(...validResults),
-        false_starts: this.results.filter(r => r === null).length
-      }
-    }
-
-    await fetch(`/games/${this.gameIdValue}/game_sessions/${this.gameSessionIdValue}/submit_result`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
-      },
-      body: JSON.stringify(payload)
-    })
+    await submitResult(this.submitUrlValue, { reactions: this.results })
   }
 
   connectKeyboard() {
-    this.boundKeyHandler = this.handleKeyDown.bind(this)
     document.addEventListener("keydown", this.boundKeyHandler)
   }
 
   disconnectKeyboard() {
     document.removeEventListener("keydown", this.boundKeyHandler)
+  }
+
+  message(key, vars) {
+    return t(this.messagesValue, key, vars)
   }
 }

@@ -1,0 +1,14 @@
+ru:
+  games:
+    reaction_time:
+      title: "Простая реакция"
+      description: "Нажмите пробел, как только круг станет зелёным."
+      ui:
+        title: "Тест простой реакции"
+        press_start: "Нажмите кнопку \"Начать\""
+        start: "Начать тест"
+        get_ready: "Приготовьтесь..."
+        trial: "Попытка %{current} / %{total}"
+        trial_result: "Попытка %{n}: %{time} мс"
+        trial_missed: "Попытка %{n}: пропущено"
+        finished: "Тест завершён!"
