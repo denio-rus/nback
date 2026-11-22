@@ -1,0 +1,8 @@
+en:
+  games:
+    <%= file_name %>:
+      title: "<%= human_name %>"
+      description: "TODO: one sentence about what the game measures."
+      ui:
+        title: "<%= human_name %>"
+        start: "Start"

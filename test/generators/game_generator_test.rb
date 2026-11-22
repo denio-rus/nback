@@ -15,6 +15,17 @@ class GameGeneratorTest < Rails::Generators::TestCase
   # Thor prints errors and swallows them unless debug is on; raise them in tests.
   def run_strict(args) = run_generator(args, debug: true)
 
+  test "creates the English locale file with title, description and ui" do
+    run_generator %w[demo_game --category=perception]
+
+    assert_file "config/locales/games/demo_game.en.yml" do |content|
+      data = YAML.safe_load(content)
+      assert_equal "Demo game", data.dig("en", "games", "demo_game", "title")
+      assert data.dig("en", "games", "demo_game", "description").present?
+      assert data.dig("en", "games", "demo_game", "ui").is_a?(Hash)
+    end
+  end
+
   test "creates the four game files" do
     run_generator %w[demo_game --category=perception]
 

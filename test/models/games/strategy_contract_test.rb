@@ -40,6 +40,16 @@ class Games::StrategyContractTest < ActiveSupport::TestCase
       assert_includes UNITS, strategy.secondary_unit if strategy.secondary_unit
     end
 
+    test "#{system_name} has title, description and ui texts in every language" do
+      I18n.available_locales.each do |locale|
+        %w[title description].each do |key|
+          assert I18n.t("games.#{system_name}.#{key}", locale: locale, default: "").present?, "#{locale}: #{key}"
+        end
+        ui = I18n.t("games.#{system_name}.ui", locale: locale, default: nil)
+        assert ui.is_a?(Hash) && ui.any?, "#{locale}: ui texts"
+      end
+    end
+
     test "#{system_name} drops unknown keys and rejects garbage" do
       strategy = Games::Registry.strategy_for(system_name)
       setup = JSON.parse(strategy.setup_game.to_json)
