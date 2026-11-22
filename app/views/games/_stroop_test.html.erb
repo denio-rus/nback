@@ -1,13 +1,13 @@
 <div data-controller="games--stroop-test" 
-     data-games--stroop-test-game-id-value="<%= @game.id %>"
-     data-games--stroop-test-game-session-id-value="<%= @game_session.id %>"
+     data-games--stroop-test-submit-url-value="<%= submit_result_game_game_session_path(@game, @game_session) %>"
+     data-games--stroop-test-messages-value="<%= t("games.stroop_test.ui").to_json %>"
      data-games--stroop-test-sequence-value="<%= @game_session.setup_game["sequence"].to_json %>" 
      data-games--stroop-test-stimulus-duration-value="<%= @game_session.setup_game["stimulus_duration"].to_json %>"> 
 
-  <h1 class="text-3xl font-bold mb-6 text-center">Stroop Test</h1>
+  <h1 class="text-3xl font-bold mb-6 text-center"><%= t("games.stroop_test.ui.title") %></h1>
 
   <p data-games--stroop-test-target="status" class="text-xl mb-8">
-    Нажмите кнопку "Начать"
+    <%= t("games.stroop_test.ui.press_start") %>
   </p>
 
   <!-- current stimulus -->
@@ -23,7 +23,7 @@
     <button data-action="click->games--stroop-test#start"
             data-games--stroop-test-target="startBtn"
             class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-lg font-semibold">
-      Начать
+      <%= t("games.stroop_test.ui.start") %>
     </button>
     <div class="grid grid-cols-2 gap-6 hidden" data-games--stroop-test-target="buttonsContainer">
       <% %w(green red blue yellow).each do |color| %>
@@ -32,7 +32,7 @@
           data-games--stroop-test-target="colorBtn"
           data-color="<%= color %>"
           class="px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-semibold">
-          <%= color %>
+          <%= t("games.stroop_test.ui.colors.#{color}") %>
         </button>
       <% end %>
     </div>
@@ -40,7 +40,7 @@
 
   <!-- results -->
   <div class="mt-8 text-center text-sm text-zinc-400">
-    Правильно: <span data-games--stroop-test-target="correct">0</span> / 
-    Ошибки: <span data-games--stroop-test-target="errors">0</span>
+    <%= t("games.stroop_test.ui.correct") %>: <span data-games--stroop-test-target="correct">0</span> / 
+    <%= t("games.stroop_test.ui.errors") %>: <span data-games--stroop-test-target="errors">0</span>
   </div>
 </div>

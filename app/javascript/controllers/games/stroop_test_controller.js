@@ -1,17 +1,22 @@
 import { Controller } from "@hotwired/stimulus"
+import { t, createTimers, submitResult } from "controllers/games/base"
 
 export default class extends Controller {
   static targets = ["stimulus", "status", "buttonsContainer", "colorBtn", "startBtn", "correct", "errors"]
   static values = {
-    gameId: Number,
-    gameSessionId: Number,
+    submitUrl: String,
+    messages: Object,
     sequence: Array,
     stimulusDuration: Number
   }
 
   connect() {
+    this.timers = createTimers()
     this.resetGame()
-    console.log(this.stimulusDurationValue)
+  }
+
+  disconnect() {
+    this.timers.clearAll()
   }
 
   resetGame() {
@@ -34,9 +39,9 @@ export default class extends Controller {
     this.buttonsContainerTarget.classList.remove("hidden")
     this.buttonsContainerTarget.disabled = false
 
-    this.statusTarget.textContent = "Игра началась..."
+    this.statusTarget.textContent = this.message("started")
 
-    setTimeout(() => this.showNextStimulus(), 1000)
+    this.timers.set(() => this.showNextStimulus(), 1000)
   }
 
   showNextStimulus() {
@@ -60,7 +65,7 @@ export default class extends Controller {
 
     this.enableButtons()
   
-    setTimeout(() => {
+    this.timers.set(() => {
       this.checkIfMissed();
       this.stimulusTarget.textContent = "?"
       this.stimulusTarget.classList.remove("scale-110", "ring-4", "ring-violet-400")
@@ -103,7 +108,7 @@ export default class extends Controller {
   
   finish() {
     this.isGameActive = false
-    this.statusTarget.textContent = `Игра окончена! Правильно: ${this.correctCount} | Ошибки: ${this.errorCount}`
+    this.statusTarget.textContent = this.message("finished", { correct: this.correctCount, errors: this.errorCount })
     this.saveResults()
   }
 
@@ -118,7 +123,7 @@ export default class extends Controller {
   flash(colorClass) {
     this.stimulusTarget.classList.add(colorClass)
 
-    setTimeout(() => {
+    this.timers.set(() => {
       this.stimulusTarget.classList.remove(colorClass)
     }, 300)
   }
@@ -133,23 +138,16 @@ export default class extends Controller {
     return map[colorName?.toLowerCase()] || "#ffffff"
   }
 
+  // The server checks the totals against the stored sequence.
   async saveResults() {
-    const payload = {
-      game_id: this.gameIdValue,
-      result: {
-        correct: this.correctCount,
-        errors: this.errorCount,
-        total_trials: this.sequenceValue.length        
-      }
-    }
-
-    await fetch(`/games/${this.gameIdValue}/game_sessions/${this.gameSessionIdValue}/submit_result`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
-      },
-      body: JSON.stringify(payload)
+    await submitResult(this.submitUrlValue, {
+      correct: this.correctCount,
+      errors: this.errorCount,
+      total_trials: this.sequenceValue.length
     })
+  }
+
+  message(key, vars) {
+    return t(this.messagesValue, key, vars)
   }
 }

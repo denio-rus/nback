@@ -1,0 +1,18 @@
+en:
+  games:
+    stroop_test:
+      title: "Stroop test"
+      description: "Press the button that matches the color of the word, not what the word says."
+      ui:
+        title: "Stroop test"
+        press_start: "Press \"Start\""
+        start: "Start"
+        started: "The game has started..."
+        correct: "Correct"
+        errors: "Errors"
+        finished: "Game over! Correct: %{correct} | Errors: %{errors}"
+        colors:
+          red: "Red"
+          green: "Green"
+          blue: "Blue"
+          yellow: "Yellow"

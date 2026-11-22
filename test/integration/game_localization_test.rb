@@ -4,7 +4,7 @@ require "test_helper"
 # values to Stimulus (submit url and messages) and the game code has no texts
 # of its own. Games move out of PENDING as their Task 2.6 sub-task is done.
 class GameLocalizationTest < ActionDispatch::IntegrationTest
-  PENDING = %w[stroop_test adaptive_reaction_test].freeze
+  PENDING = %w[adaptive_reaction_test].freeze
 
   def localized_games = Games::Registry.system_names - PENDING
 
