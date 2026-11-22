@@ -1,24 +1,31 @@
-# README
+# mind_at_play
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Простой сайт самонаблюдения на Ruby on Rails: короткие когнитивные тесты, необязательная отметка состояния перед ними и описательные графики «я против меня». Без оценок, норм и сравнения с другими. Результаты не медицинские и не научные.
 
-Things you may want to cover:
+Дизайн: `docs/superpowers/specs/2026-11-22-self-observation-mvp-design.md`. План разработки: `docs/superpowers/plans/2026-11-22-mind-at-play-mvp.md`.
 
-* Ruby version
+## Требования
 
-* System dependencies
+* Ruby 3.4.4 (`.ruby-version`), Rails 8.1
+* PostgreSQL во всех окружениях, включая production
 
-* Configuration
+## Настройка окружения
 
-* Database creation
+Секреты и параметры подключения к базе лежат в файле `.env`. Он не попадает в git (`/.env*` в `.gitignore`). В git лежит только шаблон `.env.example`.
 
-* Database initialization
+1. Скопируйте шаблон: `cp .env.example .env`.
+2. Заполните значения: `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`.
+3. Для `EMAIL_PEPPER` сгенерируйте случайную строку: `bin/rails secret`.
+4. В production `RAILS_MASTER_KEY` и остальные переменные задаются окружением сервера.
 
-* How to run the test suite
+`EMAIL_PEPPER` нужен для хэширования почты. Если его потерять или сменить, сброс пароля по почте перестанет работать. Храните его отдельно от резервных копий базы.
 
-* Services (job queues, cache servers, search engines, etc.)
+## База данных и тесты
 
-* Deployment instructions
+```
+bin/rails db:create db:schema:load
+bin/rails test
+bin/rubocop
+```
 
-* ...
+Имена баз: `mind_at_play_dev`, `mind_at_play_test`. В production четыре базы: `mind_at_play_production`, `_cache`, `_queue`, `_cable`.
