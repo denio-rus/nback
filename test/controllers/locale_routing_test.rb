@@ -65,13 +65,34 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
     get "/ru/games"
 
     assert_response :success
-    assert_select "a[href=?]", "/ru/games"
-    assert_select "a[href=?]", "/en/games", count: 0
+    assert_select "nav a[href=?]", "/ru/games", minimum: 1
+    assert_select "nav a[href^=?]", "/en/", count: 1 # only the language switcher points to English
   end
 
   test "health check works without a prefix" do
     get "/up"
 
     assert_response :success
+  end
+
+  test "html lang attribute follows the language" do
+    get "/ru/games"
+    assert_select "html[lang=?]", "ru"
+
+    get "/en/games"
+    assert_select "html[lang=?]", "en"
+  end
+
+  test "language switcher links to the same page in every language" do
+    get "/ru/games"
+
+    assert_select "nav a[href=?]", "/en/games", text: "English"
+    assert_select "nav a[href=?]", "/ru/games", text: "Русский"
+  end
+
+  test "language switcher keeps the current page" do
+    get "/ru/session/new"
+
+    assert_select "nav a[href=?]", "/en/session/new", text: "English"
   end
 end

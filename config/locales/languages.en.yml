@@ -1,0 +1,6 @@
+# Names of the languages are written in the language itself, so they are
+# identical in every locale file.
+en:
+  languages:
+    en: "English"
+    ru: "Русский"
