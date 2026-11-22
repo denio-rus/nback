@@ -11,37 +11,42 @@ class Games::ReactionTimeStrategy < Games::BaseStrategy
     { intervals: Array.new(TRIALS) { rand(1000...4000) } }
   end
 
-  def permitted_result_keys
-    [ :false_starts, :mean_rt, :min_rt, :max_rt, { reactions: [] } ]
-  end
+  # Only the trials are read from the browser; every counter is recomputed.
+  def permitted_result_keys = []
 
   def sample_payload(setup)
-    { "reactions" => Array.new(setup["intervals"].size) { |i| 250 + i } }
+    { "trials" => Array.new(setup["intervals"].size) { |i| { "rt_ms" => 250 + i, "correct" => true, "phase" => nil } } }
   end
 
-  # reactions: one entry per trial, a time in ms or nil for a missed trial.
+  # trials: one entry per interval, rt_ms is a time in ms or nil for a missed trial.
   def validate_result(setup, payload)
-    reactions = payload["reactions"]
-    return false unless reactions.is_a?(Array) && reactions.size == setup["intervals"].size
+    list = payload["trials"]
+    return false unless list.is_a?(Array) && list.size == setup["intervals"].size
 
-    reactions.all? { |value| value.nil? || (value.is_a?(Numeric) && value.between?(0, MAX_RT_MS)) }
+    list.all? { |trial| trial.is_a?(Hash) && trial.key?("rt_ms") && valid_rt?(trial["rt_ms"]) }
   end
 
-  # Counters are recomputed here, the client values are not trusted.
+  # A trial is correct exactly when the player reacted. The client flag and
+  # phase are overwritten, the client only supplies the times.
   def score(_setup, payload)
-    answered = payload["reactions"].compact
-    {
-      false_starts: payload["reactions"].size - answered.size,
-      mean_rt: answered.empty? ? 0 : (answered.sum.to_f / answered.size).round,
-      min_rt: answered.min,
-      max_rt: answered.max
-    }
+    list = payload["trials"].map do |trial|
+      { "rt_ms" => trial["rt_ms"], "correct" => !trial["rt_ms"].nil?, "phase" => nil }
+    end
+    { trials: list, misses: list.count { |trial| !trial["correct"] } }
   end
 
-  def primary_metric(result) = Games::Stats.median(Array(result["reactions"]))
+  def primary_metric(result)
+    Games::Stats.median(trials(result).select { |trial| trial["correct"] == true }.map { |trial| trial["rt_ms"] })
+  end
 
   def secondary_metric(result)
-    reactions = result["reactions"]
-    reactions.count(&:nil?).to_f if reactions.is_a?(Array)
+    list = trials(result)
+    list.count { |trial| trial["correct"] == false }.to_f if list.any?
+  end
+
+  private
+
+  def valid_rt?(value)
+    value.nil? || (value.is_a?(Numeric) && value.between?(0, MAX_RT_MS))
   end
 end

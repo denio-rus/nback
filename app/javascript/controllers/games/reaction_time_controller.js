@@ -122,9 +122,11 @@ export default class extends Controller {
     this.saveResults()
   }
 
-  // The server recomputes every counter, so only the raw reactions are sent.
+  // One trial per interval: the time in ms, or null for a missed trial. The
+  // server recomputes "correct" and the counters, only the times are used.
   async saveResults() {
-    await submitResult(this.submitUrlValue, { reactions: this.results })
+    const trials = this.results.map((rt) => ({ rt_ms: rt, correct: rt !== null, phase: null }))
+    await submitResult(this.submitUrlValue, { trials })
   }
 
   connectKeyboard() {
