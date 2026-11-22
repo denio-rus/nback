@@ -14,7 +14,7 @@ development:
   host: localhost
   port: 5432
   encoding: unicode
-  database: "nback_dev"
+  database: "mind_at_play_dev"
   username: "postgres"
   password: "denio24!"
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -28,7 +28,7 @@ test:
   host: localhost
   port: 5432
   encoding: unicode
-  database: "nback_test"
+  database: "mind_at_play_test"
   username: "postgres"
   password: "denio24!"
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
