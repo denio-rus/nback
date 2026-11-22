@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
 
     resources :games, only: [ :index, :show ] do
-      resources :game_sessions, only: [ :create ] do
+      resources :game_sessions, only: [ :new, :create ] do
         member do
           get "play"
           post "submit_result"

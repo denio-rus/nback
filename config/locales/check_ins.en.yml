@@ -1,0 +1,29 @@
+en:
+  game_sessions:
+    new:
+      title: "Before you start"
+  check_ins:
+    form:
+      title: "How are things right now?"
+      why: "Everything here is optional. A note makes your own charts more meaningful, and you can skip it with one button."
+      sleep_hours: "Hours of sleep last night"
+      day_phase: "Time of day"
+      flags: "Anything of these"
+      start: "Start with a note"
+      skip: "Skip"
+      errors:
+        sleep_hours: "Hours of sleep must be a number from 0 to 24."
+        day_phase: "Choose one of the listed times of day."
+        flags: "The marks could not be saved. Please try again."
+        user: "The note could not be saved. Please try again."
+    day_phases:
+      morning: "Morning"
+      day: "Day"
+      evening: "Evening"
+      night: "Night"
+    flags:
+      alcohol: "Alcohol"
+      meds: "Medication"
+      illness: "Illness"
+      hungry: "Hungry"
+      rested: "Feeling rested"

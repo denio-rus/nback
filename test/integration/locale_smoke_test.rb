@@ -20,7 +20,11 @@ class LocaleSmokeTest < ActionDispatch::IntegrationTest
   end
 
   def signed_in_paths(locale)
-    [ user_path(users(:one), locale: locale), edit_user_path(users(:one), locale: locale) ]
+    [
+      user_path(users(:one), locale: locale),
+      edit_user_path(users(:one), locale: locale),
+      new_game_game_session_path(@game, locale: locale)
+    ]
   end
 
   I18n.available_locales.each do |locale|

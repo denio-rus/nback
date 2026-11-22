@@ -1,16 +1,27 @@
 class GameSessionsController < ApplicationController
   allow_unauthenticated_access
   before_action :resume_session
-  before_action :set_active_game, only: :create
+  before_action :set_active_game, only: %i[new create]
   before_action :set_game_session, only: %i[play submit_result]
 
+  # The optional check-in form. Anonymous visitors have nobody to attach a
+  # check-in to, so they go back to the game page, where Play starts at once.
+  def new
+    return redirect_to game_path(@game) unless Current.user
+
+    @check_in = Current.user.check_ins.new
+  end
+
   def create
+    @check_in = build_check_in
     @game_session = @game.game_sessions.new(
       setup_game: @game.game_strategy.setup_game,
       user: Current.user
     )
 
-    if @game_session.save
+    if @check_in&.invalid?
+      render :new, status: :unprocessable_content
+    elsif save_session_with(@check_in)
       redirect_to play_game_game_session_path(@game, @game_session)
     else
       render json: @game_session.errors, status: :unprocessable_entity
@@ -41,6 +52,39 @@ class GameSessionsController < ApplicationController
   end
 
   private
+
+  # No check-in for anonymous visitors, for "skip" and for a form left empty.
+  def build_check_in
+    return unless Current.user
+    return if params[:skip].present?
+
+    attributes = check_in_params
+    return if check_in_blank?(attributes)
+
+    Current.user.check_ins.new(attributes)
+  end
+
+  def check_in_params
+    params.fetch(:check_in, {}).permit(:sleep_hours, :day_phase, flags: CheckIn::FLAGS)
+  end
+
+  # "0" and "false" are what an untouched checkbox sends, they are not an answer.
+  # Any other value stays, so that the model can reject it.
+  def check_in_blank?(attributes)
+    attributes[:sleep_hours].blank? &&
+      attributes[:day_phase].blank? &&
+      attributes.fetch(:flags, {}).values.all? { |value| value.blank? || CheckIn::FALSE_VALUES.include?(value) }
+  end
+
+  # The check-in and the session are saved together or not at all.
+  def save_session_with(check_in)
+    GameSession.transaction do
+      check_in&.save!
+      @game_session.check_in = check_in
+      @game_session.save || raise(ActiveRecord::Rollback)
+    end
+    @game_session.persisted?
+  end
 
   def set_active_game
     @game = Game.where(active: true).find(params[:game_id])

@@ -1,0 +1,9 @@
+<% content_for :title, t(".title") %>
+
+<div class="max-w-md mx-auto w-full">
+  <h1 class="text-2xl font-bold"><%= @game.title %></h1>
+  <h2 class="mt-4 text-lg font-semibold"><%= t("check_ins.form.title") %></h2>
+  <p class="mt-2 text-ink-muted"><%= t("check_ins.form.why") %></p>
+
+  <%= render "game_sessions/check_in_form", game: @game, check_in: @check_in %>
+</div>

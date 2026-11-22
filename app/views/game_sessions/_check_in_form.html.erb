@@ -1,0 +1,49 @@
+<%= form_with model: check_in, scope: :check_in, url: game_game_sessions_path(game), method: :post, class: "mt-6 space-y-6" do |form| %>
+  <% if check_in.errors.any? %>
+    <div id="error_explanation" class="bg-surface-raised border border-danger text-danger px-3 py-2 font-medium rounded-md">
+      <ul class="list-disc ml-6">
+        <% check_in.errors.each do |error| %>
+          <li><%= t("check_ins.form.errors.#{error.attribute}") %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :sleep_hours, t("check_ins.form.sleep_hours"), class: "block font-medium" %>
+    <%= form.number_field :sleep_hours, step: 0.5, min: 0, max: 24, inputmode: "decimal",
+                          class: "block shadow-sm rounded-md border border-line bg-surface-raised px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <fieldset>
+    <legend class="font-medium"><%= t("check_ins.form.day_phase") %></legend>
+    <div class="mt-2 flex flex-wrap gap-4">
+      <% CheckIn::DAY_PHASES.each do |phase| %>
+        <label class="flex items-center gap-2">
+          <%= form.radio_button :day_phase, phase, checked: check_in.day_phase == phase %>
+          <%= t("check_ins.day_phases.#{phase}") %>
+        </label>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend class="font-medium"><%= t("check_ins.form.flags") %></legend>
+    <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <% CheckIn::FLAGS.each do |flag| %>
+        <label class="flex items-center gap-2">
+          <%= hidden_field_tag "check_in[flags][#{flag}]", "0", id: nil %>
+          <%= check_box_tag "check_in[flags][#{flag}]", "1", check_in.flag?(flag), id: "check_in_flags_#{flag}" %>
+          <%= t("check_ins.flags.#{flag}") %>
+        </label>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <div class="flex flex-col sm:flex-row gap-3">
+    <%= form.button t("check_ins.form.start"), type: :submit,
+                    class: "rounded-md px-4 py-2.5 bg-accent hover:opacity-90 text-accent-ink font-medium cursor-pointer" %>
+    <%= form.button t("check_ins.form.skip"), type: :submit, name: :skip, value: "1", formnovalidate: true,
+                    class: "rounded-md px-4 py-2.5 bg-surface-raised border border-line hover:bg-surface font-medium cursor-pointer" %>
+  </div>
+<% end %>
