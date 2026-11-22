@@ -87,7 +87,28 @@ class BaseStrategyTest < ActiveSupport::TestCase
   test "handle_result merges score into permitted payload with string keys" do
     result = @strategy.handle_result(@setup, { "score" => 2, "evil" => 1 })
 
-    assert_equal({ "score" => 2, "doubled" => 4 }, result)
+    assert_equal({ "score" => 2, "doubled" => 4, "format" => 1 }, result)
+  end
+
+  test "trials returns the array of hashes from the result" do
+    assert_equal [ trial ], @strategy.trials({ "trials" => [ trial ] })
+  end
+
+  test "trials returns empty array when missing" do
+    [ {}, nil, "text", { "trials" => nil }, { "trials" => 10 }, { "trials" => "x" } ].each do |result|
+      assert_equal [], @strategy.trials(result), result.inspect
+    end
+  end
+
+  test "trials skips entries that are not hashes" do
+    assert_equal [ trial ], @strategy.trials({ "trials" => [ trial, 5, nil, "x" ] })
+  end
+
+  test "handle_result marks the result with the trials format" do
+    result = @strategy.handle_result(@setup, { "score" => 1, "format" => 99 })
+
+    assert_equal Games::BaseStrategy::FORMAT, result["format"]
+    assert_equal 1, Games::BaseStrategy::FORMAT
   end
 
   test "system_name is derived from the class name" do

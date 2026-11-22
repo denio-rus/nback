@@ -45,6 +45,6 @@ class Games::StroopTestStrategyTest < ActiveSupport::TestCase
   test "handle_result drops unknown keys" do
     result = @strategy.handle_result(@setup, @payload.merge("evil" => 1))
 
-    assert_equal @payload, result
+    assert_equal @payload.merge("format" => Games::BaseStrategy::FORMAT), result
   end
 end

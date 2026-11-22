@@ -5,6 +5,8 @@ class Games::BaseStrategy
 
   MAX_TRIALS = 500
   BASE_TRIAL_KEYS = %i[rt_ms correct phase].freeze
+  # Version of the stored result layout (result["trials"] with BASE_TRIAL_KEYS).
+  FORMAT = 1
 
   # --- Required metadata and hooks (subclasses must implement) ---
 
@@ -43,6 +45,13 @@ class Games::BaseStrategy
   # Server-side recount of deterministic metrics; merged into the result.
   def score(_setup, _payload) = {}
 
+  # The only reader of result["trials"], so the layout can change in one place.
+  # Returns the trials as an array of hashes, or [] when there are none.
+  def trials(result)
+    list = result.is_a?(Hash) ? result["trials"] : nil
+    list.is_a?(Array) ? list.grep(Hash) : []
+  end
+
   def primary_metric(_result) = nil
 
   def secondary_metric(_result) = nil
@@ -71,7 +80,7 @@ class Games::BaseStrategy
     end
     raise InvalidResult, "invalid result" unless validate_result(setup, payload)
 
-    payload.merge(score(setup, payload).deep_stringify_keys)
+    payload.merge(score(setup, payload).deep_stringify_keys).merge("format" => FORMAT)
   end
 
   private

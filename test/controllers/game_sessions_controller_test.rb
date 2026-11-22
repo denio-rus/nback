@@ -27,7 +27,7 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     submit(session, valid_result(session).merge(evil: 1))
 
     assert_response :success
-    assert_equal valid_result(session).stringify_keys, session.reload.result
+    assert_equal valid_result(session).stringify_keys.merge("format" => 1), session.reload.result
     assert_not_nil session.played_at
   end
 
@@ -61,7 +61,7 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     submit(session, { correct: 0, errors: 20, total_trials: 20 })
 
     assert_response :conflict
-    assert_equal first.stringify_keys, session.reload.result
+    assert_equal first.stringify_keys.merge("format" => 1), session.reload.result
   end
 
   test "a session of a signed in user belongs to that user" do
