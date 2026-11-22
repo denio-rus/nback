@@ -1,13 +1,14 @@
 <div data-controller="games--nback" 
-     data-games--nback-game-id-value="<%= @game.id %>"
-     data-games--nback-game-session-id-value="<%= @game_session.id %>"
-     data-games--nback-n-value="2"
+     data-games--nback-submit-url-value="<%= submit_result_game_game_session_path(@game, @game_session) %>"
+     data-games--nback-messages-value="<%= t("games.nback.ui").to_json %>"
+     data-games--nback-n-value="<%= @game_session.setup_game["n"] %>"
+     data-games--nback-stimulus-duration-value="<%= @game_session.setup_game["stimulus_duration"] %>"
      data-games--nback-sequence-value="<%= @game_session.setup_game["sequence"].to_json %>">
 
-  <h1 class="text-3xl font-bold mb-6 text-center">N-Back (N=2)</h1>
+  <h1 class="text-3xl font-bold mb-6 text-center"><%= t("games.nback.ui.title", n: @game_session.setup_game["n"]) %></h1>
 
   <p data-games--nback-target="status" class="text-xl mb-8">
-    Нажмите кнопку "Начать"
+    <%= t("games.nback.ui.press_start") %>
   </p>
 
   <!-- current stimulus -->
@@ -23,19 +24,19 @@
     <button data-action="click->games--nback#start"
             data-games--nback-target="startBtn"
             class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-lg font-semibold">
-      Начать
+      <%= t("games.nback.ui.start") %>
     </button>
 
     <button data-action="click->games--nback#match"
             data-games--nback-target="matchBtn"
             class="px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-semibold">
-      Match
+      <%= t("games.nback.ui.match") %>
     </button>
   </div>
 
   <!-- results -->
   <div class="mt-8 text-center text-sm text-zinc-400">
-    Правильно: <span data-games--nback-target="correct">0</span> / 
-    Ошибки: <span data-games--nback-target="errors">0</span>
+    <%= t("games.nback.ui.correct") %>: <span data-games--nback-target="correct">0</span> / 
+    <%= t("games.nback.ui.errors") %>: <span data-games--nback-target="errors">0</span>
   </div>
 </div>

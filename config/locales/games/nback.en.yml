@@ -1,0 +1,14 @@
+en:
+  games:
+    nback:
+      title: "N-Back"
+      description: "Press Match when the digit is the same as the one shown two steps earlier."
+      ui:
+        title: "N-Back (N=%{n})"
+        press_start: "Press \"Start\""
+        start: "Start"
+        match: "Match"
+        started: "The game has started..."
+        correct: "Correct"
+        errors: "Errors"
+        finished: "Game over! Correct: %{correct} | Errors: %{errors}"

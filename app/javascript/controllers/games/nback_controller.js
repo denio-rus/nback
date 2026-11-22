@@ -1,17 +1,23 @@
 import { Controller } from "@hotwired/stimulus"
+import { t, createTimers, submitResult } from "controllers/games/base"
 
 export default class extends Controller {
   static targets = ["stimulus", "status", "startBtn", "matchBtn", "correct", "errors"]
   static values = {
-    gameId: Number,
-    gameSessionId: Number,
-    n: Number,           // уровень сложности (N=2, N=3 и т.д.)
-    sequence: Array      // последовательность стимулов
+    submitUrl: String,
+    messages: Object,
+    n: Number,                // difficulty level (N=2, N=3, ...)
+    stimulusDuration: Number, // ms each stimulus stays on screen
+    sequence: Array           // sequence of stimuli
   }
 
   connect() {
-    console.log("✅ NBack controller connected")
+    this.timers = createTimers()
     this.resetGame()
+  }
+
+  disconnect() {
+    this.timers.clearAll()
   }
 
   resetGame() {
@@ -31,9 +37,9 @@ export default class extends Controller {
     this.startBtnTarget.disabled = true
     this.matchBtnTarget.disabled = false
 
-    this.statusTarget.textContent = "Игра началась..."
+    this.statusTarget.textContent = this.message("started")
 
-    setTimeout(() => this.showNextStimulus(), 1200)
+    this.timers.set(() => this.showNextStimulus(), 1200)
   }
 
   showNextStimulus() {
@@ -61,14 +67,14 @@ export default class extends Controller {
     void this.stimulusTarget.offsetWidth // force reflow
     this.stimulusTarget.classList.add("animate-pop")
   
-    setTimeout(() => {
+    this.timers.set(() => {
       this.checkIfMissed();
       this.stimulusTarget.textContent = "?"
       this.stimulusTarget.classList.remove("scale-110", "ring-4", "ring-violet-400")
       
       this.currentIndex++
       this.showNextStimulus()
-    }, 1500)
+    }, this.stimulusDurationValue)
   }
 
   checkIfMissed() {
@@ -104,7 +110,7 @@ export default class extends Controller {
   flash(colorClass) {
     this.stimulusTarget.classList.add(colorClass)
 
-    setTimeout(() => {
+    this.timers.set(() => {
       this.stimulusTarget.classList.remove(colorClass)
     }, 300)
   }
@@ -114,7 +120,7 @@ export default class extends Controller {
     this.startBtnTarget.disabled = false
     this.matchBtnTarget.disabled = true
     this.saveResults()
-    this.statusTarget.textContent = `Игра окончена! Правильно: ${this.correctCount} | Ошибки: ${this.errorCount}`
+    this.statusTarget.textContent = this.message("finished", { correct: this.correctCount, errors: this.errorCount })
   }
 
   updateStats() {
@@ -122,23 +128,17 @@ export default class extends Controller {
     this.errorsTarget.textContent = this.errorCount
   }
 
+  // The server recounts the answers from the stored sequence, so only the
+  // totals the current draft game collects are sent.
   async saveResults() {
-    const payload = {
-      game_id: this.gameIdValue,
-      result: {
-        correct: this.correctCount,
-        errors: this.errorCount,
-        total_trials: this.sequenceValue.length        
-      }
-    }
-
-    await fetch(`/games/${this.gameIdValue}/game_sessions/${this.gameSessionIdValue}/submit_result`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
-      },
-      body: JSON.stringify(payload)
+    await submitResult(this.submitUrlValue, {
+      correct: this.correctCount,
+      errors: this.errorCount,
+      total_trials: this.sequenceValue.length
     })
+  }
+
+  message(key, vars) {
+    return t(this.messagesValue, key, vars)
   }
 }

@@ -1,0 +1,14 @@
+ru:
+  games:
+    nback:
+      title: "N-Back"
+      description: "Нажмите «Совпадает», когда цифра та же, что была два шага назад."
+      ui:
+        title: "N-Back (N=%{n})"
+        press_start: "Нажмите кнопку \"Начать\""
+        start: "Начать"
+        match: "Совпадает"
+        started: "Игра началась..."
+        correct: "Правильно"
+        errors: "Ошибки"
+        finished: "Игра окончена! Правильно: %{correct} | Ошибки: %{errors}"
