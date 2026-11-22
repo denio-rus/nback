@@ -1,10 +1,10 @@
-<nav class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg fixed w-full z-50">
+<nav class="bg-accent text-accent-ink shadow-lg fixed w-full z-50">
   <div class="max-w-7xl mx-auto px-6">
     <div class="flex justify-between items-center h-16">
       
       <!-- Logo -->
       <%= link_to games_path, class: "flex items-center gap-3 group" do %>
-        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-indigo-600 font-bold text-2xl transition-transform group-hover:rotate-12">
+        <div class="w-14 h-14 bg-accent-ink rounded-2xl flex items-center justify-center text-accent font-bold text-2xl transition-transform group-hover:rotate-12">
           MAP
         </div>
         <span class="font-bold text-2xl tracking-tight">MindAtPlay</span>
@@ -13,23 +13,23 @@
       <div class="flex items-center gap-8">
         <%= render "layouts/language_switcher" %>
         <%= render "layouts/theme_switcher" %>
-        <%= link_to t("layout.nav.games"), games_path, class: "hover:text-white/80 transition font-medium" %>
+        <%= link_to t("layout.nav.games"), games_path, class: "hover:text-accent-ink/80 transition font-medium" %>
 
         <div class="flex items-center gap-4">
           <% if Current.user %>
             <div class="flex items-center gap-3">
               <span class="text-sm opacity-90"><%= Current.user.nickname || Current.user.email_address %></span>
               
-              <%= link_to t("layout.nav.profile"), user_path(Current.user), class: "hover:text-white/80 transition" %>
+              <%= link_to t("layout.nav.profile"), user_path(Current.user), class: "hover:text-accent-ink/80 transition" %>
               
               <%= button_to t("layout.nav.sign_out"), session_path, method: :delete,
-                           class: "px-5 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-sm font-medium transition backdrop-blur-sm" %>
+                           class: "px-5 py-2 bg-accent-ink/10 hover:bg-accent-ink/20 rounded-xl text-sm font-medium transition backdrop-blur-sm" %>
             </div>
           <% else %>
             <div class="flex items-center gap-3">
-              <%= link_to t("layout.nav.sign_in"), new_session_path, class: "hover:text-white/80 transition font-medium" %>
+              <%= link_to t("layout.nav.sign_in"), new_session_path, class: "hover:text-accent-ink/80 transition font-medium" %>
               <%= link_to t("layout.nav.sign_up"), new_registration_path, 
-                         class: "px-6 py-2.5 bg-white text-indigo-600 font-semibold rounded-2xl hover:bg-white/90 transition shadow-sm" %>
+                         class: "px-6 py-2.5 bg-accent-ink text-accent font-semibold rounded-2xl hover:bg-accent-ink/90 transition shadow-sm" %>
             </div>
           <% end %>
         </div>

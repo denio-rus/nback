@@ -2,7 +2,7 @@
 <div class="flex items-center gap-2 text-sm">
   <% I18n.available_locales.each do |locale| %>
     <%= link_to t("languages.#{locale}"), url_for(locale: locale),
-                class: "hover:text-white/80 transition #{'font-bold' if locale == I18n.locale}",
+                class: "hover:text-accent-ink/80 transition #{'font-bold' if locale == I18n.locale}",
                 aria: { current: ("true" if locale == I18n.locale) },
                 lang: locale %>
   <% end %>

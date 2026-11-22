@@ -1,32 +1,30 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
   <% @games.each do |game| %>
-    <div class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-3 border border-gray-100">
+    <div class="group bg-surface-raised rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-3 border border-line">
       
       <!-- SVG cover -->
-      <div class="h-64 bg-gradient-to-br from-slate-900 to-zinc-900 relative flex items-center justify-center p-10">
+      <div class="h-64 bg-surface relative flex items-center justify-center p-10">
         
         <%= image_tag "games/nback.svg", 
                       class: "w-full h-full object-contain drop-shadow-2xl transition-all duration-500 
                              group-hover:scale-110 group-hover:rotate-3",
                       alt: game.title %>
         
-        <!-- Gradient overlay -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
       </div>
 
       <!-- Card body -->
       <div class="p-7">
-        <h3 class="text-2xl font-semibold text-gray-900 mb-2 group-hover:text-violet-600 transition-colors">
+        <h3 class="text-2xl font-semibold text-ink mb-2 group-hover:text-accent transition-colors">
           <%= game.title %>
         </h3>
         
-        <p class="text-gray-600 text-[15px] line-clamp-3 mb-8 min-h-[3.75rem]">
+        <p class="text-ink-muted text-[15px] line-clamp-3 mb-8 min-h-[3.75rem]">
           <%= game.description %>
         </p>
 
         <div class="flex items-center gap-3">
           <%= link_to game_path(game), 
-                     class: "flex-1 py-4 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-center rounded-2xl transition-all active:scale-95 shadow-sm" do %>
+                     class: "flex-1 py-4 bg-accent hover:opacity-90 text-accent-ink font-semibold text-center rounded-2xl transition-all active:scale-95 shadow-sm" do %>
             <%= t(".start") %>
           <% end %>
         </div>
