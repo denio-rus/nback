@@ -39,8 +39,10 @@ class NbackGameTest < ApplicationSystemTestCase
     assert_text "Игра окончена!", wait: 45
     session = GameSession.order(:id).last
     assert_not_nil session.reload.played_at
-    assert_equal 20, session.result["total_trials"]
-    assert_equal 20, session.result["correct"] + session.result["errors"]
+    trials = session.result["trials"]
+    assert_equal 20, trials.size
+    assert(trials.all? { |trial| [ true, false ].include?(trial["correct"]) })
+    assert_equal [ false ], trials.map { |trial| trial["pressed"] }.uniq
     assert_not_nil session.metric
   end
 end

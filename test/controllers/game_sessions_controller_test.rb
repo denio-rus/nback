@@ -12,9 +12,16 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     GameSession.order(:id).last
   end
 
+  # One trial per stimulus. Every answer is right except the first one: there is
+  # nothing to match yet, so pressing Match there is exactly one error.
   def valid_result(session)
-    total = session.setup_game["sequence"].size
-    { correct: total - 1, errors: 1, total_trials: total }
+    sequence = session.setup_game["sequence"]
+    n = session.setup_game["n"]
+    trials = sequence.each_index.map do |index|
+      match = index >= n && sequence[index] == sequence[index - n]
+      { rt_ms: nil, correct: true, phase: nil, pressed: index.zero? ? true : match }
+    end
+    { trials: trials }
   end
 
   def submit(session, result, game: @game)
@@ -27,7 +34,11 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     submit(session, valid_result(session).merge(evil: 1))
 
     assert_response :success
-    assert_equal valid_result(session).stringify_keys.merge("format" => 1), session.reload.result
+    stored = session.reload.result
+    assert_equal %w[format trials], stored.keys.sort
+    assert_equal 1, stored["format"]
+    assert_equal [ false ], stored["trials"].first(1).map { |trial| trial["correct"] }
+    assert_not stored.key?("evil")
     assert_not_nil session.played_at
   end
 
@@ -44,7 +55,7 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
   test "submit_result rejects an impossible result with 422 and stores nothing" do
     session = start_session
 
-    submit(session, { correct: 999, errors: 0, total_trials: 20 })
+    submit(session, { trials: [] })
 
     assert_response :unprocessable_entity
     assert_nil session.reload.result
@@ -58,10 +69,11 @@ class GameSessionsControllerTest < ActionDispatch::IntegrationTest
     submit(session, first)
     assert_response :success
 
-    submit(session, { correct: 0, errors: 20, total_trials: 20 })
+    submit(session, { trials: first[:trials].map { |trial| trial.merge(pressed: !trial[:pressed]) } })
 
     assert_response :conflict
-    assert_equal first.stringify_keys.merge("format" => 1), session.reload.result
+    kept = session.reload.result
+    assert_equal 19, kept["trials"].count { |trial| trial["correct"] }
   end
 
   test "a session of a signed in user belongs to that user" do

@@ -24,6 +24,7 @@ export default class extends Controller {
     this.currentIndex = 0
     this.correctCount = 0
     this.errorCount = 0
+    this.trials = []
     this.isGameActive = false
     this.hasAnswered = false
     this.expectedMatch = false
@@ -77,7 +78,14 @@ export default class extends Controller {
     }, this.stimulusDurationValue)
   }
 
+  // Called when the stimulus time is over: one trial per stimulus is recorded,
+  // also when the player did not press anything.
+  recordTrial() {
+    this.trials.push({ rt_ms: null, correct: this.hasAnswered === this.expectedMatch, phase: null, pressed: this.hasAnswered })
+  }
+
   checkIfMissed() {
+    this.recordTrial()
     if (this.hasAnswered) return;
 
     if (this.expectedMatch) {
@@ -128,14 +136,9 @@ export default class extends Controller {
     this.errorsTarget.textContent = this.errorCount
   }
 
-  // The server recounts the answers from the stored sequence, so only the
-  // totals the current draft game collects are sent.
+  // The server recounts "correct" from the stored sequence and the pressed flags.
   async saveResults() {
-    await submitResult(this.submitUrlValue, {
-      correct: this.correctCount,
-      errors: this.errorCount,
-      total_trials: this.sequenceValue.length
-    })
+    await submitResult(this.submitUrlValue, { trials: this.trials })
   }
 
   message(key, vars) {
