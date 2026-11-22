@@ -50,7 +50,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
-          POSTGRES_DB: nback_test
+          POSTGRES_DB: mind_at_play_test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -72,14 +72,17 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/nback_test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/mind_at_play_test
         run: bin/rails db:prepare
 
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/nback_test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/mind_at_play_test
         run: bin/rails test
+
+      - name: Run JavaScript tests
+        run: node --test test/javascript/
 
   system-test:
     runs-on: ubuntu-latest
@@ -90,7 +93,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
-          POSTGRES_DB: nback_test
+          POSTGRES_DB: mind_at_play_test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -112,13 +115,13 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/nback_test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/mind_at_play_test
         run: bin/rails db:prepare
 
       - name: Run system tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/nback_test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/mind_at_play_test
         run: bin/rails test:system
 
       - name: Upload screenshots on failure

@@ -26,6 +26,9 @@
 bin/rails db:create db:schema:load
 bin/rails test
 bin/rubocop
+node --test test/javascript/
 ```
+
+Последняя команда проверяет общий клиентский каркас игр `app/javascript/controllers/games/base.js`. Нужен Node.js 18 или новее, дополнительные пакеты не требуются.
 
 Имена баз: `mind_at_play_dev`, `mind_at_play_test`. В production четыре базы: `mind_at_play_production`, `_cache`, `_queue`, `_cable`.
