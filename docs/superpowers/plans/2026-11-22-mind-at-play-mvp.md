@@ -19,8 +19,12 @@
 ## Global Constraints
 
 - Ruby 3.4.4, Rails 8.1. Стиль кода как в репозитории, `bin/rubocop` проходит.
-- Тесты Minitest, фикстуры в `test/fixtures`, команда `bin/rails test`. PostgreSQL на 127.0.0.1:5432 запущен.
-- Ветка `add-psycophis-test`. Незакоммиченные файлы пользователя (`db/seeds.rb`, `docs/plan_cline.md`, adaptive-тест) не трогать и не коммитить без запроса. Коммитить только свои файлы (`git add <путь>`, не `git add -A`).
+- Разработка через TDD: сначала падающий тест, затем минимальный код, затем рефакторинг. Тесты Minitest, фикстуры в `test/fixtures`, команда `bin/rails test`.
+- Везде PostgreSQL (development, test, production). SQLite не используется. Сервер на 127.0.0.1:5432 запущен.
+- Секреты только в `.env` (в git не попадает, см. `/.env*` в `.gitignore`). В git лежит `.env.example` без значений. Код читает их через `ENV`.
+- Комментарии в коде на английском. Документация (README, `docs/`) на русском. Стиль Ruby и Rails по `bin/rubocop` и конвенциям Rails.
+- Ветка `add-psycophis-test`. Пользователь разрешил менять и коммитить свои несохранённые файлы (`db/seeds.rb`, `docs/plan_cline.md`, файлы adaptive-теста). Коммитить по путям (`git add <путь>`), не `git add -A`.
+- Выполнение: этапы запускаются по одному, начало каждого этапа согласуется с пользователем. Одновременно работает не больше одного субагента, параллельный запуск нескольких согласуется отдельно.
 - Никаких оценочных слов в интерфейсе («хуже», «лучше», «норма», «усталость»), порогов, норм, сравнения с другими, общего балла.
 - Строк на естественном языке нет в `.erb`, `.rb` (кроме `config/locales`) и JS. Всё через I18n.
 - Игры и шаблоны используют только токены цвета (`bg-surface`, `text-ink`, `bg-accent`, `bg-danger`, `text-stimulus-red`), не палитровые классы и не hex.
@@ -128,15 +132,17 @@ end
 - [ ] **Step 7:** `bin/rails db:create db:schema:load` и `RAILS_ENV=test bin/rails db:create db:schema:load`. Старые базы `nback_dev` и `nback_test` остаются в PostgreSQL, удаляет их владелец.
 - [ ] **Step 8:** `bin/rails test` проходит. Коммит: `git add config Dockerfile app/views/layouts app/views/pwa && git commit -m "Rename project to MindAtPlay"`.
 
-### Task 0.2 [CHEAP]: пароль БД из ENV (только после «да» владельца)
+### Task 0.2 [CHEAP]: секреты в `.env`, PostgreSQL во всех окружениях
 
-**Files:** `config/database.yml`, `README.md`
+**Files:** `Gemfile`, `Gemfile.lock`, `config/database.yml`, `.env.example`, `README.md`
 
-Пароль лежит в git с первого коммита. Замена в файле историю не чистит, пароль меняет владелец.
+Пароль к dev-базе лежит в git с первого коммита. Правка файла историю не чистит. Смену самого пароля делает владелец, это вне плана.
 
-- [ ] **Step 1:** В `development` (и `test`, если там есть пароль) заменить значение `password:` на `<%= ENV.fetch("DATABASE_PASSWORD", "") %>`.
-- [ ] **Step 2:** В `README.md` добавить строку: для разработки задать `DATABASE_PASSWORD`.
-- [ ] **Step 3:** `DATABASE_PASSWORD=<пароль> bin/rails test` проходит. Коммит: `git add config/database.yml README.md && git commit -m "Read database password from ENV"`.
+- [ ] **Step 1:** В `Gemfile` в группу `:development, :test` добавить `gem "dotenv-rails"` (в `Gemfile.lock` уже есть `dotenv` как зависимость kamal, `dotenv-rails` нет). `bundle install`.
+- [ ] **Step 2:** В `config/database.yml` значения `host`, `port`, `username`, `password` и имя базы читать через `ENV.fetch` (`DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USERNAME`, `DATABASE_PASSWORD`, имена баз `mind_at_play_dev`, `mind_at_play_test`). Для production заменить все четыре SQLite-базы (`primary`, `cache`, `queue`, `cable`) на PostgreSQL: адрес и данные через `DATABASE_URL`, отдельные базы `mind_at_play_production_cache`, `_queue`, `_cable` с теми же `migrations_paths`.
+- [ ] **Step 3:** Создать `.env.example` (имена переменных без значений: `DATABASE_*`, `EMAIL_PEPPER`, `RAILS_MASTER_KEY`) и локальный `.env` с реальными значениями. `.env` уже закрыт в `.gitignore` (`/.env*`), поэтому в `.gitignore` добавить исключение `!/.env.example`.
+- [ ] **Step 4:** В `README.md` раздел на русском: как заполнить `.env`, что потеря `EMAIL_PEPPER` ломает сброс пароля.
+- [ ] **Step 5:** `git check-ignore .env` выводит `.env`, `git status` не показывает `.env`. `bin/rails db:prepare` и `bin/rails test` проходят. Коммит: `git add Gemfile Gemfile.lock config/database.yml .env.example .gitignore README.md && git commit -m "Read secrets from .env and use PostgreSQL everywhere"`.
 
 
 ---
@@ -257,7 +263,7 @@ end
 
 - [ ] **Step 1:** Для каждой игры тест: `primary_metric` и `secondary_metric` на `sample_payload`, `validate_result` true на нём и false на мусоре (отрицательное число, строка вместо числа, `correct > total_trials`), `permit` отбрасывает лишний ключ. В `registry_test.rb` добавить тесты `sync! creates missing games`, `sync! is idempotent`, `sync! does not change active on existing game`.
 - [ ] **Step 2:** Тесты падают. Перевести стратегии.
-- [ ] **Step 3:** `bin/rails test` зелёный. Коммит: `git add app test && git commit -m "Move strategies to the new contract"` (без `adaptive_reaction_test_strategy.rb`, если он не отслеживается git и владелец не разрешил его добавлять; в этом случае оставить файл правкой в рабочем каталоге и сообщить владельцу).
+- [ ] **Step 3:** `bin/rails test` зелёный. Коммит: `git add app test && git commit -m "Move strategies to the new contract"` (файлы adaptive-теста тоже добавляются в коммит, владелец разрешил).
 
 
 ### Task 1.5 [EXPENSIVE]: защита `submit_result`
@@ -296,7 +302,7 @@ end
 
 **Files:** `db/seeds.rb`, `app/controllers/games_controller.rb`, `test/controllers/games_controller_test.rb`
 
-`db/seeds.rb` отслеживается git и содержит несохранённую правку владельца (запись adaptive_reaction_test). Эта правка заменяется вызовом реестра, поэтому перед правкой сообщить владельцу и получить «да».
+`db/seeds.rb` содержит несохранённую правку владельца (запись adaptive_reaction_test). Владелец разрешил менять файл, правка заменяется вызовом реестра, запись adaptive появляется через `Games::Registry.sync!`.
 
 - [ ] **Step 1:** Тест: `index lists only active games`. Тест падает.
 - [ ] **Step 2:** В `GamesController#index` заменить `Game.all` на `Game.where(active: true).order(:category, :system_name)`. `show` ищет через `Game.where(active: true).find`.
@@ -401,7 +407,7 @@ export async function submitResult(url, result)  // POST JSON с X-CSRF-Token; �
 - [ ] **2.6a** reaction_time
 - [ ] **2.6b** nback (заголовок `N-Back (N=2)` берёт `n` из `data-games--nback-n-value`, в строке `%{n}`)
 - [ ] **2.6c** stroop_test (названия цветов на кнопках тоже через `games.stroop_test.ui.colors.<red|green|blue|yellow>`, атрибут `data-color` остаётся английским ключом)
-- [ ] **2.6d** adaptive_reaction_test (файл не отслеживается git: сообщить владельцу и добавить в коммит только с его «да»)
+- [ ] **2.6d** adaptive_reaction_test (файлы ещё не в git, добавляются в коммит, владелец разрешил)
 
 ### Task 2.7 [CHEAP]: `Game#title`, `Game#description`, `Registry.sync!` берёт переводы
 
@@ -501,7 +507,7 @@ export async function submitResult(url, result)  // POST JSON с X-CSRF-Token; �
 
 **Files:** Create: `config/initializers/email_pepper.rb`, `db/migrate/<timestamp>_prepare_users_for_hashed_email.rb`. Modify: `README.md`
 
-- Инициализатор задаёт `Rails.configuration.x.email_pepper` из `Rails.application.credentials.email_pepper`, иначе из `ENV["EMAIL_PEPPER"]`. В production при пустом значении поднимается исключение при старте. В development и test допустим фиксированный запасной вариант `"dev-pepper"`.
+- Инициализатор задаёт `Rails.configuration.x.email_pepper` из `ENV["EMAIL_PEPPER"]` (значение лежит в `.env`, в `.env.example` только имя). В production при пустом значении поднимается исключение при старте. В development и test допустим фиксированный запасной вариант `"dev-pepper"`.
 - Миграция: добавить `email_digest` (string, сначала null), `gender` (string), `age_decade` (integer), `confirmed_at` (datetime). Заполнить `email_digest` из `email_address` (`OpenSSL::HMAC.hexdigest("SHA256", pepper, email.strip.downcase)`), `confirmed_at` существующим пользователям поставить `Time.current`. Затем `email_digest` делается `null: false` с уникальным индексом, `email_address` и его индекс удаляются. Старый уникальный индекс по `nickname` заменить на уникальный индекс по `lower(nickname)`. Метод `down` кидает `ActiveRecord::IrreversibleMigration`: почту из хэша не восстановить.
 - В `README.md` строка: потеря `pepper` делает сброс пароля невозможным, хранить его отдельно от резервных копий базы.
 - [ ] **Step 1:** Сделать копию dev-базы: `pg_dump mind_at_play_dev > /tmp/mind_at_play_dev_before_users.sql`.
@@ -826,12 +832,15 @@ Group = Struct.new(:points, :count, :median, :min, :max)   # median, min, max р
 
 **Покрытие спецификации.** Данные пользователя: 4.1–4.7. Отметка состояния: 5.1, 5.2. Прохождения и защита: 1.5, 8.4. Показатели и разбор: 6.1–6.6. Добавление игры: 1.1–1.8, 2.9. Категории: 1.2, 1.4, 7.2. Локализация: 2.1–2.10. Инфографика: 7.1, 7.2. Темы: 3.1–3.6. Статьи и админка: 9.1–9.4. Обратная связь: 8.1, 8.2. About: 8.3. Переименование: 0.1. Пароль в `database.yml`: 0.2.
 
-**Решения владельца до старта**
-- Task 0.2: согласие на правку `config/database.yml`. Смена самого пароля вне плана.
-- Task 1.7: `db/seeds.rb` содержит несохранённую правку владельца (adaptive-тест), её заменяет вызов реестра.
-- Файлы adaptive-теста не отслеживаются git. Добавлять ли их в коммиты (Tasks 1.4, 2.6d, 3.5, 6.5).
-- База production: PostgreSQL или SQLite (схема использует jsonb). Настройка production в этот план не входит.
-- SMTP в production не настроен, без него письма подтверждения не уйдут.
+**Решения владельца (приняты)**
+- Несохранённые файлы (`db/seeds.rb`, `docs/plan_cline.md`, файлы adaptive-теста) можно менять и коммитить.
+- PostgreSQL везде, секреты в `.env`, TDD, комментарии в коде на английском, документация на русском.
+- Этапы запускаются по одному, начало каждого согласуется с владельцем. Одновременно один субагент.
+
+**Остаётся открытым**
+- Смена пароля к dev-базе: пароль уже в истории git, правка файла его не убирает. Решает владелец.
+- Task 6.5: правила adaptive-теста (число попыток на часть, интервалы) проектируются вместе с владельцем.
+- SMTP в production не настроен, без него письма подтверждения не уйдут. Хостинг и отправку писем в план не включили.
 
 **Зависимости.** 1.1–1.4 нужны всем. 2.1 ломает существующие тесты (хелперы путей), поэтому идёт сразу после этапа 1. 4.1 и 4.2 коммитятся вместе. 6.6 требует 6.1 и хотя бы одну из 6.2–6.5. 7.x требует 5.x и 6.x. 8.4 требует 4.x.
 
