@@ -56,7 +56,7 @@ export default class extends Controller {
 
     this.currentColor = current[1]
     this.stimulusTarget.textContent = current[0]
-    this.stimulusTarget.style.color = this.getHexColor(this.currentColor)
+    this.paintStimulus(this.currentColor)
 
     // symbols animation
     this.stimulusTarget.classList.remove("animate-pop")
@@ -68,7 +68,7 @@ export default class extends Controller {
     this.timers.set(() => {
       this.checkIfMissed();
       this.stimulusTarget.textContent = "?"
-      this.stimulusTarget.classList.remove("scale-110", "ring-4", "ring-violet-400")
+      this.stimulusTarget.classList.remove("scale-110", "ring-4", "ring-accent")
       
       this.currentIndex++
       this.showNextStimulus()
@@ -84,10 +84,10 @@ export default class extends Controller {
 
     if (this.currentColor != selectedColor) {
       this.errorCount++;
-      this.flash("!bg-red-500");
+      this.flash("!bg-danger");
     } else {
       this.correctCount++;
-      this.flash("!bg-emerald-500");
+      this.flash("!bg-success");
     }
 
     this.updateStats()
@@ -98,7 +98,7 @@ export default class extends Controller {
     if (this.hasAnswered) return;
 
     this.errorCount++;
-    this.flash("!bg-red-500");
+    this.flash("!bg-danger");
   }
 
   updateStats() {
@@ -128,14 +128,17 @@ export default class extends Controller {
     }, 300)
   }
 
-  getHexColor(colorName) {
-    const map = {
-      red:    "#ef4444",
-      green:  "#22c55e",
-      blue:   "#3b82f6",
-      yellow: "#eab308",
+  // The word is drawn in the stimulus color; the hue is the same in every theme.
+  paintStimulus(colorName) {
+    const classes = {
+      red: "text-stimulus-red",
+      green: "text-stimulus-green",
+      blue: "text-stimulus-blue",
+      yellow: "text-stimulus-yellow"
     }
-    return map[colorName?.toLowerCase()] || "#ffffff"
+    this.stimulusTarget.classList.remove(...Object.values(classes))
+    const colorClass = classes[colorName?.toLowerCase()]
+    if (colorClass) this.stimulusTarget.classList.add(colorClass)
   }
 
   // The server checks the totals against the stored sequence.

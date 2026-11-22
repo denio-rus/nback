@@ -70,7 +70,7 @@ export default class extends Controller {
     this.timers.set(() => {
       this.checkIfMissed();
       this.stimulusTarget.textContent = "?"
-      this.stimulusTarget.classList.remove("scale-110", "ring-4", "ring-violet-400")
+      this.stimulusTarget.classList.remove("scale-110", "ring-4", "ring-accent")
       
       this.currentIndex++
       this.showNextStimulus()
@@ -82,7 +82,7 @@ export default class extends Controller {
 
     if (this.expectedMatch) {
       this.errorCount++;   // False Negative
-      this.flash("!bg-red-500");
+      this.flash("!bg-danger");
     } else {
       // skip correct
       this.correctCount++;
@@ -98,10 +98,10 @@ export default class extends Controller {
 
     if (this.nBackIdx < 0 || !this.expectedMatch) {
       this.errorCount++;        // False Positive
-      this.flash("!bg-red-500");
+      this.flash("!bg-danger");
     } else {
       this.correctCount++;
-      this.flash("!bg-emerald-500");
+      this.flash("!bg-success");
     }
 
     this.updateStats()

@@ -50,10 +50,10 @@ export default class extends Controller {
 
     this.statusTarget.textContent = this.message("trial", { current: this.currentTrial, total: this.intervalsValue.length })
 
-    this.circleTarget.style.backgroundColor = "#374151"
+    this.showCircleIdle()
 
     this.timers.set(() => {
-      this.circleTarget.style.backgroundColor = "#22c55e"  // bright green
+      this.showCircleGo()
       this.startTime = performance.now()
 
       const interval = this.intervalsValue[this.currentTrial - 1] || 1500
@@ -74,7 +74,7 @@ export default class extends Controller {
 
     this.results.push(reactionTime)
     this.isWaiting = false
-    this.circleTarget.style.backgroundColor = "#374151"
+    this.showCircleIdle()
 
     this.addResult(reactionTime)
 
@@ -84,11 +84,22 @@ export default class extends Controller {
   handleMiss() {
     if (!this.isWaiting) return
     this.isWaiting = false
-    this.circleTarget.style.backgroundColor = "#374151"
+    this.showCircleIdle()
     this.results.push(null)
     this.addResult(null)
 
     this.timers.set(() => this.runNextTrial(), 7000)
+  }
+
+  // The circle is grey while waiting and green when the player should react.
+  showCircleIdle() {
+    this.circleTarget.classList.remove("bg-success")
+    this.circleTarget.classList.add("bg-ink-muted")
+  }
+
+  showCircleGo() {
+    this.circleTarget.classList.remove("bg-ink-muted")
+    this.circleTarget.classList.add("bg-success")
   }
 
   addResult(time) {
@@ -96,7 +107,7 @@ export default class extends Controller {
     div.className = "py-2"
     if (time === null) {
       const missed = document.createElement("span")
-      missed.className = "text-red-500"
+      missed.className = "text-danger"
       missed.textContent = this.message("trial_missed", { n: this.currentTrial })
       div.appendChild(missed)
     } else {

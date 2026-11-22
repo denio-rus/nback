@@ -14,7 +14,7 @@
   <!-- current stimulus -->
   <div class="flex justify-center mb-8">
     <div data-games--nback-target="stimulus"
-         class="w-40 h-40 bg-zinc-800 text-white text-7xl flex items-center justify-center rounded-3xl font-bold transition-all">
+         class="w-40 h-40 bg-surface-raised border border-line text-ink text-7xl flex items-center justify-center rounded-3xl font-bold transition-all">
       ?
     </div>
   </div>
@@ -23,19 +23,19 @@
   <div class="flex justify-center gap-4">
     <button data-action="click->games--nback#start"
             data-games--nback-target="startBtn"
-            class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-lg font-semibold">
+            class="px-8 py-4 bg-accent hover:opacity-90 text-accent-ink rounded-2xl text-lg font-semibold">
       <%= t("games.nback.ui.start") %>
     </button>
 
     <button data-action="click->games--nback#match"
             data-games--nback-target="matchBtn"
-            class="px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-semibold">
+            class="px-8 py-4 bg-accent hover:opacity-90 text-accent-ink rounded-2xl text-lg font-semibold">
       <%= t("games.nback.ui.match") %>
     </button>
   </div>
 
   <!-- results -->
-  <div class="mt-8 text-center text-sm text-zinc-400">
+  <div class="mt-8 text-center text-sm text-ink-muted">
     <%= t("games.nback.ui.correct") %>: <span data-games--nback-target="correct">0</span> / 
     <%= t("games.nback.ui.errors") %>: <span data-games--nback-target="errors">0</span>
   </div>

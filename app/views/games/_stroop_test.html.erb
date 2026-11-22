@@ -13,7 +13,7 @@
   <!-- current stimulus -->
   <div class="flex justify-center mb-8">
     <div data-games--stroop-test-target="stimulus"
-         class="w-60 h-50 bg-zinc-800 text-6xl flex items-center justify-center rounded-3xl font-bold transition-all">
+         class="w-60 h-50 bg-surface-raised border border-line text-6xl flex items-center justify-center rounded-3xl font-bold transition-all">
       ?
     </div>
   </div>
@@ -22,7 +22,7 @@
   <div class="flex justify-center gap-4">
     <button data-action="click->games--stroop-test#start"
             data-games--stroop-test-target="startBtn"
-            class="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl text-lg font-semibold">
+            class="px-8 py-4 bg-accent hover:opacity-90 text-accent-ink rounded-2xl text-lg font-semibold">
       <%= t("games.stroop_test.ui.start") %>
     </button>
     <div class="grid grid-cols-2 gap-6 hidden" data-games--stroop-test-target="buttonsContainer">
@@ -31,7 +31,7 @@
           data-action="click->games--stroop-test#selectColor"
           data-games--stroop-test-target="colorBtn"
           data-color="<%= color %>"
-          class="px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-semibold">
+          class="px-8 py-4 bg-accent hover:opacity-90 text-accent-ink rounded-2xl text-lg font-semibold">
           <%= t("games.stroop_test.ui.colors.#{color}") %>
         </button>
       <% end %>
@@ -39,7 +39,7 @@
   </div>
 
   <!-- results -->
-  <div class="mt-8 text-center text-sm text-zinc-400">
+  <div class="mt-8 text-center text-sm text-ink-muted">
     <%= t("games.stroop_test.ui.correct") %>: <span data-games--stroop-test-target="correct">0</span> / 
     <%= t("games.stroop_test.ui.errors") %>: <span data-games--stroop-test-target="errors">0</span>
   </div>

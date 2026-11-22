@@ -65,8 +65,6 @@ class ThemeLintTest < ActiveSupport::TestCase
   end
 
   test "templates and controllers use only color roles" do
-    skip "enabled after Task 3.6"
-
     problems = FILES.filter_map do |path|
       found = violations_in(File.read(path))
       "#{Pathname(path).relative_path_from(Rails.root)}: #{found.join(', ')}" if found.any?

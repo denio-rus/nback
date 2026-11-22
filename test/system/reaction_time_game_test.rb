@@ -35,7 +35,7 @@ class ReactionTimeGameTest < ApplicationSystemTestCase
     # Press space as soon as the circle turns green, ten times.
     10.times do |index|
       assert_text "Попытка #{index + 1} / 10", wait: 10
-      assert_selector "[data-games--reaction-time-target=circle][style*='rgb(34, 197, 94)']", wait: 6
+      assert_selector "[data-games--reaction-time-target=circle].bg-success", wait: 6
       find("body").send_keys(:space)
       assert_text "Попытка #{index + 1}: ", wait: 3
     end
