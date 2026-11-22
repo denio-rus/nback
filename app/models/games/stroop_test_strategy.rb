@@ -1,14 +1,36 @@
-# 50 stimulus, 4 colors, 4 words, 1500ms duration
-# colors: red, green, blue, yellow
-
+# 50 stimuli, 4 colors, 4 words, 2000 ms per stimulus.
+# Colors: red, green, blue, yellow.
 class Games::StroopTestStrategy < Games::BaseStrategy
+  COLORS = %i[red green blue yellow].freeze
+  STEPS = 50
+
+  def category = "executive"
+  def spec_version = "stroop_test@1"
+  def primary_unit = "ms"
+  def secondary_unit = "count"
+
   def setup_game
-    { sequence: make_combinations(50), stimulus_duration: 2000 }
+    { sequence: make_combinations(STEPS), stimulus_duration: 2000 }
   end
 
-  def handle_result(result) = result
+  def permitted_result_keys = %i[correct errors total_trials]
+
+  def sample_payload(setup)
+    total = setup["sequence"].size
+    { "correct" => total - 5, "errors" => 5, "total_trials" => total }
+  end
+
+  def validate_result(setup, payload)
+    Games::Stats.valid_totals?(payload, setup["sequence"].size)
+  end
+
+  # Response times are not recorded yet; they arrive with the trials format.
+  def primary_metric(_result) = nil
+
+  def secondary_metric(result) = result["errors"]&.to_f
 
   private
+
   def make_combinations(count)
     colors = sequence_generator(count)
     words = sequence_generator(count)
@@ -17,6 +39,6 @@ class Games::StroopTestStrategy < Games::BaseStrategy
   end
 
   def sequence_generator(count)
-    (1..count).map { [ :red, :green, :blue, :yellow ].sample }
+    Array.new(count) { COLORS.sample }
   end
 end

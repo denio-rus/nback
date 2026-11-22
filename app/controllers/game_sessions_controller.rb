@@ -23,14 +23,21 @@ class GameSessionsController < ApplicationController
   end
 
   def submit_result
+    strategy = @game.game_strategy
+    result = strategy.handle_result(@game_session.setup_game, params[:result])
+
     if @game_session.update(
       played_at: Time.current,
-      result: @game.game_strategy.handle_result(params[:result])
+      result: result,
+      metric: strategy.primary_metric(result),
+      metric_secondary: strategy.secondary_metric(result)
     )
       render json: @game_session, status: :ok
     else
       render json: @game_session.errors, status: :unprocessable_entity
     end
+  rescue Games::BaseStrategy::InvalidResult => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def get_game_session_with_game

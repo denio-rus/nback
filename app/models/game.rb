@@ -4,9 +4,11 @@ class Game < ApplicationRecord
 
   has_many :game_sessions
 
+  # Looked up through the registry: system_name is checked against strategy
+  # files and never constantized directly.
   def game_strategy
-    @game_strategy ||= "Games::#{system_name.camelize}Strategy".constantize.new
+    @game_strategy ||= Games::Registry.strategy_for(system_name)
   end
 
-  delegate :setup_game, :handle_result, to: :game_strategy
+  delegate :setup_game, to: :game_strategy
 end
