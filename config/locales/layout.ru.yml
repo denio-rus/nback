@@ -1,0 +1,8 @@
+ru:
+  layout:
+    nav:
+      games: "Игры"
+      profile: "Профиль"
+      sign_out: "Выйти"
+      sign_in: "Войти"
+      sign_up: "Регистрация"

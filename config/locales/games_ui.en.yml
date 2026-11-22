@@ -1,0 +1,6 @@
+en:
+  games:
+    index:
+      start: "Start"
+    show:
+      play: "Play"

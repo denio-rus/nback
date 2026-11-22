@@ -2,7 +2,7 @@
   <% @games.each do |game| %>
     <div class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-3 border border-gray-100">
       
-      <!-- SVG Обложка -->
+      <!-- SVG cover -->
       <div class="h-64 bg-gradient-to-br from-slate-900 to-zinc-900 relative flex items-center justify-center p-10">
         
         <%= image_tag "games/nback.svg", 
@@ -10,18 +10,11 @@
                              group-hover:scale-110 group-hover:rotate-3",
                       alt: game.name %>
         
-        <!-- Градиентный оверлей -->
+        <!-- Gradient overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-        
-        <!-- Бейдж уровня -->
-        <div class="absolute top-5 right-5">
-          <span class="px-5 py-2 bg-white/90 text-slate-800 text-sm font-bold rounded-2xl shadow-md backdrop-blur-md">
-            Уровень <%= 1 %>
-          </span>
-        </div>
       </div>
 
-      <!-- Нижняя часть -->
+      <!-- Card body -->
       <div class="p-7">
         <h3 class="text-2xl font-semibold text-gray-900 mb-2 group-hover:text-violet-600 transition-colors">
           <%= game.name %>
@@ -34,7 +27,7 @@
         <div class="flex items-center gap-3">
           <%= link_to game_path(game), 
                      class: "flex-1 py-4 bg-violet-600 hover:bg-violet-700 text-white font-semibold text-center rounded-2xl transition-all active:scale-95 shadow-sm" do %>
-            Начать игру
+            <%= t(".start") %>
           <% end %>
         </div>
       </div>
