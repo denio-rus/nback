@@ -50,3 +50,5 @@
 - 2026-11-28 09:00 7.1: Insights::Series (points, groups_for_flag, groups_by_day_phase), MIN_POINTS=5, 2 запроса на всё. Коммит 'Add insights series'.
 - 2026-11-28 09:14 7.2: страницы 'Моя динамика' (/insights, /insights/:game_id), SVG в ERB, chart_scale, группы по флагам (круг/ромб), сон, стадия дня, ссылка в шапке; правила множественного числа en/ru. Коммит 'Add insights pages'. Этап 7 готов.
 - 2026-11-28 09:21 8.1: анонимная обратная связь (FeedbackMessage без user_id и IP, лимит 5 в час, поле-ловушка website). Коммит 'Add anonymous feedback form'. Тест '<script> экранируется в админке' остаётся на 8.2.
+- 2026-11-28 09:28 8.2: админский список обратной связи (/admin/feedback_messages: последние 200 сверху, удаление, только админ), тест '<script> экранируется' закрыт. Коммит 'Add admin feedback list'.
+- 2026-11-28 09:34 Админские ссылки (Пользователи, Обратная связь) в шапке только для админа; добавлен AGENTS.md с правилами запуска тестов. Коммит 'Add admin header links and agent guide'.

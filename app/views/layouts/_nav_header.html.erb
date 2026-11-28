@@ -17,6 +17,10 @@
         <% if Current.user %>
           <%= link_to t("layout.nav.insights"), insights_path, class: "hover:text-accent-ink/80 transition font-medium whitespace-nowrap" %>
         <% end %>
+        <% if Current.user&.has_role?(:admin) %>
+          <%= link_to t("layout.nav.admin_users"), admin_users_path, class: "hover:text-accent-ink/80 transition font-medium whitespace-nowrap" %>
+          <%= link_to t("layout.nav.admin_feedback"), admin_feedback_messages_path, class: "hover:text-accent-ink/80 transition font-medium whitespace-nowrap" %>
+        <% end %>
 
         <div class="flex items-center gap-4">
           <% if Current.user %>
