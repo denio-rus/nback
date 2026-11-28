@@ -1,5 +1,6 @@
 en:
   articles:
+    read_more: "Read more"
     fallback_notice: "This text is not available in your language yet. Showing the English version."
     index:
       title:

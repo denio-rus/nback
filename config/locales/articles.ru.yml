@@ -1,5 +1,6 @@
 ru:
   articles:
+    read_more: "Подробнее"
     fallback_notice: "Этого текста пока нет на вашем языке. Показана английская версия."
     index:
       title:

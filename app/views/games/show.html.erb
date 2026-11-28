@@ -2,6 +2,12 @@
   <h2 class="text-2xl font-bold"><%= @game.title %></h2>
   <p class="mt-4 text-lg"><%= @game.description %></p>
 
+  <%# The article is linked only when the strategy names one and it is published. %>
+  <% article_slug = @game.game_strategy.article_slug %>
+  <% if article_slug && Article.published.exists?(slug: article_slug) %>
+    <p class="mt-4"><%= link_to t("articles.read_more"), article_path(slug: article_slug), class: "underline" %></p>
+  <% end %>
+
   <div class="flex justify-center mt-12">
     <%# A signed in person may fill in the optional check-in first; an anonymous visitor starts at once. %>
     <% if authenticated? %>
