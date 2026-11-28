@@ -57,3 +57,4 @@
 - 2026-11-28 09:50 9.1: модели Article и ArticleTranslation, render_markdown (commonmarker 2.10.1 без сырого HTML, затем sanitize и только http/https). Коммит 'Add articles with safe markdown (commonmarker 2.10.1)'.
 - 2026-11-28 09:57 9.2: публичные страницы статей и новостей (/:locale/articles, /:locale/news, статья по slug), только опубликованные, английский текст с пометкой при отсутствии перевода, ссылки в шапке. Коммит 'Add public articles and news'.
 - 2026-11-28 10:14 9.3: админка статей (/:locale/admin/articles: список, создание, правка, удаление, чекбокс публикации, раздел на каждый язык), ссылка в шапке для админа, команда выдачи роли admin в README. Коммит 'Add admin articles'.
+- 2026-11-28 10:20 9.4: на странице игры ссылка «Подробнее» на опубликованную статью по article_slug стратегии, без статьи или с черновиком ссылки нет (ключ articles.read_more). Коммит 'Link games to articles'.
