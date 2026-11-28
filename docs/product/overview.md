@@ -1,204 +1,204 @@
 # Product Overview
 
-> Краткое описание продукта, его назначения, принципов и границ.  
-> Этот документ отвечает на вопрос **«что мы строим и зачем»**, а не описывает устройство Rails-приложения.
+> A concise description of the product, its purpose, principles, and boundaries.
+> This document answers **"what are we building and why?"**, not how the Rails application is implemented.
 
-## 1. Кратко о продукте
+## 1. Product at a Glance
 
-**Mind at Play** — веб-приложение для личного самонаблюдения через короткие интерактивные когнитивные игры и добровольные отметки собственного состояния.
+**Mind at Play** is a web application for personal self-observation through short interactive cognitive games and voluntary self-reported check-ins.
 
-Пользователь проходит игру, при желании отмечает контекст прохождения (например, продолжительность сна, время суток или отдельные обстоятельства), а затем может смотреть историю и графики собственных результатов.
+A user completes a game, optionally records contextual information (such as sleep duration, time of day, or other circumstances), and can later review their history and charts of their own results.
 
-Продукт помогает человеку замечать изменения и сопоставлять их со своим контекстом. Он не объясняет причины этих изменений и не выносит суждений о состоянии человека.
+The product helps people notice changes and view them alongside their personal context. It does not explain the causes of those changes or make judgments about a person's condition.
 
-Ключевая формула продукта:
+The product's core idea:
 
-**Наблюдать за собой во времени, а не оценивать себя относительно нормы или других людей.**
+**Observe yourself over time rather than evaluate yourself against a norm or other people.**
 
-## 2. Для кого продукт
+## 2. Intended Audience
 
-Продукт предназначен для людей, которым интересно наблюдать за собственными когнитивными показателями и тем, как результаты отдельных прохождений меняются в разных обстоятельствах.
+The product is intended for people who are interested in observing their own cognitive performance and how results from individual sessions vary under different circumstances.
 
-Пользователь:
-- самостоятельно выбирает, проходить ли игру и отмечать ли своё состояние;
-- может возвращаться к играм и накапливать личную историю;
-- смотрит на собственные результаты в динамике;
-- сам интерпретирует увиденные данные и решает, имеют ли наблюдаемые различия для него значение.
+A user:
+- independently decides whether to play a game or record a check-in;
+- can return to games and build a personal history;
+- reviews their own results over time;
+- interprets the data themselves and decides whether observed differences matter to them.
 
-Продукт не предполагает, что пользователь обладает специальными знаниями в психологии, медицине или статистике. Интерфейс должен быть понятным без профессиональной терминологии.
+The product does not assume that users have specialized knowledge of psychology, medicine, or statistics. The interface should be understandable without professional terminology.
 
-## 3. Основной пользовательский сценарий
+## 3. Main User Journey
 
-1. Пользователь выбирает когнитивную игру.
-2. Если он вошёл в аккаунт, ему предлагается необязательная отметка контекста перед прохождением. Её можно пропустить.
-3. Пользователь проходит игру.
-4. Результат сохраняется и показывается пользователю.
-5. Для авторизованного пользователя прохождение попадает в личную историю.
-6. По мере накопления данных пользователь может открыть раздел личной динамики и посмотреть результаты конкретной игры по датам и выбранным условиям.
+1. The user selects a cognitive game.
+2. If signed in, the user is offered an optional pre-session check-in. It can be skipped.
+3. The user plays the game.
+4. The result is saved and displayed to the user.
+5. For signed-in users, the session is added to their personal history.
+6. As data accumulates, the user can open the personal trends section and review results for a particular game by date and selected conditions.
 
-Отметка состояния не должна становиться препятствием для игры. Играть можно и без регистрации; анонимные прохождения не формируют личную историю аккаунта.
+A check-in must not become an obstacle to playing. Users can play without registering; anonymous sessions are not added to an account's personal history.
 
-## 4. Что наблюдает пользователь
+## 4. What Users Observe
 
-### 4.1. Когнитивные игры
+### 4.1. Cognitive Games
 
-Игры — основной источник наблюдений. Они могут относиться к разным направлениям:
+Games are the primary source of observations. They may cover different areas:
 
-- восприятие и границы внимания;
-- управление вниманием и исполнительные функции;
-- память и когнитивная нагрузка;
-- метапознание и принятие решений;
-- бдительность и время реакции.
+- perception and attentional limits;
+- attention control and executive functions;
+- memory and cognitive load;
+- metacognition and decision-making;
+- vigilance and reaction time.
 
-Категории нужны для навигации и группировки игр. Они не являются оценками способностей пользователя.
+Categories are used to navigate and group games. They are not ratings of a user's abilities.
 
-Каждая игра должна иметь понятные правила, ограниченный сценарий прохождения и явно определённые показатели результата.
+Each game should have clear rules, a bounded session flow, and explicitly defined result metrics.
 
-### 4.2. Контекст прохождения
+### 4.2. Session Context
 
-Перед игрой авторизованный пользователь может добровольно отметить:
+Before a game, a signed-in user may voluntarily record:
 
-- продолжительность сна;
-- часть дня: утро, день, вечер или ночь;
-- алкоголь;
-- приём препаратов;
-- болезнь;
-- голод;
-- субъективное ощущение бодрости.
+- sleep duration;
+- time of day: morning, afternoon, evening, or night;
+- alcohol consumption;
+- medication use;
+- illness;
+- hunger;
+- subjective alertness.
 
-Список обстоятельств не является медицинской анкетой или диагностическим инструментом. Пользователь отмечает только то, чем хочет поделиться с самим собой для последующего просмотра собственной истории.
+This list is not a medical questionnaire or diagnostic tool. Users record only what they choose to include for later review of their own history.
 
-Все поля необязательны. Отказ от заполнения не ограничивает доступ к игре.
+All fields are optional. Skipping them must not restrict access to a game.
 
-### 4.3. Результаты и личная динамика
+### 4.3. Results and Personal Trends
 
-У каждой игры есть собственные показатели. В зависимости от механики это может быть время реакции, доля верных ответов или количество ошибок.
+Each game has its own metrics. Depending on the mechanics, these may include reaction time, the proportion of correct answers, or the number of errors.
 
-Продукт не сводит разные показатели в единый универсальный балл. Скорость и точность могут иметь разный смысл, поэтому их нельзя объединять произвольными весами.
+The product does not combine different metrics into a single universal score. Speed and accuracy can have different meanings and should not be combined using arbitrary weights.
 
-Пользователь может видеть:
-- результат отдельного прохождения;
-- последовательность попыток или блоков, если это предусмотрено игрой;
-- изменение основного показателя по датам;
-- дополнительный показатель рядом с основным;
-- собственные результаты в разных отмеченных обстоятельствах, если данных достаточно.
+Users may see:
+- the result of an individual session;
+- a sequence of attempts or blocks, when supported by the game;
+- changes in the primary metric over time;
+- a secondary metric alongside the primary one;
+- their own results under different recorded circumstances, when enough data is available.
 
-Показатели разных игр не сравниваются друг с другом. Графики описывают данные, а не оценивают человека.
+Metrics from different games are not compared with one another. Charts describe the data; they do not evaluate the person.
 
-## 5. Продуктовые принципы
+## 5. Product Principles
 
-### 5.1. Только сравнение с собой
+### 5.1. Self-Comparison Only
 
-Основная ценность — личная динамика пользователя. Результаты других людей не используются как контрольная группа, рейтинг или ориентир.
+The primary value is the user's personal progress and variation over time. Other users' results are not used as a control group, ranking, or benchmark.
 
-### 5.2. Описательность вместо оценок
+### 5.2. Description Instead of Judgment
 
-Интерфейс показывает измеренные значения и их изменения. Он не маркирует результат как хороший, плохой, нормальный или ненормальный.
+The interface presents measured values and how they change. It does not label results as good, bad, normal, or abnormal.
 
-Не следует использовать формулировки, которые превращают наблюдение в оценку личности или состояния: например, «стал хуже», «показатель ниже нормы», «мозг устал».
+Avoid wording that turns an observation into a judgment about a person's identity or condition, such as "you are getting worse," "below normal," or "your brain is tired."
 
-### 5.3. Никаких медицинских выводов
+### 5.3. No Medical Conclusions
 
-Игры и графики не предназначены для диагностики, скрининга заболеваний, оценки психического или физического здоровья либо назначения лечения.
+Games and charts are not intended for diagnosis, disease screening, assessment of mental or physical health, or treatment decisions.
 
-Приложение не должно:
-- ставить диагнозы;
-- выдавать медицинские рекомендации;
-- интерпретировать результаты как признаки заболевания;
-- предлагать лечение или изменение приёма препаратов;
-- представлять игровые показатели как клинически валидированные измерения.
+The application must not:
+- provide diagnoses;
+- give medical recommendations;
+- interpret results as signs of a disease;
+- suggest treatment or changes to medication use;
+- present game metrics as clinically validated measurements.
 
-### 5.4. Добровольность и отсутствие давления
+### 5.4. Voluntary Participation Without Pressure
 
-Контекст прохождения необязателен. Пользователь не должен чувствовать, что обязан заполнять анкету, регулярно играть или достигать определённых результатов.
+Session context is optional. Users should not feel obliged to complete questionnaires, play regularly, or achieve particular results.
 
-Не нужны серии посещений, штрафы за пропуски, соревновательные механики и другие способы давления на пользователя.
+Avoid streaks, penalties for missed sessions, competitive mechanics, and other forms of pressure.
 
-### 5.5. Минимизация персональных данных
+### 5.5. Personal Data Minimization
 
-Продукт должен собирать только данные, необходимые для работы выбранных функций.
+The product should collect only the data required by the features a user chooses to use.
 
-В частности:
-- для входа используется никнейм, а не публичное настоящее имя;
-- адрес электронной почты нужен для подтверждения регистрации и восстановления доступа; в базе хранится его HMAC-дайджест, а не исходный адрес;
-- гендер и возрастная декада необязательны;
-- удаление аккаунта должно удалять связанные с ним личные прохождения и отметки состояния.
+In particular:
+- sign-in uses a nickname rather than a publicly displayed real name;
+- an email address is needed for registration confirmation and account recovery; the database stores its HMAC digest rather than the original address;
+- gender and age decade are optional;
+- account deletion should remove the personal sessions and check-ins associated with that account.
 
-Реализация обработки данных, сроки хранения, резервное копирование и юридические основания должны дополнительно проверяться в технической и правовой документации. Нельзя обещать пользователю свойства приватности, которые не подтверждены реализацией.
+Data processing, retention periods, backups, and legal grounds must be reviewed separately in technical and legal documentation. Do not promise users privacy properties that have not been verified in the implementation.
 
-### 5.6. Понятность и спокойный интерфейс
+### 5.6. Clarity and a Calm Interface
 
-Интерфейс должен помогать сосредоточиться на игре и наблюдении за данными. Не следует перегружать его сложной аналитикой, псевдонаучными объяснениями и декоративной геймификацией.
+The interface should help users focus on the game and on observing their data. Avoid overwhelming users with complex analytics, pseudo-scientific explanations, or decorative gamification.
 
-## 6. Границы продукта: что не входит в концепцию
+## 6. Product Boundaries: Out of Scope
 
-Следующие функции не являются частью текущей продуктовой концепции:
+The following are not part of the current product concept:
 
-- сравнение пользователей между собой;
-- рейтинги, таблицы лидеров и соревнования;
-- публичные профили, аватары и социальные функции;
-- универсальный рейтинг когнитивных способностей;
-- медицинская диагностика и рекомендации;
-- автоматическое объяснение причин изменения результатов;
-- выводы о причинно-следственной связи между обстоятельством и результатом.
+- comparisons between users;
+- rankings, leaderboards, and competitions;
+- public profiles, avatars, and social features;
+- a universal rating of cognitive abilities;
+- medical diagnosis and recommendations;
+- automated explanations for changes in results;
+- claims of causal relationships between circumstances and results.
 
-Если в будущем появится идея функции из этого списка, её нельзя добавлять как обычное расширение интерфейса. Сначала необходимо отдельно пересмотреть продуктовые принципы и явно согласовать изменение концепции.
+If a feature from this list is proposed in the future, it must not be added as an ordinary interface enhancement. The product principles must first be reviewed and the change in direction explicitly approved.
 
-## 7. Текущий объём MVP
+## 7. Current MVP Scope
 
-MVP строится вокруг следующего набора возможностей:
+The MVP is built around the following capabilities:
 
-- регистрация, подтверждение адреса электронной почты, вход по никнейму и восстановление пароля;
-- каталог когнитивных игр;
-- прохождение игр как авторизованным, так и анонимным пользователем;
-- необязательная отметка состояния перед прохождением для авторизованного пользователя;
-- сохранение результата и личная история прохождений;
-- просмотр результата отдельного прохождения;
-- раздел личной динамики по играм;
-- локализация интерфейса;
-- информационные статьи и новости;
-- форма обратной связи и административные средства управления материалами.
+- registration, email address confirmation, nickname-based sign-in, and password recovery;
+- a catalog of cognitive games;
+- game sessions for both signed-in and anonymous users;
+- an optional pre-session check-in for signed-in users;
+- result persistence and personal session history;
+- viewing the result of an individual session;
+- a personal trends section organized by game;
+- interface localization;
+- informational articles and news;
+- a feedback form and administrative tools for managing content.
 
-Состав доступных игр и степень готовности отдельных сценариев определяются фактическим состоянием приложения и документацией конкретных игр. Этот обзор не заменяет проверку реализации.
+The available games and the implementation status of individual flows are determined by the actual application and the documentation for each game. This overview does not replace an implementation review.
 
-## 8. Направления возможного развития
+## 8. Possible Future Directions
 
-Следующие направления могут рассматриваться в будущем, но не должны восприниматься агентом как уже утверждённые требования:
+The following may be considered in the future, but agents must not treat them as approved requirements:
 
-- расширение библиотеки когнитивных игр;
-- более удобный анализ личной динамики;
-- дополнительные способы фильтрации и сопоставления собственных прохождений;
-- улучшение представления результатов и истории;
-- развитие образовательных материалов о механике игр и ограничениях измерений.
+- expanding the cognitive game library;
+- making personal trend analysis more convenient;
+- adding ways to filter and compare a user's own sessions;
+- improving the presentation of results and history;
+- developing educational material about game mechanics and the limitations of measurements.
 
-Любое расширение должно сохранять основные принципы: личное наблюдение, описательность, добровольность и отсутствие медицинских обещаний.
+Any expansion should preserve the core principles: personal observation, descriptive presentation, voluntary participation, and no medical claims.
 
-## 9. Термины
+## 9. Terminology
 
-| Термин | Значение |
+| Term | Meaning |
 |---|---|
-| Игра | Интерактивная задача с определёнными правилами и показателями |
-| Прохождение | Один запуск игры конкретным пользователем или анонимным посетителем |
-| Попытка (trial) | Отдельный стимул, вопрос или действие внутри прохождения |
-| Результат | Данные, полученные по итогам прохождения |
-| Контекст / отметка состояния (check-in) | Добровольные сведения пользователя об обстоятельствах перед прохождением |
-| Основной показатель | Главная метрика конкретной игры, используемая для отображения динамики |
-| Второстепенный показатель | Дополнительная метрика конкретной игры, показываемая рядом с основной |
-| Личная динамика | История собственных показателей пользователя во времени |
+| Game | An interactive task with defined rules and metrics |
+| Session | One run of a game by a signed-in user or anonymous visitor |
+| Trial | An individual stimulus, question, or action within a session |
+| Result | Data produced by a completed session |
+| Context / check-in | Voluntary information recorded by the user about circumstances before a session |
+| Primary metric | The main metric for a particular game, used to display trends |
+| Secondary metric | An additional metric for a particular game, displayed alongside the primary metric |
+| Personal trends | A user's own metrics and their changes over time |
 
-## 10. Как использовать этот документ
+## 10. How to Use This Document
 
-Этот файл — источник продуктового контекста для разработчиков и ИИ-агентов.
+This file is a source of product context for developers and AI agents.
 
-Перед проектированием новой пользовательской функции агент должен проверить её соответствие разделам «Продуктовые принципы» и «Границы продукта».
+Before designing a new user-facing feature, an agent should check that it is consistent with the sections "Product Principles" and "Product Boundaries."
 
-Документ не описывает:
-- архитектуру приложения и границы программных компонентов;
-- схему базы данных и API;
-- алгоритмы конкретных игр;
-- стратегию тестирования;
-- порядок работы агента и правила внесения изменений.
+This document does not describe:
+- application architecture and software component boundaries;
+- database schema and APIs;
+- the algorithms used by individual games;
+- the testing strategy;
+- agent workflows and rules for making changes.
 
-Эти сведения должны храниться в соответствующих документах архитектуры и разработки.
+That information belongs in the relevant architecture and development documents.
 
-Если фактическая реализация расходится с этим обзором, не следует автоматически считать код правильным или документ правильным: нужно зафиксировать расхождение и выяснить, является ли оно незавершённой функцией, техническим долгом или изменением продуктового решения.
+If the actual implementation differs from this overview, do not automatically assume that either the code or the document is correct. Record the discrepancy and determine whether it represents an unfinished feature, technical debt, or a change in product direction.
