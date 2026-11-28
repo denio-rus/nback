@@ -320,3 +320,7 @@ When code and this document disagree:
 3. update the relevant document in the same change when the architecture or component contract has changed.
 
 Keep this file focused on component responsibilities and their interactions. Put product intent in `docs/product/overview.md`, system-wide structure in `docs/architecture/overview.md`, detailed schema relationships in a future data-model reference, and significant historical decisions in ADRs.
+
+## 13. Architecture Decision Records
+
+Significant architectural decisions are recorded in [Architecture Decision Records](decisions/), including the [Games–Insights analytics data contract](decisions/0001-analytics-data-contract.md).
