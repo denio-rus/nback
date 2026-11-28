@@ -1,3 +1,11 @@
 ru:
   admin:
     forbidden: "Доступ запрещён"
+    feedback_messages:
+      index:
+        title: "Обратная связь"
+        note: "Сначала новые, не больше %{limit}. Сообщения анонимны."
+        empty: "Сообщений пока нет."
+        destroy: "Удалить"
+        confirm: "Удалить это сообщение?"
+      destroyed: "Сообщение удалено."

@@ -1,0 +1,32 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-surface-raised border border-success mb-5 text-success font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <h1 class="font-bold text-4xl"><%= t(".title") %></h1>
+  <p class="text-ink-muted mt-2"><%= t(".note", limit: @limit) %></p>
+
+  <% if @feedback_messages.any? %>
+    <div id="feedback_messages" class="min-w-full divide-y divide-line">
+      <% @feedback_messages.each do |message| %>
+        <article id="<%= dom_id(message) %>" data-feedback-message class="py-5 flex flex-col sm:flex-row sm:justify-between gap-3">
+          <div class="space-y-2">
+            <p class="text-ink-muted text-sm">
+              <%= l(message.created_at, format: :short) %>
+              · <%= t("feedback.kinds.#{message.kind}") %>
+              · <%= t("languages.#{message.locale}") %>
+            </p>
+            <p class="whitespace-pre-wrap break-words"><%= message.body %></p>
+          </div>
+          <%= button_to t(".destroy"), admin_feedback_message_path(message), method: :delete,
+                class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-accent-ink bg-danger hover:opacity-90 font-medium cursor-pointer",
+                data: { turbo_confirm: t(".confirm") } %>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <p data-empty class="text-center my-10"><%= t(".empty") %></p>
+  <% end %>
+</div>

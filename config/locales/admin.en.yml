@@ -1,3 +1,11 @@
 en:
   admin:
     forbidden: "Access denied"
+    feedback_messages:
+      index:
+        title: "Feedback"
+        note: "Newest first, up to %{limit} messages. Messages are anonymous."
+        empty: "No messages yet."
+        destroy: "Delete"
+        confirm: "Delete this message?"
+      destroyed: "Message deleted."

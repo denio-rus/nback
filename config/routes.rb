@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     namespace :admin do
       # No new/create: an account needs an email that only its owner can confirm.
       resources :users, except: [ :new, :create ]
+      resources :feedback_messages, only: [ :index, :destroy ]
     end
 
     # The breakdown page of one finished play-through (owner only).
