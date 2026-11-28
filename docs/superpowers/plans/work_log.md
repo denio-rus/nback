@@ -54,3 +54,4 @@
 - 2026-11-28 09:34 Админские ссылки (Пользователи, Обратная связь) в шапке только для админа; добавлен AGENTS.md с правилами запуска тестов. Коммит 'Add admin header links and agent guide'.
 - 2026-11-28 09:36 8.3: страница About (/:locale/about, шесть положений в pages.about.sections.*), ссылка «О проекте» в шапке, тест оценочных слов. Коммит 'Add About page'.
 - 2026-11-28 09:41 8.4: PurgeStaleRecordsJob удаляет анонимные прохождения и неподтверждённых пользователей старше 24 часов и обратную связь старше 90 дней, запуск раз в час в production. Коммит 'Add periodic cleanup job'.
+- 2026-11-28 09:50 9.1: модели Article и ArticleTranslation, render_markdown (commonmarker 2.10.1 без сырого HTML, затем sanitize и только http/https). Коммит 'Add articles with safe markdown (commonmarker 2.10.1)'.

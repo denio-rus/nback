@@ -17,3 +17,8 @@ news_item:
   slug: first-news
   kind: news
   published_at: <%= 1.day.ago.to_fs(:db) %>
+
+english_only:
+  slug: only-english
+  kind: article
+  published_at: <%= 1.day.ago.to_fs(:db) %>

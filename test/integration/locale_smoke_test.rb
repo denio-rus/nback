@@ -17,7 +17,11 @@ class LocaleSmokeTest < ActionDispatch::IntegrationTest
       new_password_path(locale: locale),
       check_mail_registrations_path(locale: locale),
       new_feedback_message_path(locale: locale),
-      about_path(locale: locale)
+      about_path(locale: locale),
+      articles_path(locale: locale),
+      news_path(locale: locale),
+      article_path(articles(:published).slug, locale: locale),
+      article_path(articles(:english_only).slug, locale: locale)
     ]
   end
 

@@ -27,3 +27,9 @@ news_item_en:
   locale: en
   title: "First news"
   body: "Hello."
+
+english_only_en:
+  article: english_only
+  locale: en
+  title: "Only in English"
+  body: "No translation yet."

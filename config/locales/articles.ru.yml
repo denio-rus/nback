@@ -1,0 +1,12 @@
+ru:
+  articles:
+    fallback_notice: "Этого текста пока нет на вашем языке. Показана английская версия."
+    index:
+      title:
+        article: "Статьи"
+        news: "Новости"
+      empty: "Пока ничего нет."
+    show:
+      back:
+        article: "Все статьи"
+        news: "Все новости"

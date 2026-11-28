@@ -1,0 +1,12 @@
+en:
+  articles:
+    fallback_notice: "This text is not available in your language yet. Showing the English version."
+    index:
+      title:
+        article: "Articles"
+        news: "News"
+      empty: "Nothing here yet."
+    show:
+      back:
+        article: "All articles"
+        news: "All news"

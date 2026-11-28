@@ -1,0 +1,17 @@
+<% content_for :title, t(".title.#{@kind}") %>
+
+<div class="max-w-2xl mx-auto w-full">
+  <h1 class="font-bold text-3xl"><%= t(".title.#{@kind}") %></h1>
+
+  <% if @articles.empty? %>
+    <p class="mt-8 text-ink-muted"><%= t(".empty") %></p>
+  <% else %>
+    <ul class="mt-8 space-y-4">
+      <% @articles.each do |article| %>
+        <li class="bg-surface-raised border border-line rounded-2xl p-5">
+          <%= link_to article.translation_for(I18n.locale).title, article_path(article.slug), class: "font-semibold text-xl text-ink underline hover:no-underline" %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

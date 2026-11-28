@@ -35,6 +35,10 @@ Rails.application.routes.draw do
 
     get "about", to: "pages#about"
 
+    # News and articles share one controller; "kind" comes from the route, not from the visitor.
+    get "news", to: "articles#index", defaults: { kind: "news" }
+    resources :articles, only: [ :index, :show ], param: :slug
+
     resources :games, only: [ :index, :show ] do
       resources :game_sessions, only: [ :new, :create ] do
         member do

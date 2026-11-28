@@ -1,0 +1,17 @@
+<% content_for :title, @translation.title %>
+
+<article class="max-w-2xl mx-auto w-full">
+  <h1 class="font-bold text-3xl"><%= @translation.title %></h1>
+
+  <% if @fallback %>
+    <p class="mt-4 p-3 bg-surface-raised border border-line rounded-xl text-ink-muted"><%= t("articles.fallback_notice") %></p>
+  <% end %>
+
+  <div class="mt-6 space-y-4 text-ink">
+    <%= render_markdown(@translation.body) %>
+  </div>
+
+  <p class="mt-8">
+    <%= link_to t(".back.#{@article.kind}"), (@article.kind == "news" ? news_path : articles_path), class: "text-ink underline hover:no-underline" %>
+  </p>
+</article>
