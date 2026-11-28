@@ -87,6 +87,30 @@ class ArticleTest < ActiveSupport::TestCase
     assert_includes translation.errors.attribute_names, :body
   end
 
+  test "publish 1 sets published_at only when it is blank" do
+    freeze_time do
+      article = build(publish: "1")
+      assert article.save
+      assert_equal Time.current, article.published_at
+    end
+
+    earlier = articles(:published).published_at
+    articles(:published).update!(publish: "1")
+    assert_in_delta earlier.to_f, articles(:published).reload.published_at.to_f, 0.001
+  end
+
+  test "publish 0 clears published_at" do
+    articles(:published).update!(publish: "0")
+
+    assert_nil articles(:published).reload.published_at
+  end
+
+  test "publish reports whether the article has a publication date" do
+    assert articles(:published).publish
+    assert_not articles(:draft).publish
+    assert_not Article.new.publish
+  end
+
   test "one translation per language" do
     translation = ArticleTranslation.new(article: articles(:published), locale: "en", title: "T", body: "B")
 

@@ -9,3 +9,49 @@ en:
         destroy: "Delete"
         confirm: "Delete this message?"
       destroyed: "Message deleted."
+    articles:
+      created: "Article saved."
+      updated: "Article updated."
+      destroyed: "Article deleted."
+      back: "Back to the list"
+      kinds:
+        article: "Article"
+        news: "News"
+      statuses:
+        draft: "Draft"
+        scheduled: "Scheduled"
+        published: "Published"
+      index:
+        title: "Articles and news"
+        new: "New article"
+        edit: "Edit"
+        destroy: "Delete"
+        confirm: "Delete this article with all its translations?"
+        empty: "No articles yet."
+      new:
+        title: "New article"
+      edit:
+        title: "Editing article"
+      form:
+        submit: "Save"
+        slug_hint: "Latin letters in lower case, digits and hyphens. It becomes the address of the page."
+        markdown_hint: "The text is written in Markdown: ## heading, **bold**, *italic*, [text](https://example.com), - list item. Raw HTML is not shown."
+        optional_language: "Optional. If this language is left empty, visitors see the English text."
+        errors:
+          one: "1 error prevented the article from being saved:"
+          other: "%{count} errors prevented the article from being saved:"
+  activerecord:
+    attributes:
+      article:
+        slug: "Slug"
+        kind: "Kind"
+        publish: "Published"
+        translations: "Texts"
+      article/translations:
+        title: "Title"
+        body: "Text"
+        locale: "Language"
+      article_translation:
+        title: "Title"
+        body: "Text"
+        locale: "Language"

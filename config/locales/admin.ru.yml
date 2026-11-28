@@ -9,3 +9,51 @@ ru:
         destroy: "Удалить"
         confirm: "Удалить это сообщение?"
       destroyed: "Сообщение удалено."
+    articles:
+      created: "Статья сохранена."
+      updated: "Статья обновлена."
+      destroyed: "Статья удалена."
+      back: "К списку"
+      kinds:
+        article: "Статья"
+        news: "Новость"
+      statuses:
+        draft: "Черновик"
+        scheduled: "Запланирована"
+        published: "Опубликована"
+      index:
+        title: "Статьи и новости"
+        new: "Новая статья"
+        edit: "Изменить"
+        destroy: "Удалить"
+        confirm: "Удалить статью вместе со всеми переводами?"
+        empty: "Статей пока нет."
+      new:
+        title: "Новая статья"
+      edit:
+        title: "Правка статьи"
+      form:
+        submit: "Сохранить"
+        slug_hint: "Строчные латинские буквы, цифры и дефисы. Станет адресом страницы."
+        markdown_hint: "Текст пишется в Markdown: ## заголовок, **жирный**, *курсив*, [текст](https://example.com), - пункт списка. Сырой HTML не показывается."
+        optional_language: "Необязательно. Если язык пуст, посетители увидят английский текст."
+        errors:
+          one: "%{count} ошибка не дала сохранить статью:"
+          few: "%{count} ошибки не дали сохранить статью:"
+          many: "%{count} ошибок не дали сохранить статью:"
+          other: "%{count} ошибки не дали сохранить статью:"
+  activerecord:
+    attributes:
+      article:
+        slug: "Адрес (slug)"
+        kind: "Тип"
+        publish: "Опубликована"
+        translations: "Тексты"
+      article/translations:
+        title: "Заголовок"
+        body: "Текст"
+        locale: "Язык"
+      article_translation:
+        title: "Заголовок"
+        body: "Текст"
+        locale: "Язык"

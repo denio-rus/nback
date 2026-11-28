@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       # No new/create: an account needs an email that only its owner can confirm.
       resources :users, except: [ :new, :create ]
       resources :feedback_messages, only: [ :index, :destroy ]
+      resources :articles, except: :show
     end
 
     # The breakdown page of one finished play-through (owner only).

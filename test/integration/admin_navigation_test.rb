@@ -10,6 +10,7 @@ class AdminNavigationTest < ActionDispatch::IntegrationTest
 
     assert_select "nav a[href=?]", admin_users_path
     assert_select "nav a[href=?]", admin_feedback_messages_path
+    assert_select "nav a[href=?]", admin_articles_path
   end
 
   test "player does not see admin links" do
@@ -19,6 +20,7 @@ class AdminNavigationTest < ActionDispatch::IntegrationTest
 
     assert_select "nav a[href=?]", admin_users_path, count: 0
     assert_select "nav a[href=?]", admin_feedback_messages_path, count: 0
+    assert_select "nav a[href=?]", admin_articles_path, count: 0
   end
 
   test "anonymous does not see admin links" do
@@ -26,6 +28,7 @@ class AdminNavigationTest < ActionDispatch::IntegrationTest
 
     assert_select "nav a[href=?]", admin_users_path, count: 0
     assert_select "nav a[href=?]", admin_feedback_messages_path, count: 0
+    assert_select "nav a[href=?]", admin_articles_path, count: 0
   end
 
   I18n.available_locales.each do |locale|
@@ -36,6 +39,7 @@ class AdminNavigationTest < ActionDispatch::IntegrationTest
 
       assert_no_match(/translation missing/i, response.body)
       assert_select "nav a[href=?]", admin_feedback_messages_path(locale: locale)
+      assert_select "nav a[href=?]", admin_articles_path(locale: locale)
     end
   end
 end

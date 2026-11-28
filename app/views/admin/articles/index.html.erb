@@ -1,0 +1,33 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full">
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl"><%= t(".title") %></h1>
+    <%= link_to t(".new"), new_admin_article_path, class: "rounded-md px-3.5 py-2.5 bg-accent hover:opacity-90 text-accent-ink inline-block font-medium" %>
+  </div>
+
+  <% if @articles.any? %>
+    <div id="articles" class="min-w-full divide-y divide-line mt-5">
+      <% @articles.each do |article| %>
+        <article id="<%= dom_id(article) %>" data-article="<%= article.slug %>" class="py-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+          <div class="space-y-1">
+            <p class="font-medium break-words"><%= article.translation_for(I18n.locale)&.title %></p>
+            <p class="text-ink-muted text-sm">
+              <span data-slug><%= article.slug %></span>
+              · <span data-kind="<%= article.kind %>"><%= t("admin.articles.kinds.#{article.kind}") %></span>
+              · <span data-status="<%= article.status %>"><%= t("admin.articles.statuses.#{article.status}") %></span>
+            </p>
+          </div>
+          <div class="w-full sm:w-auto flex flex-col sm:flex-row gap-2">
+            <%= link_to t(".edit"), edit_admin_article_path(article), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-surface-raised border border-line hover:bg-surface inline-block font-medium" %>
+            <%= button_to t(".destroy"), admin_article_path(article), method: :delete,
+                  class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-accent-ink bg-danger hover:opacity-90 font-medium cursor-pointer",
+                  data: { turbo_confirm: t(".confirm") } %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <p data-empty class="text-center my-10"><%= t(".empty") %></p>
+  <% end %>
+</div>
