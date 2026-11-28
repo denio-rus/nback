@@ -1,0 +1,20 @@
+ru:
+  feedback:
+    thanks: "Спасибо, сообщение получено."
+    rate_limited: "Слишком много сообщений. Попробуйте позже."
+    kinds:
+      bug: "Что-то не работает"
+      idea: "Идея"
+      other: "Другое"
+  feedback_messages:
+    new:
+      title: "Обратная связь"
+      privacy: "Не пишите личные данные. Сообщение анонимно: мы не храним, кто его отправил."
+      kind: "О чём сообщение"
+      body: "Ваше сообщение"
+      submit: "Отправить"
+  activerecord:
+    attributes:
+      feedback_message:
+        body: "Сообщение"
+        kind: "Тип"

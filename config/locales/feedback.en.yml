@@ -1,0 +1,20 @@
+en:
+  feedback:
+    thanks: "Thank you, your message was received."
+    rate_limited: "Too many messages. Please try again later."
+    kinds:
+      bug: "Something does not work"
+      idea: "An idea"
+      other: "Something else"
+  feedback_messages:
+    new:
+      title: "Feedback"
+      privacy: "Please do not write personal data. The message is anonymous: we do not store who sent it."
+      kind: "What is it about"
+      body: "Your message"
+      submit: "Send"
+  activerecord:
+    attributes:
+      feedback_message:
+        body: "Message"
+        kind: "Kind"
