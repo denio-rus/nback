@@ -2,7 +2,7 @@
 
 <div class="max-w-2xl mx-auto">
   <h1 class="text-3xl font-bold"><%= @game.title %></h1>
-  <p class="mt-1 text-ink-muted"><%= l(@game_session.played_at, format: :long) %></p>
+  <p class="mt-1 text-ink-muted"><%= @game_session.played_at.in_time_zone.strftime("%Y-%m-%d %H:%M") %></p>
 
   <p data-metric class="mt-6 text-4xl font-semibold"><%= primary_with_secondary(@game_session, @strategy) %></p>
 

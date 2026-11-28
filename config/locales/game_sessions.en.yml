@@ -19,9 +19,3 @@ en:
         wrong: "Trial %{n}: wrong answer"
         miss: "Trial %{n}: no answer"
       back: "Back to the game"
-  insights:
-    no_metric: "No result"
-    primary_with_secondary: "%{primary} (%{label}: %{secondary})"
-    units:
-      ms: "ms"
-      "%": "%"

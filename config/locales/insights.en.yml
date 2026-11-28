@@ -1,0 +1,48 @@
+en:
+  layout:
+    nav:
+      insights: "My trends"
+  games:
+    categories:
+      perception: "Perception"
+      executive: "Executive functions"
+      memory: "Memory"
+      metacognition: "Metacognition"
+      vigilance: "Vigilance"
+  insights:
+    no_metric: "No result"
+    primary_with_secondary: "%{primary} (%{label}: %{secondary})"
+    units:
+      ms: "ms"
+      "%": "%"
+    axis_units:
+      ms: "ms"
+      "%": "%"
+      count: "count"
+    same_device_note: "Compare play-throughs on the same device"
+    summary:
+      count:
+        one: "%{count} play-through"
+        other: "%{count} play-throughs"
+      full: "%{count_text}, median %{median}, range %{min} to %{max}"
+    index:
+      title: "My trends"
+      intro: "Only you see these charts. Pick a game to see your play-throughs over time."
+      no_plays: "No play-throughs yet"
+      open: "Open"
+    show:
+      title: "My trends: %{game}"
+      no_points: "No play-throughs yet. Play this game and the chart will appear here."
+      all: "All play-throughs"
+      all_hint: "One point is one play-through. Open a point to see its details. Vertical axis: result, %{unit}."
+      date_axis: "Date"
+      sleep: "Hours of sleep and the result"
+      sleep_axis: "Hours of sleep"
+      flags: "By note before the game"
+      flags_hint: "Only play-throughs with a note take part. Circle: with the mark. Diamond: without it."
+      flag_with: "With “%{flag}”: %{summary}"
+      flag_without: "Without “%{flag}”: %{summary}"
+      phases: "By time of day"
+      phase_line: "%{phase}: %{summary}"
+      back: "All games"
+      point_title: "%{date}: %{value}"

@@ -1,0 +1,50 @@
+ru:
+  layout:
+    nav:
+      insights: "Моя динамика"
+  games:
+    categories:
+      perception: "Восприятие"
+      executive: "Исполнительные функции"
+      memory: "Память"
+      metacognition: "Метакогниция"
+      vigilance: "Бдительность"
+  insights:
+    no_metric: "Нет результата"
+    primary_with_secondary: "%{primary} (%{label}: %{secondary})"
+    units:
+      ms: "мс"
+      "%": "%"
+    axis_units:
+      ms: "мс"
+      "%": "%"
+      count: "штук"
+    same_device_note: "Сравнивайте прохождения на одном и том же устройстве"
+    summary:
+      count:
+        one: "%{count} прохождение"
+        few: "%{count} прохождения"
+        many: "%{count} прохождений"
+        other: "%{count} прохождения"
+      full: "%{count_text}, медиана %{median}, разброс от %{min} до %{max}"
+    index:
+      title: "Моя динамика"
+      intro: "Эти графики видите только вы. Выберите игру, чтобы увидеть свои прохождения во времени."
+      no_plays: "Пока нет прохождений"
+      open: "Открыть"
+    show:
+      title: "Моя динамика: %{game}"
+      no_points: "Пока нет прохождений. Пройдите эту игру, и здесь появится график."
+      all: "Все прохождения"
+      all_hint: "Одна точка это одно прохождение. Откройте точку, чтобы увидеть подробности. Вертикальная ось: результат, %{unit}."
+      date_axis: "Дата"
+      sleep: "Часы сна и результат"
+      sleep_axis: "Часы сна"
+      flags: "По отметке перед игрой"
+      flags_hint: "Участвуют только прохождения с отметкой. Круг: с пометкой. Ромб: без неё."
+      flag_with: "С пометкой «%{flag}»: %{summary}"
+      flag_without: "Без пометки «%{flag}»: %{summary}"
+      phases: "По времени суток"
+      phase_line: "%{phase}: %{summary}"
+      back: "Ко всем играм"
+      point_title: "%{date}: %{value}"

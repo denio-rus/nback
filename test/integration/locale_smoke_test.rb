@@ -31,7 +31,9 @@ class LocaleSmokeTest < ActionDispatch::IntegrationTest
       user_path(users(:one), locale: locale),
       edit_user_path(users(:one), locale: locale),
       new_game_game_session_path(@game, locale: locale),
-      game_session_path(finished_session, locale: locale)
+      game_session_path(finished_session, locale: locale),
+      insights_path(locale: locale),
+      insight_path(@game, locale: locale)
     ]
   end
 

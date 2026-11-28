@@ -14,6 +14,9 @@
         <%= render "layouts/language_switcher" %>
         <%= render "layouts/theme_switcher" %>
         <%= link_to t("layout.nav.games"), games_path, class: "hover:text-accent-ink/80 transition font-medium" %>
+        <% if Current.user %>
+          <%= link_to t("layout.nav.insights"), insights_path, class: "hover:text-accent-ink/80 transition font-medium whitespace-nowrap" %>
+        <% end %>
 
         <div class="flex items-center gap-4">
           <% if Current.user %>

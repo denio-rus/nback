@@ -1,0 +1,63 @@
+<% content_for :title, t(".title", game: @game.title) %>
+<% points = @series.points %>
+<% unit = t("insights.axis_units.#{@strategy.primary_unit}") %>
+
+<div class="max-w-3xl mx-auto">
+  <h1 class="text-3xl font-bold"><%= t(".title", game: @game.title) %></h1>
+
+  <% if points.empty? %>
+    <p class="mt-6"><%= t(".no_points") %></p>
+  <% else %>
+    <section class="mt-6">
+      <h2 class="font-bold text-xl"><%= t(".all") %></h2>
+      <p class="mt-1 text-sm text-ink-muted"><%= t(".all_hint", unit: unit) %></p>
+      <p data-summary="all" class="mt-2"><%= group_summary(Insights::Series.group(points), @strategy) %></p>
+      <%= render "chart", chart: "dates", x_kind: :date, x_label: t(".date_axis"), strategy: @strategy,
+                          groups: [ { name: "all", points: points, shape: :circle } ] %>
+    </section>
+
+    <% sleep_points = points.reject { |point| point.sleep_hours.nil? } %>
+    <% if sleep_points.any? %>
+      <section class="mt-10">
+        <h2 class="font-bold text-xl"><%= t(".sleep") %></h2>
+        <%= render "chart", chart: "sleep", x_kind: :sleep, x_label: t(".sleep_axis"), strategy: @strategy,
+                            groups: [ { name: "all", points: sleep_points, shape: :circle } ] %>
+      </section>
+    <% end %>
+
+    <% if points.any?(&:noted?) %>
+      <section class="mt-10">
+        <h2 class="font-bold text-xl"><%= t(".flags") %></h2>
+        <p class="mt-1 text-sm text-ink-muted"><%= t(".flags_hint") %></p>
+        <% CheckIn::FLAGS.each do |flag| %>
+          <% groups = @series.groups_for_flag(flag) %>
+          <% flag_name = t("check_ins.flags.#{flag}") %>
+          <div data-flag="<%= flag %>" class="mt-6">
+            <h3 class="font-semibold"><%= flag_name %></h3>
+            <p data-summary="with" class="mt-1"><%= t(".flag_with", flag: flag_name, summary: group_summary(groups[:with], @strategy)) %></p>
+            <p data-summary="without"><%= t(".flag_without", flag: flag_name, summary: group_summary(groups[:without], @strategy)) %></p>
+            <%= render "chart", chart: "flag-#{flag}", x_kind: :date, x_label: t(".date_axis"), strategy: @strategy,
+                                groups: [ { name: "with", points: groups[:with].points, shape: :circle },
+                                          { name: "without", points: groups[:without].points, shape: :diamond } ] %>
+          </div>
+        <% end %>
+      </section>
+    <% end %>
+
+    <% phase_groups = @series.groups_by_day_phase %>
+    <% if phase_groups.any? %>
+      <section class="mt-10">
+        <h2 class="font-bold text-xl"><%= t(".phases") %></h2>
+        <ul class="mt-2 space-y-1">
+          <% CheckIn::DAY_PHASES.select { |phase| phase_groups.key?(phase) }.each do |phase| %>
+            <li data-day-phase="<%= phase %>"><%= t(".phase_line", phase: t("check_ins.day_phases.#{phase}"), summary: group_summary(phase_groups[phase], @strategy)) %></li>
+          <% end %>
+        </ul>
+      </section>
+    <% end %>
+
+    <p data-same-device class="mt-10 text-sm text-ink-muted"><%= t("insights.same_device_note") %></p>
+  <% end %>
+
+  <p class="mt-8"><%= link_to t(".back"), insights_path, class: "underline" %></p>
+</div>

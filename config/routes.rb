@@ -26,6 +26,9 @@ Rails.application.routes.draw do
     # The breakdown page of one finished play-through (owner only).
     resources :game_sessions, only: :show
 
+    # "My trends": the charts of the signed in user, one page per game.
+    resources :insights, only: [ :index, :show ]
+
     resources :games, only: [ :index, :show ] do
       resources :game_sessions, only: [ :new, :create ] do
         member do

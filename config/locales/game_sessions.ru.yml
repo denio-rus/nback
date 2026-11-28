@@ -19,9 +19,3 @@ ru:
         wrong: "Попытка %{n}: неверный ответ"
         miss: "Попытка %{n}: ответа не было"
       back: "К игре"
-  insights:
-    no_metric: "Нет результата"
-    primary_with_secondary: "%{primary} (%{label}: %{secondary})"
-    units:
-      ms: "мс"
-      "%": "%"
