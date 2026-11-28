@@ -10,9 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_22_210000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_28_100100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "article_translations", force: :cascade do |t|
+    t.bigint "article_id", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.string "locale", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id", "locale"], name: "index_article_translations_on_article_id_and_locale", unique: true
+    t.index ["article_id"], name: "index_article_translations_on_article_id"
+  end
+
+  create_table "articles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "kind", default: "article", null: false
+    t.datetime "published_at"
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["kind"], name: "index_articles_on_kind"
+    t.index ["slug"], name: "index_articles_on_slug", unique: true
+  end
 
   create_table "check_ins", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -102,6 +123,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_22_210000) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "article_translations", "articles"
   add_foreign_key "check_ins", "users"
   add_foreign_key "game_sessions", "check_ins", on_delete: :nullify
   add_foreign_key "game_sessions", "games"

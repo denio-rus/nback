@@ -1,0 +1,29 @@
+published_en:
+  article: published
+  locale: en
+  title: "Sleep and reaction time"
+  body: "Some **notes** about sleep."
+
+published_ru:
+  article: published
+  locale: ru
+  title: "Сон и время реакции"
+  body: "Заметки про **сон**."
+
+draft_en:
+  article: draft
+  locale: en
+  title: "A draft"
+  body: "Not ready."
+
+scheduled_en:
+  article: scheduled
+  locale: en
+  title: "Scheduled"
+  body: "Later."
+
+news_item_en:
+  article: news_item
+  locale: en
+  title: "First news"
+  body: "Hello."

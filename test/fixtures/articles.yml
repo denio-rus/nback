@@ -1,0 +1,19 @@
+published:
+  slug: sleep-and-reaction
+  kind: article
+  published_at: <%= 2.days.ago.to_fs(:db) %>
+
+draft:
+  slug: draft-article
+  kind: article
+  published_at:
+
+scheduled:
+  slug: scheduled-news
+  kind: news
+  published_at: <%= 3.days.from_now.to_fs(:db) %>
+
+news_item:
+  slug: first-news
+  kind: news
+  published_at: <%= 1.day.ago.to_fs(:db) %>

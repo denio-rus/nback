@@ -74,3 +74,6 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.6"
+
+# Markdown for articles (raw HTML is disabled, output is sanitized)
+gem "commonmarker", "2.10.1"
