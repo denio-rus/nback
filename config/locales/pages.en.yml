@@ -1,0 +1,23 @@
+en:
+  pages:
+    about:
+      title: "About MindAtPlay"
+      sections:
+        project:
+          title: "What this is"
+          body: "MindAtPlay (mind_at_play) is a small site for self-observation. You take short tests and, if you want, note how you feel before them. The charts show how your own results change over time."
+        not_medical:
+          title: "What the results are not"
+          body: "The results are not medical and not scientific. The site draws no conclusions and gives no ratings. It only shows what you did."
+        same_device:
+          title: "Compare on one device"
+          body: "Reaction time depends on the screen, the mouse, the keyboard and the browser. Compare play-throughs made on the same device."
+        data:
+          title: "What is stored"
+          body: "The tests do not collect any data about your device. When you sign in, the server keeps technical data of the session (IP address and browser). It is deleted together with your account."
+        email:
+          title: "Your email"
+          body: "Your email is stored only as a hash. It is used to confirm your registration and to reset your password."
+        deletion:
+          title: "Deleting your account"
+          body: "You can delete your account at any time. This erases all your data."

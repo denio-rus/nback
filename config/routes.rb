@@ -33,6 +33,8 @@ Rails.application.routes.draw do
     # Anonymous feedback: open to everyone, stores no author.
     resources :feedback_messages, only: [ :new, :create ]
 
+    get "about", to: "pages#about"
+
     resources :games, only: [ :index, :show ] do
       resources :game_sessions, only: [ :new, :create ] do
         member do

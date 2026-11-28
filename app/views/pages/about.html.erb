@@ -1,0 +1,12 @@
+<% content_for :title, t(".title") %>
+
+<div class="max-w-2xl mx-auto">
+  <h1 class="font-bold text-3xl"><%= t(".title") %></h1>
+
+  <% %w[project not_medical same_device data email deletion].each do |section| %>
+    <section class="mt-8">
+      <h2 class="font-semibold text-xl"><%= t(".sections.#{section}.title") %></h2>
+      <p class="mt-2 text-ink-muted"><%= t(".sections.#{section}.body") %></p>
+    </section>
+  <% end %>
+</div>
